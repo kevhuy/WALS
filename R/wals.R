@@ -33,6 +33,7 @@ wals <- function(x, ...) UseMethod("wals", x)
 #'  svdRtol = 1e-6,
 #'  keepUn = FALSE,
 #'  eigenSVD = TRUE,
+#'  prescale = TRUE,
 #'  ...
 #'  )
 #'
@@ -63,6 +64,12 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' to compute the eigendecomposition of \eqn{\bar{\Xi}} instead of \code{eigen()}.
 #' In this case, the tolerances of \code{svdTol} and \code{svdRtol} are used to
 #' determine whether \eqn{\bar{\Xi}} is of full rank (need it for \eqn{\bar{\Xi}^{-1/2}}).
+#' @param prescale If \code{TRUE} (default), prescales the regressors X1 and X2 with
+#' \eqn{\Delta_1} and \eqn{\Delta_2}, respectively, to improve numerical stability
+#' and make the coefficients of the auxiliary regressors scale equivariant.
+#' See \insertCite{deluca2011stata;textual}{WALS} for more details.
+#' \strong{WARNING: It is not recommended to set \code{prescale = FALSE}.}
+#' The option \code{prescale = FALSE} only exists for historical reasons.
 #' @param ... Arguments for internal function \code{computePosterior()}.
 #'
 #' @references
