@@ -52,9 +52,9 @@ otherwise reports a rank deficiency.}
 i.e. \eqn{\tilde{\gamma}_{u}}.}
 
 \item{eigenSVD}{If \code{TRUE}, then \code{semiorthogonalize()} uses \code{svd()}
-to compute the eigendecomposition of \eqn{\bar{Xi}} instead of \code{eigen()}.
+to compute the eigendecomposition of \eqn{\bar{\Xi}} instead of \code{eigen()}.
 In this case, the tolerances of \code{svdTol} and \code{svdRtol} are used to
-determine whether \eqn{\bar{Xi}} is of full rank (need it for \eqn{\bar{Xi}^{-1/2}}).}
+determine whether \eqn{\bar{\Xi}} is of full rank (need it for \eqn{\bar{\Xi}^{-1/2}}).}
 
 \item{...}{Arguments for internal function \code{computePosterior()}.}
 }
