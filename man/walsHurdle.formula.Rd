@@ -2,7 +2,7 @@
 % Please edit documentation in R/walsHurdle.R
 \name{walsHurdle.formula}
 \alias{walsHurdle.formula}
-\title{Fits Hurlde count models with the Weighted-Average Least Squares method}
+\title{Fits Hurdle count models with the Weighted-Average Least Squares method}
 \usage{
 \method{walsHurdle}{formula}(
   formula,

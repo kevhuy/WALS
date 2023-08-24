@@ -2,7 +2,7 @@
 #' @export
 walsHurdle <- function(x, ...) UseMethod("walsHurdle", x)
 
-#' Fits Hurlde count models with the Weighted-Average Least Squares method
+#' Fits Hurdle count models with the Weighted-Average Least Squares method
 #'
 #' WARNING: Interactions in formula do work work properly yet, see bugs.txt
 #' @export
@@ -54,14 +54,14 @@ walsHurdle.formula <- function(formula, data, subset, na.action, weights, offset
   X2 <- model.matrix(mtX2, mf)
   Z1 <- model.matrix(mtZ1, mf)
   Z2 <- model.matrix(mtZ2, mf)
-  
-  
+
+
   # save contrasts before dropping constants in X2 and Z2
   # lose attributes when we apply the HACK below
   cont <- list(count = NULL, zero = NULL)
   cont$count <- list(focus = attr(X1, "contrasts"), aux = attr(X2, "contrasts"))
   cont$zero <- list(focus = attr(Z1, "contrasts"), aux = attr(Z2, "contrasts"))
-  
+
   ## HACK ##
   # remove intercept in X2 and Z2
   # TODO: can we do this more elegantly via formula or terms or contrasts?
@@ -125,7 +125,7 @@ walsHurdle.formula <- function(formula, data, subset, na.action, weights, offset
                           full = .getXlevels(mtZ, mf))
   out$count$contrasts <- cont$count
   out$zero$contrasts <- cont$zero
-  
+
   # overwrite count$family because walsHurdle only returns zerotrunc family
   # --> also need untruncated family for easy printing in summary
   out$count$family <- family$count
@@ -241,7 +241,7 @@ terms.walsHurdle <- function(object, model = c("count", "zero"), ...) {
          "count" = return(object$count$terms),
          "zero" = return(object$zero$terms),
   )
-  
+
 }
 
 #' @export
@@ -335,7 +335,7 @@ predict.walsHurdle <- function(object, newdata,
              else stop(c("predicted probabilities cannot be
                          computed for fits with y = FALSE, model = FALSE
                          and at = NULL"))
-             
+
              if (any(at < 0)) stop("prediction at count < 0 not allowed")
              p0Count <- famCount$untrunc$distFun(0,eta = linkCount,
                                                  lower.tail = FALSE,
