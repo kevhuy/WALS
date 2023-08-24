@@ -71,7 +71,8 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' @export wals.fit
 wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
                      method = "original", svdTol = .Machine$double.eps,
-                     svdRtol = 1e-6, keepUn = FALSE, eigenSVD = TRUE, ...) {
+                     svdRtol = 1e-6, keepUn = FALSE, eigenSVD = TRUE,
+                     prescale = TRUE, ...) {
   ### TODO: Implement using SVD but also take advantage of orthogonality of
   ### U and V. Currently only use it for inverting (X1bar'X1bar)
   ## Sanity checks
@@ -93,7 +94,7 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   ## Corresponds to equation (8) of De Luca et al. 2018 except division by n
   ## missing
 
-  Delta1 <- 1.0 / sqrt(colSums(X1^2.0))
+  Delta1 <- if (prescale) 1.0 / sqrt(colSums(X1^2.0)) else rep(1.0, ncol(X1))
 
   # multiply each row with Delta1
   Z1 <- multAllRows(X1, Delta1)
@@ -130,7 +131,7 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   ZZ <- crossprod(VV12, Z1inv %*% VV12)
   Z2d <- crossprod(X2, X2) - ZZ
 
-  Delta2 <- 1.0 / sqrt(diag(Z2d))
+  Delta2 <- if (prescale) 1.0 / sqrt(diag(Z2d)) else rep(1.0, ncol(Z2d))
   Z2s <- multAllRows(Delta2*Z2d, Delta2)
 
 

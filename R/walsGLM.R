@@ -41,7 +41,7 @@ walsGLM.fit <- function(X1, X2, y, betaStart1, betaStart2,
 
   # use generic WALS algo for linear models
   fit <- wals.fit(X1 = X1start, X2 = X2start, y = yStart, sigma = 1,
-                  prior = prior, ...)
+                  prior = prior, prescale = TRUE, ...)
 
   fit$family <- family
   fit$X1names <- X1names
