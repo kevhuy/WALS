@@ -17,6 +17,81 @@
 #' @export
 wals <- function(x, ...) UseMethod("wals", x)
 
+#' @export
+wals.formula <- function(formula, data, subset, na.action, weights, offset,
+                         family, prior = weibull(), model = TRUE, keepY = TRUE,
+                         keepX = FALSE, sigma = NULL, ...) {
+  ## call
+  cl <- match.call()
+  if (missing(data)) data <- environment(formula)
+  mf <- match.call(expand.dots = FALSE)
+  m <- match(c("formula", "data", "subset", "na.action", "weights", "offset"), names(mf), 0L)
+  mf <- mf[c(1L, m)]
+  mf$drop.unused.levels <- TRUE
+
+  ## formula
+  oformula <- as.formula(formula)
+  formula <- Formula::as.Formula(formula)
+
+  if (length(formula)[2L] < 2L) {
+    # TODO: Implement what happens when only one part is specified in formula
+    # Either interpret all as focus regressors (same as ML estimator basically)
+    # or include all as auxiliary regressors and keep only constant as
+    # focus regressor.
+
+    stop("One part formula not implemented yet")
+    # formula <- as.Formula(formula(formula), ~ 1)
+    # simpleFormula <- TRUE
+  } else {
+    if (length(formula)[2L] > 2L) {
+      formula <- Formula::Formula(formula(formula, rhs = 1:2))
+      warning("formula must not have more than two RHS parts")
+    }
+    simpleFormula <- FALSE
+  }
+  mf$formula <- formula
+
+  ## evaluate model.frame
+  mf[[1L]] <- as.name("model.frame")
+  mf <- eval(mf, parent.frame())
+
+  # extract terms, model matrix, response
+  mm <- extractModel(formula, mf, data)
+
+  # extract objects from mm
+  Y <- mm$Y; X1 <- mm$X1; X2 <- mm$X2; mt <- mm$mt; mtX1 <- mm$mtX1; mtX2 <- mm$mtX2
+  cont <- mm$cont
+  n <- length(Y)
+
+  rm(mm) # save RAM, do not need it anymore
+
+  # check if X1 and X2 contain the same variables
+  if (any(colnames(X1) %in% colnames(X2))) stop("X1 and X2 contain the same variables")
+
+  ## weights (not used yet)
+  weights <- processWeights(weights, mf, n)
+
+  ## offsets (not used yet)
+  offset <- getOffset(formula, mf, cl, n)
+
+  ## Fit model
+  out <- wals.fit(X1, X2, Y, sigma, prior, ...)
+
+  # add more elements
+  if (keepY) out$y <- Y
+  if (keepX) out$x <- list(focus = X1, aux = X2)
+  out$call <- cl
+  out$formula <- oformula
+  out$terms <- list(focus = mtX1, aux = mtX2, full = mt)
+  out$levels <- list(focus = .getXlevels(mtX1, mf), aux = .getXlevels(mtX2, mf),
+                     full = .getXlevels(mt, mf))
+  out$contrasts <- cont
+  if (model) out$model <- mf
+
+  class(out) <- "wals"
+  return(out)
+}
+
 #' Fitter function for Weighted Average Least Squares estimation
 #'
 #' Workhorse function behind \link{wals} and \link{walsGLM}.
