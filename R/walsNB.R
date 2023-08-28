@@ -134,19 +134,8 @@ walsNB.formula <- function(formula, data, subset, na.action, weights, offset,
 
   # extract objects from mm
   Y <- mm$Y; X1 <- mm$X1; X2 <- mm$X2; mt <- mm$mt; mtX1 <- mm$mtX1; mtX2 <- mm$mtX2
+  cont <- mm$cont
   n <- length(Y)
-
-  # save contrasts before dropping constant in X2
-  # lose attributes when we apply HACK
-  cont <- list(focus = attr(X1, "contrasts"), aux = attr(X2, "contrasts"))
-
-  ## HACK ##
-  # remove intercept in X2
-  # TODO: can we do this more elegantly via formula or terms or contrasts?
-  # issue if add "-1" in formula --> estimate all levels of a factor because
-  # without intercept, can estimate one additional level. But we do not want this.
-  # want to keep the same levels as before and only remove constant column.
-  X2 <- X2[,-1L, drop = FALSE] # intercept is always first column
 
   rm(mm) # save RAM, do not need it anymore
 

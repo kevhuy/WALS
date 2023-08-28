@@ -284,7 +284,20 @@ extractModel <- function(formula, mf, data) {
   X1 <- model.matrix(mtX1, mf)
   X2 <- model.matrix(mtX2, mf)
 
-  return(list(Y = Y, X1 = X1, X2 = X2, mt = mt, mtX1 = mtX1, mtX2 = mtX2))
+  # save contrasts before dropping constant in X2
+  # lose attributes when we apply HACK
+  cont <- list(focus = attr(X1, "contrasts"), aux = attr(X2, "contrasts"))
+
+  ## HACK ##
+  # remove intercept in X2
+  # TODO: can we do this more elegantly via formula or terms or contrasts?
+  # issue if add "-1" in formula --> estimate all levels of a factor because
+  # without intercept, can estimate one additional level. But we do not want this.
+  # want to keep the same levels as before and only remove constant column.
+  X2 <- X2[,-1L, drop = FALSE] # intercept is always first column
+
+  return(list(Y = Y, X1 = X1, X2 = X2, mt = mt, mtX1 = mtX1, mtX2 = mtX2,
+              cont = cont))
 }
 
 #' Computes X2M1X2 for walsNB when SVD is applied to Z1
