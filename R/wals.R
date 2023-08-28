@@ -172,6 +172,12 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   k <- k1 + k2
   stopifnot(k <= n)
 
+  # store names of regressors for later
+  X1names <- colnames(X1)
+  X2names <- colnames(X2)
+  Xnames <- c(X1names, X2names)
+
+
   ## Step 2.a: Scaling X1 so all diag elements of (X1*Delta1)'X1*Delta1 = 1 ----
   ## Corresponds to equation (8) of De Luca et al. 2018 except division by n
   ## missing
@@ -238,7 +244,6 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   ## Step 5: Compute posterior mean and variance of x ~ N(\gamma, 1) -----------
 
   outPosterior <- computePosterior(prior, x, ...)
-  # outPosterior <- prior$computePosterior(x, ...)
 
   ## Step 6 & 7: WALS estimates and precision ----------------------------------
   walsEstimates <- gammaToBeta(outPosterior, y, Z1, outSemiOrt$Z2, Delta1,
@@ -251,8 +256,21 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   if (keepUn) {
     walsEstimates$gammaUn1 <- lmUnrestricted$coefficients[1:k1]
     walsEstimates$gammaUn2 <- gammaUnrestricted2
+    names(walsEstimates$gammaUn2) <- X2names
   }
 
+  # store names of focus and auxiliary regressors
+  walsEstimates$X1names <- X1names
+  walsEstimates$X2names <- X2names
+
+  # reassign names to variables
+  names(walsEstimates$coef) <- Xnames
+  names(walsEstimates$beta2) <- X2names
+  names(walsEstimates$gamma2) <- X2names
+  colnames(walsEstimates$vcovBeta) <- Xnames
+  row.names(walsEstimates$vcovBeta) <- Xnames
+  colnames(walsEstimates$vcovGamma) <- Xnames
+  row.names(walsEstimates$vcovGamma) <- Xnames
 
   # class(walsEstimates) <- "wals"
   return(walsEstimates)

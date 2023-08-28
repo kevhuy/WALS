@@ -44,20 +44,9 @@ walsGLM.fit <- function(X1, X2, y, betaStart1, betaStart2,
                   prior = prior, prescale = TRUE, ...)
 
   fit$family <- family
-  fit$X1names <- X1names
-  fit$X2names <- X2names
   fit$betaStart <- c(betaStart1, betaStart2)
   fit$fitted.link <- X1 %*% fit$beta1 + X2 %*% fit$beta2
   fit$fitted.values <- family$linkinv(fit$fitted.link)
-
-  # assign names to variables
-  names(fit$coef) <- Xnames
-  names(fit$betaStart) <- Xnames
-  colnames(fit$vcovBeta) <- Xnames
-  row.names(fit$vcovBeta) <- Xnames
-  colnames(fit$vcovGamma) <- Xnames
-  row.names(fit$vcovGamma) <- Xnames
-
 
   # class(fit) <- c("walsGLM", class(fit))
   return(fit)

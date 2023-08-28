@@ -167,7 +167,7 @@ gammaToBeta <- function(posterior, y, Z1, Z2, Delta1, D2, sigma, Z1inv,
   }
 
   beta1 <- Delta1*gamma1
-  beta2 <- D2 %*% gamma2
+  beta2 <- as.vector(D2 %*% gamma2)
 
 
 
