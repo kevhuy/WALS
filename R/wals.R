@@ -297,3 +297,27 @@ wals.default <- function(y, X1, X2, ...) {
   class(out) <- "wals"
   return(out)
 }
+
+
+## Class methods ---------------------------------------------------------------
+
+#' @export
+summary.wals <- function(object, ...) {
+  se <- sqrt(diag(object$vcovBeta))
+  object$se <- se
+  object$coefficients <- cbind(object$coef, se)
+  colnames(object$coefficients) <- c("Estimate", "Std. Error")
+
+  class(object) <- "summary.wals"
+  return(object)
+}
+
+#' @export
+print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  prior <- x$prior$prior
+
+  cat(paste0("\nCoefficients (", prior, " prior): \n"))
+  printCoefmat(x$coefficients, digits = digits,...)
+
+  invisible(x)
+}
