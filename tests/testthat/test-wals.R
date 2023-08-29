@@ -54,7 +54,11 @@ test_that("walsMatrix predictions equal to wals", {
   CASchools$stratio <- CASchools$students / CASchools$teachers
   dd <- na.omit(CASchools)
 
-  fWals <- math ~ read + stratio | english + lunch + expenditure
+  # add artificial factors for testing
+  dd$englishFactor <- as.factor(dd$english > 20)
+  dd$incomeFactor <- as.factor(dd$income > 17)
+
+  fWals <- math ~ read + stratio | englishFactor + lunch + expenditure + incomeFactor
 
   walsEst <- wals(fWals, data = dd, method = "original", eigenSVD = TRUE,
                   prior = weibull(), keepY = TRUE, keepX = TRUE)
