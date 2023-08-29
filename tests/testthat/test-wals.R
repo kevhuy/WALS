@@ -1,5 +1,4 @@
 test_that("walsNB.formula with only constant focus works", {
-  ## Test on CASchools dataset
   data("CASchools", package = "AER")
   CASchools$stratio <- CASchools$students / CASchools$teachers
   dd <- na.omit(CASchools)
@@ -13,8 +12,7 @@ test_that("walsNB.formula with only constant focus works", {
 })
 
 
-test_that("walsNB.matrix coefs and covmat equal to walsNB.formula", {
-  ## Test on CASchools dataset
+test_that("walsMatrix coefs and covmat equal to wals", {
   data("CASchools", package = "AER")
   CASchools$stratio <- CASchools$students / CASchools$teachers
   dd <- na.omit(CASchools)
@@ -29,7 +27,7 @@ test_that("walsNB.matrix coefs and covmat equal to walsNB.formula", {
 
   # check coefs & covariance matrix
   expect_equal(coef(walsEst), coef(walsEstMatrix))
-  expect_equal(walsEst$vcovBeta, walsEstMatrix$vcovBeta)
+  expect_equal(vcov(walsEst), vcov(walsEstMatrix))
 })
 
 test_that("Different methods for wals yield same results", {
@@ -53,4 +51,3 @@ test_that("Different methods for wals yield same results", {
 
   expect_equal(coef(walsfSVD), coef(walsOriginal), tolerance = tol)
 })
-

@@ -321,3 +321,9 @@ print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...)
 
   invisible(x)
 }
+
+#' @export
+coef.wals <- function(object) return(object$coef)
+
+#' @export
+vcov.wals <- function(object) return(object$vcovBeta)
