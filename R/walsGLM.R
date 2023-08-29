@@ -364,7 +364,7 @@ predict.walsGLM <- function(object, newdata,
                                         eta = link, ...))
            },
            "density" = {
-             y <- getY(terms(object)$focus, newdata, na.action = na.action)
+             y <- getY(terms(object, "focus"), newdata, na.action = na.action)
              return(object$family$density(y, link, log = log))
            })
 

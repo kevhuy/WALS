@@ -350,7 +350,26 @@ coef.wals <- function(object) return(object$coef)
 vcov.wals <- function(object) return(object$vcovBeta)
 
 #' @export
-nobs.wals <- function(object, ...) object$n
+nobs.wals <- function(object, ...) return(object$n)
+
+#' @export
+terms.wals <- function(object, type = c("focus", "aux")) {
+  return(object$terms[[match.arg(type)]])
+}
+
+#' @export
+model.matrix.wals <- function(object, type = c("focus", "aux")) {
+  type <- match.arg(type)
+  if (!is.null(object$x)) {
+    return(object$x[[type]])
+  } else if (!is.null(object$model)) {
+    out <- model.matrix(object$terms[[type]], object$model, contrasts = object$contrasts[[type]])
+
+    # HACK: remove intercept from auxiliary model matrix
+    if (type == "aux") out <- out[,-1]
+    return(out)
+  } else stop("not enough information in fitted model to return model.matrix")
+}
 
 #' @export
 predict.wals <- function(object, newdata, na.action = na.pass, ...) {
