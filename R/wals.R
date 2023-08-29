@@ -92,6 +92,19 @@ wals.formula <- function(formula, data, subset, na.action, weights, offset,
   return(out)
 }
 
+#' @export
+wals.matrix <- function(X1, X2, y, na.action, weights, offset, prior = weibull(),
+                        keepY = TRUE, keepX = FALSE, sigma = NULL,
+                        ...) {
+  out <- wals.fit(X1, X2, y, sigma, prior, ...)
+
+  if (keepY) out$y <- y
+  if (keepX) out$x <- list(focus = X1, aux = X2)
+
+  class(out) <- c("walsMatrix", "wals")
+  return(out)
+}
+
 #' Fitter function for Weighted Average Least Squares estimation
 #'
 #' Workhorse function behind \link{wals} and \link{walsGLM}.
