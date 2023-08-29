@@ -42,7 +42,7 @@ test_that("walsMatrix coefs and covmat equal to wals", {
                   prior = weibull(), keepY = TRUE, keepX = TRUE)
 
   walsEstMatrix <- wals(walsEst$x$focus, X2 = walsEst$x$aux, y = walsEst$y,
-                         prior = weibull(), method = "original")
+                        method = "original", eigenSVD = TRUE, prior = weibull())
 
   # check coefs & covariance matrix
   expect_equal(coef(walsEst), coef(walsEstMatrix))
