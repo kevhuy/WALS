@@ -329,6 +329,8 @@ summary.wals <- function(object, ...) {
 
 #' @export
 print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
+
   prior <- x$prior$prior
 
   cat(paste0("\nCoefficients (", prior, " prior): \n"))
