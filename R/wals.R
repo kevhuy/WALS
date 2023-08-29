@@ -340,3 +340,15 @@ coef.wals <- function(object) return(object$coef)
 
 #' @export
 vcov.wals <- function(object) return(object$vcovBeta)
+
+#' @export
+predict.wals <- function(object, newdata, na.action = na.pass, ...) {
+  # TODO: include offsets
+  if (missing(newdata)) {
+    return(object$fitted.values)
+  } else {
+    newMatrices <- genNewdata(object$terms, object$contrasts, newdata,
+                              na.action = na.action, xlev = object$levels)
+    return(newMatrices$X1 %*% object$beta1 + newMatrices$X2 %*% object$beta2)
+  }
+}
