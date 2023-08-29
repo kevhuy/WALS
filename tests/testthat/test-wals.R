@@ -11,6 +11,22 @@ test_that("walsNB.formula with only constant focus works", {
                regexp = NA)
 })
 
+test_that("some class methods of wals", {
+  data("CASchools", package = "AER")
+  CASchools$stratio <- CASchools$students / CASchools$teachers
+  dd <- na.omit(CASchools)
+
+  fWals <- math ~ read + stratio | english + lunch + expenditure
+
+  walsEst <- wals(fWals, data = dd, method = "original", eigenSVD = TRUE,
+                  prior = weibull(), keepY = TRUE, keepX = TRUE)
+
+  # check coefs
+  expect_length(coef(walsEst), 6L)
+
+  # check vcov
+  expect_true(all(dim(vcov(walsEst)) == c(6L,6L)))
+})
 
 test_that("walsMatrix coefs and covmat equal to wals", {
   data("CASchools", package = "AER")
