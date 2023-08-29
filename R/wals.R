@@ -352,3 +352,34 @@ predict.wals <- function(object, newdata, na.action = na.pass, ...) {
     return(newMatrices$X1 %*% object$beta1 + newMatrices$X2 %*% object$beta2)
   }
 }
+
+#' @export
+predict.walsMatrix <- function(object, newX1, newX2, ...) {
+  # TODO: include offsets
+  # Sanity checks
+  if (missing(newX1) || missing(newX2)) {
+    if (missing(newX1) && missing(newX2)) {
+      stop("Missing newX1 and newX2.")
+    } else {
+      missingArgs <- c("newX1", "newX2")
+      stop(paste0("Missing ", missingArgs[c(missing(newX1), missing(newX2))], "."))
+    }
+  }
+
+  mismatchX1 <- any(colnames(newX1) != object$X1names)
+  mismatchX2 <- any(colnames(newX2) != object$X2names)
+  if (mismatchX1 || mismatchX2) {
+    if (mismatchX1 && mismatchX2) {
+      stop("newX1 and newX2 do not contain the same variables as fitted model.")
+    } else {
+      mismatchArgs <- c("newX1", "newX2")
+      stop(paste(mismatchArgs[c(mismatchX1, mismatchX2)],
+                 "does not contain the same variables as fitted model."))
+    }
+  }
+
+  stopifnot(is.matrix(newX1) && is.matrix(newX2))
+  stopifnot(nrow(newX1) == nrow(newX2))
+
+  return(newX1 %*% object$beta1 + newX2 %*% object$beta2)
+}
