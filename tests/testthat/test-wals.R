@@ -66,6 +66,26 @@ test_that("walsMatrix predictions equal to wals", {
   expect_equal(pred1, pred2)
 })
 
+test_that("wals.matrix and wals.default identical", {
+  data("CASchools", package = "AER")
+  CASchools$stratio <- CASchools$students / CASchools$teachers
+  dd <- na.omit(CASchools)
+
+  y <- dd$math
+  X1 <- as.matrix(cbind(1, CASchools[, c("read", "stratio")]))
+  X2 <- as.matrix(CASchools[, c("english", "lunch", "expenditure")])
+
+  walsMatrix <- wals(X1, X2 = X2, y = y, method = "original",
+                     prior = weibull())
+  walsDefault <- wals.default(X1, X2 = X2, y = y, method = "original",
+                              prior = weibull())
+
+  # check coefs & covariance matrix
+  expect_identical(coef(walsMatrix), coef(walsDefault))
+  expect_identical(vcov(walsMatrix), vcov(walsDefault))
+})
+
+
 test_that("Different methods for wals yield same results", {
   ## Check if estimated regression coefficients from different methods
   ## yield same results.

@@ -92,6 +92,19 @@ wals.formula <- function(formula, data, subset, na.action, weights, offset,
   return(out)
 }
 
+#' @rdname wals
+#' @param X1 matrix of focus regressors.
+#' @param X2 matrix of auxiliary regressors.
+#' @param y response vector.
+#'
+#' @examples
+#' X <- model.matrix(mpg ~ disp + hp + wt + vs + am + carb, data = mtcars)
+#' X1 <- X[,c("(Intercept)", "disp", "hp", "wt")] # focus
+#' X2 <- X[,c("vs", "am", "carb")] # auxiliary
+#' y <- mtcars$mpg
+#'
+#' wals(X1, X2, y, prior = weibull())
+#'
 #' @export
 wals.matrix <- function(X1, X2, y, na.action, weights, offset, prior = weibull(),
                         keepY = TRUE, keepX = FALSE, sigma = NULL,
@@ -104,6 +117,17 @@ wals.matrix <- function(X1, X2, y, na.action, weights, offset, prior = weibull()
   class(out) <- c("walsMatrix", "wals")
   return(out)
 }
+
+#' @rdname wals
+#' @export
+wals.default <- function(x, ...) {
+  # inspired by glmboost.default in mboost.
+  if (extends(class(x), "matrix")) {
+    return(wals.matrix(X1 = x, ...))
+  }
+  stop("No method for objects of class ", sQuote(class(x)), " implemented.")
+}
+
 
 #' Fitter function for Weighted Average Least Squares estimation
 #'
@@ -287,28 +311,6 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 
   # class(walsEstimates) <- "wals"
   return(walsEstimates)
-}
-
-#' @rdname wals
-#'
-#' @param y response vector.
-#' @param X1 matrix of focus regressors.
-#' @param X2 matrix of auxiliary regressors.
-#'
-#' @examples
-#' X <- model.matrix(mpg ~ disp + hp + wt + vs + am + carb, data = mtcars)
-#' X1 <- X[,c("(Intercept)", "disp", "hp", "wt")] # focus
-#' X2 <- X[,c("vs", "am", "carb")] # auxiliary
-#' y <- mtcars$mpg
-#'
-#' wals(y, X1, X2, prior = weibull())
-#'
-#' @export
-wals.default <- function(y, X1, X2, ...) {
-
-  out <- wals.fit(X1 = X1, X2 = X2, y = y, ...)
-  class(out) <- "wals"
-  return(out)
 }
 
 

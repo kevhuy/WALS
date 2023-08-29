@@ -2,19 +2,34 @@
 % Please edit documentation in R/wals.R
 \name{wals}
 \alias{wals}
+\alias{wals.matrix}
 \alias{wals.default}
 \title{Weighted Average Least Squares for linear regression models}
 \usage{
 wals(x, ...)
 
-\method{wals}{default}(y, X1, X2, ...)
+\method{wals}{matrix}(
+  X1,
+  X2,
+  y,
+  na.action,
+  weights,
+  offset,
+  prior = weibull(),
+  keepY = TRUE,
+  keepX = FALSE,
+  sigma = NULL,
+  ...
+)
+
+\method{wals}{default}(x, ...)
 }
 \arguments{
-\item{y}{response vector.}
-
 \item{X1}{matrix of focus regressors.}
 
 \item{X2}{matrix of auxiliary regressors.}
+
+\item{y}{response vector.}
 }
 \description{
 R port of MATLAB code wals.m (version 2.0, revision 18 december 2013)
@@ -28,7 +43,7 @@ X1 <- X[,c("(Intercept)", "disp", "hp", "wt")] # focus
 X2 <- X[,c("vs", "am", "carb")] # auxiliary
 y <- mtcars$mpg
 
-wals(y, X1, X2, prior = weibull())
+wals(X1, X2, y, prior = weibull())
 
 }
 \references{
