@@ -109,8 +109,10 @@ wals.formula <- function(formula, data, subset, na.action, weights, offset,
 wals.matrix <- function(X1, X2, y, na.action, weights, offset, prior = weibull(),
                         keepY = TRUE, keepX = FALSE, sigma = NULL,
                         ...) {
+  cl <- match.call()
   out <- wals.fit(X1, X2, y, sigma, prior, ...)
 
+  out$call <- cl
   if (keepY) out$y <- y
   if (keepX) out$x <- list(focus = X1, aux = X2)
 
