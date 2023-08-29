@@ -2,6 +2,7 @@
 
 S3method(coef,wals)
 S3method(coef,walsGLM)
+S3method(nobs,wals)
 S3method(predict,wals)
 S3method(predict,walsGLM)
 S3method(predict,walsMatrix)

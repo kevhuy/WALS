@@ -311,6 +311,8 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   colnames(walsEstimates$vcovGamma) <- Xnames
   row.names(walsEstimates$vcovGamma) <- Xnames
 
+  walsEstimates$n <- n
+
   # class(walsEstimates) <- "wals"
   return(walsEstimates)
 }
@@ -346,6 +348,9 @@ coef.wals <- function(object) return(object$coef)
 
 #' @export
 vcov.wals <- function(object) return(object$vcovBeta)
+
+#' @export
+nobs.wals <- function(object, ...) object$n
 
 #' @export
 predict.wals <- function(object, newdata, na.action = na.pass, ...) {

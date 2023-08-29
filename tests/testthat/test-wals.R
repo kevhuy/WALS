@@ -26,6 +26,9 @@ test_that("some class methods of wals", {
 
   # check vcov
   expect_true(all(dim(vcov(walsEst)) == c(6L,6L)))
+
+  # nobs
+  expect_true(nobs(walsEst) == nrow(dd))
 })
 
 test_that("walsMatrix coefs and covmat equal to wals", {
