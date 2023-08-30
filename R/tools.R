@@ -136,7 +136,7 @@ semiorthogonalize <- function(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE) {
   # Xi^{-1/2} = T * Lambda^{-1/2} T'.
   if (postmult) D2 <- D2 %*% t(eigenVecs)
 
-  out <- list(Z2 = X2 %*% D2, D2 = D2)
+  out <- list(Z2 = X2 %*% D2, D2 = D2, condition = max(eigenVals) / min(eigenVals))
   return(out)
 }
 

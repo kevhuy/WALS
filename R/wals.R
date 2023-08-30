@@ -314,6 +314,7 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   walsEstimates$n <- n
   walsEstimates$k1 <- k1
   walsEstimates$k2 <- k2
+  walsEstimates$condition <- outSemiOrt$condition
 
   # class(walsEstimates) <- "wals"
   return(walsEstimates)
@@ -351,6 +352,8 @@ print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...)
   cat(paste0("\nPrior: ", x$prior$prior, "(", priorPars, ")"))
 
   cat(paste0("\nNumber of observations: ", x$n))
+
+  cat(paste0("\nKappa: ", signif(sqrt(x$condition), 3)))
 
   invisible(x)
 }
