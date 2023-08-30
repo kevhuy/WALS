@@ -451,7 +451,7 @@ predict.wals <- function(object, newdata, na.action = na.pass, ...) {
   } else {
     newMatrices <- genNewdata(object$terms, object$contrasts, newdata,
                               na.action = na.action, xlev = object$levels)
-    return(newMatrices$X1 %*% object$beta1 + newMatrices$X2 %*% object$beta2)
+    return(drop(newMatrices$X1 %*% object$beta1 + newMatrices$X2 %*% object$beta2))
   }
 }
 
@@ -483,7 +483,7 @@ predict.walsMatrix <- function(object, newX1, newX2, ...) {
   stopifnot(is.matrix(newX1) && is.matrix(newX2))
   stopifnot(nrow(newX1) == nrow(newX2))
 
-  return(newX1 %*% object$beta1 + newX2 %*% object$beta2)
+  return(drop(newX1 %*% object$beta1 + newX2 %*% object$beta2))
 }
 
 #' @export

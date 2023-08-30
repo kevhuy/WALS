@@ -576,7 +576,7 @@ walsNB.fit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
   fit$X2names <- X2names
   fit$betaStart <- c(betaStart1, betaStart2)
   fit$rhoStart <- rhoStart
-  fit$fitted.link <- X1 %*% fit$beta1 + X2 %*% fit$beta2
+  fit$fitted.link <- drop(X1 %*% fit$beta1 + X2 %*% fit$beta2)
   fit$fitted.values <- family$linkinv(fit$fitted.link)
 
   # assign names to variables

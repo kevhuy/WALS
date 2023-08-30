@@ -45,7 +45,7 @@ walsGLM.fit <- function(X1, X2, y, betaStart1, betaStart2,
 
   fit$family <- family
   fit$betaStart <- c(betaStart1, betaStart2)
-  fit$fitted.link <- X1 %*% fit$beta1 + X2 %*% fit$beta2
+  fit$fitted.link <- drop(X1 %*% fit$beta1 + X2 %*% fit$beta2)
   fit$fitted.values <- family$linkinv(fit$fitted.link)
 
   # class(fit) <- c("walsGLM", class(fit))
@@ -335,7 +335,7 @@ predict.walsGLM <- function(object, newdata,
     newMatrices <- genNewdata(object$terms, object$contrasts, newdata,
                               na.action = na.action, xlev = object$levels)
 
-    link <- newMatrices$X1 %*% object$beta1 + newMatrices$X2 %*% object$beta2
+    link <- drop(newMatrices$X1 %*% object$beta1 + newMatrices$X2 %*% object$beta2)
 
     switch(type,
            "response" = {
