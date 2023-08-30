@@ -298,6 +298,9 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
     names(walsEstimates$gammaUn2) <- X2names
   }
 
+  walsEstimates$fitted.values <- drop(X1 %*% walsEstimates$beta1 + X2 %*% walsEstimates$beta2)
+  walsEstimates$residuals <- drop(y - walsEstimates$fitted.values)
+
   # store names of focus and auxiliary regressors
   walsEstimates$X1names <- X1names
   walsEstimates$X2names <- X2names
@@ -482,3 +485,9 @@ predict.walsMatrix <- function(object, newX1, newX2, ...) {
 
   return(newX1 %*% object$beta1 + newX2 %*% object$beta2)
 }
+
+#' @export
+fitted.wals <- function(object) return(object$fitted.values)
+
+#' @export
+residuals.wals <- function(object) return(object$residuals)
