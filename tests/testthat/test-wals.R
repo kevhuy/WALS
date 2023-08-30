@@ -114,3 +114,16 @@ test_that("Different methods for wals yield same results", {
 
   expect_equal(coef(walsfSVD), coef(walsOriginal), tolerance = tol)
 })
+
+test_that("Fitted values and prediction on same dataset are identical", {
+  data("CASchools", package = "AER")
+  CASchools$stratio <- CASchools$students / CASchools$teachers
+  dd <- na.omit(CASchools)
+
+  fWals <- math ~ read + stratio | english + lunch + expenditure
+
+  walsEst <- wals(fWals, data = dd, prior = laplace(), method = "svd",
+                  eigenSVD = TRUE)
+
+  expect_identical(predict(walsEst, newdata = dd), fitted(walsEst))
+})
