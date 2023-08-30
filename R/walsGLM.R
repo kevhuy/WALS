@@ -52,12 +52,102 @@ walsGLM.fit <- function(X1, X2, y, betaStart1, betaStart2,
   return(fit)
 }
 
+#' @export
+walsGLMfitIterate <- function(y, X1, X2, family, na.action, weights, offset,
+                              prior = weibull(), controlGlmFit = list(),
+                              keepY = TRUE, keepX = FALSE, iterate = FALSE,
+                              tol = 1e-6, maxIt = 10000, nIt = NULL,
+                              verbose = FALSE, ...) {
+  # Useful quantities
+  k1 <- ncol(X1)
+  k2 <- ncol(X2)
+
+  # check if X1 and X2 contain the same variables
+  if (any(colnames(X1) %in% colnames(X2))) stop("X1 and X2 contain the same variables")
+
+  # generate starting values
+  betaStart <- glm.fit(cbind(X1, X2), y, family = family,
+                       control = controlGlmFit)$coefficients
+  betaStart1 <- betaStart[1L:k1]
+  betaStart2 <- betaStart[(k1 + 1L):(k1 + k2)]
+
+  # simply reuse iterative code by setting nIt = 1
+  if (!iterate) nIt <- 1
+
+  betaOld <- rep(NA, length(betaStart)) # make sure loop starts
+  betaCurrent <- betaStart
+
+  it <- 0
+  converged <- FALSE
+  if (!is.null(nIt)) {
+    maxIt <- nIt
+  }
+
+  it <- 0
+  for (i in 1:maxIt) {
+
+    ## update values
+    betaOld <- betaCurrent
+
+    ## call workhorse
+    out <- walsGLM.fit(X1 = X1, X2 = X2, y = y, betaStart1 = betaCurrent[1L:k1],
+                       betaStart2 = betaCurrent[(k1 + 1L):(k1 + k2)],
+                       family = family, prior = prior,
+                       ...)
+
+    betaCurrent <- out$coef
+    it <- it + 1
+
+    if (verbose) cat(paste("\r finished iteration", it))
+
+    if (is.null(nIt) && (norm(betaOld - betaCurrent, type = "2") < tol)) {
+      converged <- TRUE
+      cat("\n algorithm converged")
+      break
+    }
+
+  }
+
+  if (!is.null(nIt)) {
+    converged <- NULL
+  } else if (!converged) cat("\n algorithm failed to converge")
+
+  # replace starting values with original starting values
+  out$betaStart <- betaStart
+  out$converged <- converged
+
+  # add more elements
+  if (keepY) out$y <- y
+  if (keepX) out$x <- list(focus = X1, aux = X2)
+
+  return(out)
+}
+
+
 #' @rdname walsGLM
 #' @export
 walsGLM.default <- function(y, X1, X2, ...) {
 
   out <- walsGLM.fit(X1 = X1, X2 = X2, y = y, ...)
   class(out) <- c("walsGLM", "wals")
+  return(out)
+}
+
+
+#' @export
+walsGLM.matrix <- function(X1, X2, y, na.action, weights, offset, family,
+                           prior = weibull(), controlGlmFit = list(),
+                           keepY = TRUE, keepX = FALSE,
+                           iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
+                           verbose = FALSE, ...) {
+  cl <- match.call()
+  out <- walsGLMfitIterate(y, X1, X2, na.action, weights, offset, family, prior,
+                           controlGlmFit, keepY, keepX, iterate, tol, maxIt,
+                           nIt, verbose, ...)
+
+  out$call <- cl
+
+  class(out) <- c("walsMatrix", "wals")
   return(out)
 }
 
@@ -166,69 +256,16 @@ walsGLM.formula <- function(formula, data, subset, na.action, weights, offset,
   cont <- mm$cont
   n <- length(Y)
 
-  k1 <- ncol(X1)
-  k2 <- ncol(X2)
-
-  # check if X1 and X2 contain the same variables
-  if (any(colnames(X1) %in% colnames(X2))) stop("X1 and X2 contain the same variables")
-
   ## weights (not used yet)
   weights <- processWeights(weights, mf, n)
 
   ## offsets (not used yet)
   offset <- getOffset(formula, mf, cl, n)
 
-  # generate starting values
-  betaStart <- glm.fit(cbind(X1, X2), Y, family = family,
-                       control = controlGlmFit)$coefficients
-  betaStart1 <- betaStart[1L:k1]
-  betaStart2 <- betaStart[(k1 + 1L):(k1 + k2)]
-
-  # simply reuse iterative code by setting nIt = 1
-  if (!iterate) nIt <- 1
-
-  betaOld <- rep(NA, length(betaStart)) # make sure loop starts
-  betaCurrent <- betaStart
-
-  it <- 0
-  converged <- FALSE
-  if (!is.null(nIt)) {
-    maxIt <- nIt
-  }
-
-  it <- 0
-  for (i in 1:maxIt) {
-
-    ## update values
-    betaOld <- betaCurrent
-
-    ## call workhorse
-    out <- walsGLM.fit(X1 = X1, X2 = X2, y = Y, betaStart1 = betaCurrent[1L:k1],
-                       betaStart2 = betaCurrent[(k1 + 1L):(k1 + k2)],
-                       family = family, prior = prior,
-                       ...)
-
-    betaCurrent <- out$coef
-    it <- it + 1
-
-    if (verbose) cat(paste("\r finished iteration", it))
-
-    if (is.null(nIt) && (norm(betaOld - betaCurrent, type = "2") < tol)) {
-      converged <- TRUE
-      cat("\n algorithm converged")
-      break
-    }
-
-  }
-
-  if (!is.null(nIt)) {
-    converged <- NULL
-  } else if (!converged) cat("\n algorithm failed to converge")
-
-  # replace starting values with original starting values
-  out$betaStart <- betaStart
-  out$converged <- converged
-
+  ## Fit model
+  out <- walsGLMfitIterate(Y, X1, X2, family, na.action, weights, offset, prior,
+                           controlGlmFit, keepY, keepX, iterate, tol, maxIt,
+                           nIt, verbose, ...)
 
   # add more elements
   out$call <- cl
@@ -238,8 +275,6 @@ walsGLM.formula <- function(formula, data, subset, na.action, weights, offset,
                      full = .getXlevels(mt, mf))
   out$contrasts <- cont
   if (model) out$model <- mf
-  if (keepY) out$y <- Y
-  if (keepX) out$x <- list(focus = X1, aux = X2)
 
 
   class(out) <- c("walsGLM", "wals")
