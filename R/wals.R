@@ -324,6 +324,26 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 ## Class methods ---------------------------------------------------------------
 
 #' @export
+print.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
+
+  cat("Focus coefficients: \n")
+  print.default(format(x$beta1, digits = digits), print.gap = 2,
+                quote = FALSE)
+
+  cat("\nAuxiliary coefficients: \n")
+  print.default(format(x$beta2, digits = digits), print.gap = 2,
+                quote = FALSE)
+
+  priorPars <- paste(names(x$prior$printPars), signif(x$prior$printPars, digits),
+                     sep = " = ", collapse = ", ")
+  cat(paste0("\nPrior: ", x$prior$prior, "(", priorPars, ")\n"))
+
+  invisible(x)
+}
+
+#' @export
 summary.wals <- function(object, ...) {
   k1 <- object$k1
   k2 <- object$k2
