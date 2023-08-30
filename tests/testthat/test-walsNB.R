@@ -90,7 +90,7 @@ test_that("walsNBmatrix predictions equal walsNB predictions", {
   pred2 <- predict(nbWalsMatrix, newX1 = nbWals$x$focus, newX2 = nbWals$x$aux,
                    newY = nbWals$y, type = "density")
 
-  expect_equal(pred1, pred2)
+  expect_identical(pred1, pred2)
 })
 
 
