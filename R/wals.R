@@ -312,6 +312,8 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   row.names(walsEstimates$vcovGamma) <- Xnames
 
   walsEstimates$n <- n
+  walsEstimates$k1 <- k1
+  walsEstimates$k2 <- k2
 
   # class(walsEstimates) <- "wals"
   return(walsEstimates)
@@ -322,10 +324,13 @@ wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 
 #' @export
 summary.wals <- function(object, ...) {
+  k1 <- object$k1
+  k2 <- object$k2
   se <- sqrt(diag(object$vcovBeta))
-  object$se <- se
-  object$coefficients <- cbind(object$coef, se)
-  colnames(object$coefficients) <- c("Estimate", "Std. Error")
+
+  object$focusCoefs <- cbind(object$coef[1:k1], se[1:k1])
+  object$auxCoefs <- cbind(object$coef[(k1 + 1):(k1 + k2)], se[(k1 + 1):(k1 + k2)])
+  colnames(object$focusCoefs) <- colnames(object$auxCoefs) <- c("Estimate", "Std. Error")
 
   class(object) <- "summary.wals"
   return(object)
@@ -335,10 +340,17 @@ summary.wals <- function(object, ...) {
 print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
 
-  prior <- x$prior$prior
+  cat(paste0("\nCoefficients of k1 = ", x$k1, " focus regressors: \n"))
+  printCoefmat(x$focusCoefs, digits = digits,...)
 
-  cat(paste0("\nCoefficients (", prior, " prior): \n"))
-  printCoefmat(x$coefficients, digits = digits,...)
+  cat(paste0("\nCoefficients of k2 = ", x$k2, " auxiliary regressors: \n"))
+  printCoefmat(x$auxCoefs, digits = digits,...)
+
+  priorPars <- paste(names(x$prior$printPars), signif(x$prior$printPars, digits),
+                     sep = " = ", collapse = ", ")
+  cat(paste0("\nPrior: ", x$prior$prior, "(", priorPars, ")"))
+
+  cat(paste0("\nNumber of observations: ", x$n))
 
   invisible(x)
 }

@@ -30,8 +30,8 @@ weibull <- function(q = 0.887630085544086, b = log(2.0)) {
     ddweibull(x, q = q, b = b, log = log)
   }
 
-  out <- list(q = q, alpha = alpha, b = b, delta = delta,
-              density = dens, prior = "weibull")
+  out <- list(q = q, alpha = alpha, b = b, delta = delta, density = dens,
+              printPars = c(q = q, b = b), prior = "weibull")
   class(out) <- "familyPrior"
   return(out)
 }
@@ -68,8 +68,8 @@ subbotin <- function(q = 0.799512530172489, b=0.937673273794677) {
     ddsubbotin(x, q = q, b = b, log = log)
   }
 
-  out <- list(q = q, alpha = alpha, b = b, delta = delta,
-              density = dens, prior = "subbotin")
+  out <- list(q = q, alpha = alpha, b = b, delta = delta, density = dens,
+              printPars = c(q = q, b = b), prior = "subbotin")
   class(out) <- "familyPrior"
   return(out)
 }
@@ -106,8 +106,8 @@ laplace <- function(b = log(2.0)) {
     dlaplace(x, b = b, log = log)
   }
 
-  out <- list(q = q, alpha = alpha, b = b, delta = delta,
-              density = dens, prior = "laplace")
+  out <- list(q = q, alpha = alpha, b = b, delta = delta, density = dens,
+              printPars = c(b = b), prior = "laplace")
   class(out) <- c("familyPrior_laplace", "familyPrior")
   return(out)
 }
