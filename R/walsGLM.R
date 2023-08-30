@@ -159,25 +159,12 @@ walsGLM.formula <- function(formula, data, subset, na.action, weights, offset,
   mf <- eval(mf, parent.frame())
 
   ## extract terms, model matrix, response
-  mt <- terms(formula, data = data)
-  mtX1 <- terms(formula, data = data, rhs = 1L)
-  mtX2 <- delete.response(terms(formula, data = data, rhs = 2L))
-  Y <- model.response(mf, "any") # also allow factors for family = binomialWALS()
+  mm <- extractModel(formula, mf, data)
+
+  # extract objects from mm
+  Y <- mm$Y; X1 <- mm$X1; X2 <- mm$X2; mt <- mm$mt; mtX1 <- mm$mtX1; mtX2 <- mm$mtX2
+  cont <- mm$cont
   n <- length(Y)
-  X1 <- model.matrix(mtX1, mf)
-  X2 <- model.matrix(mtX2, mf)
-
-  # save contrasts before dropping constant in X2
-  # lose attributes when we apply HACK
-  cont <- list(focus = attr(X1, "contrasts"), aux = attr(X2, "contrasts"))
-
-  ## HACK ##
-  # remove intercept in X2
-  # TODO: can we do this more elegantly via formula or terms or contrasts?
-  # issue if add "-1" in formula --> estimate all levels of a factor because
-  # without intercept, can estimate one additional level. But we do not want this.
-  # want to keep the same levels as before and only remove constant column.
-  X2 <- X2[,-1L, drop = FALSE] # intercept is always first column
 
   k1 <- ncol(X1)
   k2 <- ncol(X2)
