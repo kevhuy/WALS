@@ -379,10 +379,44 @@ print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...)
 }
 
 #' @export
-coef.wals <- function(object) return(object$coef)
+coef.wals <- function(object, type = c("all", "focus", "aux"),
+                      transformed = FALSE) {
+  type <- match.arg(type)
+
+  if (transformed) {
+    out <- switch(type,
+                  "all" = c(object$gamma1, object$gamma2),
+                  "focus" = object$gamma1,
+                  "aux" = object$gamma2)
+    return(out)
+  } else {
+    out <- switch(type,
+                  "all" = object$coef,
+                  "focus" = object$beta1,
+                  "aux" = object$beta2)
+    return(out)
+  }
+}
 
 #' @export
-vcov.wals <- function(object) return(object$vcovBeta)
+vcov.wals <- function(object, type = c("all", "focus", "aux"),
+                      transformed = FALSE) {
+  type <- match.arg(type)
+  k1 <- object$k1; k2 <- object$k2
+  if (transformed) {
+    out <- switch(type,
+                  "all" = object$vcovGamma,
+                  "focus" = object$vcovGamma[1:k1, 1:k1],
+                  "aux" = object$vcovGamma[(k1 + 1):(k1 + k2), (k1 + 1):(k1 + k2)])
+    return(out)
+  } else {
+    out <- switch(type,
+                  "all" = object$vcovBeta,
+                  "focus" = object$vcovBeta[1:k1, 1:k1],
+                  "aux" = object$vcovBeta[(k1 + 1):(k1 + k2), (k1 + 1):(k1 + k2)])
+    return(out)
+  }
+}
 
 #' @export
 nobs.wals <- function(object, ...) return(object$n)
