@@ -373,7 +373,7 @@ print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...)
 
   cat(paste0("\nNumber of observations: ", x$n))
 
-  cat(paste0("\nKappa: ", signif(sqrt(x$condition), 3)))
+  cat(paste0("\nKappa: ", signif(sqrt(x$condition), 3), "\n"))
 
   invisible(x)
 }
