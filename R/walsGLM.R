@@ -299,6 +299,13 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 # Class methods ----------------------------------------------------------------
 
 #' @export
+print.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  print.wals(x, digits, ...)
+  cat(paste0("\nResidual Deviance: ", signif(x$deviance, digits), "\n"))
+  invisible(x)
+}
+
+#' @export
 summary.walsGLM <- function(object, ...) {
   object <- summary.wals(object, ...)
 
