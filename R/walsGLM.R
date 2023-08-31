@@ -120,11 +120,13 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   # add more elements
   if (keepY) out$y <- family$initializeY(y)
   if (keepX) out$x <- list(focus = X1, aux = X2)
+  out$weights <- weights
 
-  # deviance
+  # deviance & residuals
   wt <- if (is.null(weights)) rep(1, nrow(X1)) else weights
-  mu <- drop(family$linkinv(X1 %*% out$beta1 + X2 %*% out$beta2))
+  mu <- out$fitted.values
   out$deviance <- sum(family$dev.resids(out$y, mu, wt))
+  out$residuals <- out$y - mu
 
   return(out)
 }
@@ -423,6 +425,28 @@ predict.walsGLM <- function(object, newdata,
 
 }
 
+#' @export
+residuals.walsGLM <- function(object, type = c("deviance", "pearson", "response"),
+                              ...) {
+  type <- match.arg(type)
 
+  if (type == "deviance" || type == "pearson") {
+    y <- object$y
+    if (is.null(y)) stop(paste("Not enough information in fitted model to return",
+                               type, "residuals"))
+    mu <- fitted(object)
+    wt <- if (is.null(object$weights)) rep(1, length(y)) else object$weights
+
+    switch(type,
+           deviance = { # inspired by stats:::residuals.glm()
+             dres <- sqrt(pmax((object$family$dev.resids)(y, mu, wt), 0))
+             return(ifelse(y > mu, dres, -dres))
+           },
+           pearson = {
+             return((y - mu) * sqrt(wt)/sqrt(object$family$variance(mu)))
+           }
+    )
+  } else if (type == "response") return(object$residuals)
+}
 
 

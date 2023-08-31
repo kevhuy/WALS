@@ -84,3 +84,27 @@ test_that("Different methods for walsGLM yield same results", {
   expect_equal(coef(glmWALSsvd), coef(glmWALSoriginal), tolerance = tol)
 })
 
+
+test_that("residuals.walsGLM return correct values", {
+  tol <- 1e-6
+
+  data("NMES1988", package = "AER")
+  NMES1988 <- na.omit(NMES1988)
+
+  fitPoisson <- walsGLM(emergency ~ health + chronic + age + gender |
+                          I((age^2)/10) + married + region, family = poissonWALS(),
+                        data = NMES1988, prior = laplace(), iterate = TRUE)
+  y <- NMES1988$emergency
+  mu <- predict(fitPoisson, newdata = NMES1988)
+  pearson <- (y - mu) / sqrt(mu)
+  devres <- mu # for y = 0
+  devres[y > 0] <- (y * (log(y) - log(mu)) - (y - mu))[y > 0]
+  devres <- 2 * devres
+  devres <- sqrt(devres)
+  devres <- ifelse(y - mu > 0, devres, -devres)
+  resids <- y - mu
+
+  expect_equal(pearson, residuals(fitPoisson, type = "pearson"), tolerance = tol)
+  expect_equal(devres, residuals(fitPoisson, type = "deviance"), tolerance = tol)
+  expect_equal(resids, residuals(fitPoisson, type = "response"), tolerance = tol)
+})
