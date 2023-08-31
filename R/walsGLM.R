@@ -53,7 +53,8 @@ walsGLM.fit <- function(X1, X2, y, betaStart1, betaStart2,
 }
 
 #' @export
-walsGLMfitIterate <- function(y, X1, X2, family, na.action, weights, offset,
+walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
+                              weights = NULL, offset = NULL,
                               prior = weibull(), controlGlmFit = list(),
                               keepY = TRUE, keepX = FALSE, iterate = FALSE,
                               tol = 1e-6, maxIt = 10000, nIt = NULL,
@@ -126,22 +127,29 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action, weights, offset,
 
 #' @rdname walsGLM
 #' @export
-walsGLM.default <- function(y, X1, X2, ...) {
-
-  out <- walsGLM.fit(X1 = X1, X2 = X2, y = y, ...)
-  class(out) <- c("walsGLM", "wals")
-  return(out)
+walsGLM.default <- function(x, ...) {
+  # inspired by glmboost.default in mboost.
+  if (extends(class(x), "matrix")) {
+    return(walsGLM.matrix(X1 = x, ...))
+  }
+  stop("No method for objects of class ", sQuote(class(x)), " implemented.")
 }
 
-
+#' @rdname walsGLM
 #' @export
-walsGLM.matrix <- function(X1, X2, y, na.action, weights, offset, family,
+walsGLM.matrix <- function(X1, X2, y, family, subset = NULL, na.action = NULL,
+                           weights = NULL, offset = NULL,
                            prior = weibull(), controlGlmFit = list(),
                            keepY = TRUE, keepX = FALSE,
                            iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                            verbose = FALSE, ...) {
   cl <- match.call()
-  out <- walsGLMfitIterate(y, X1, X2, na.action, weights, offset, family, prior,
+
+  if (!is.null(subset)) {
+    X1[subset,] <- X1; X2[subset,]; y <- y[subset]
+  }
+
+  out <- walsGLMfitIterate(y, X1, X2, family, na.action, weights, offset, prior,
                            controlGlmFit, keepY, keepX, iterate, tol, maxIt,
                            nIt, verbose, ...)
 
@@ -204,8 +212,9 @@ walsGLM.matrix <- function(X1, X2, y, na.action, weights, offset, family,
 #' summary(fitPoisson)
 #'
 #' @export
-walsGLM.formula <- function(formula, data, subset, na.action, weights, offset,
-                            family, prior = weibull(), controlGlmFit = list(),
+walsGLM.formula <- function(formula, family, data, subset = NULL,
+                            na.action = NULL, weights = NULL, offset = NULL,
+                            prior = weibull(), controlGlmFit = list(),
                             model = TRUE, keepY = TRUE, keepX = FALSE,
                             iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                             verbose = FALSE, ...) {

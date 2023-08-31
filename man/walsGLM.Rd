@@ -3,21 +3,43 @@
 \name{walsGLM}
 \alias{walsGLM}
 \alias{walsGLM.default}
+\alias{walsGLM.matrix}
 \alias{walsGLM.formula}
 \title{Weighted Average Least Squares for Generalized Linear Models}
 \usage{
 walsGLM(x, ...)
 
-\method{walsGLM}{default}(y, X1, X2, ...)
+\method{walsGLM}{default}(x, ...)
+
+\method{walsGLM}{matrix}(
+  X1,
+  X2,
+  y,
+  family,
+  subset = NULL,
+  na.action = NULL,
+  weights = NULL,
+  offset = NULL,
+  prior = weibull(),
+  controlGlmFit = list(),
+  keepY = TRUE,
+  keepX = FALSE,
+  iterate = FALSE,
+  tol = 1e-06,
+  maxIt = 10000,
+  nIt = NULL,
+  verbose = FALSE,
+  ...
+)
 
 \method{walsGLM}{formula}(
   formula,
-  data,
-  subset,
-  na.action,
-  weights,
-  offset,
   family,
+  data,
+  subset = NULL,
+  na.action = NULL,
+  weights = NULL,
+  offset = NULL,
   prior = weibull(),
   controlGlmFit = list(),
   model = TRUE,
@@ -33,16 +55,6 @@ walsGLM(x, ...)
 }
 \arguments{
 \item{...}{Arguments for workhorse \link[WALS]{walsGLM.fit}.}
-
-\item{formula}{an object of class "\link{Formula}"
-(or one that can be coerced to that class):
-a symbolic description of the model to be fitted.
-The details of model specification are given under ‘Details’.}
-
-\item{data}{an optional data frame, list or environment
-(or object coercible by as.data.frame to a data frame) containing the
-variables in the model. If not found in data, the variables are taken from
-environment(formula), typically the environment from which walsNB is called.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}
@@ -67,6 +79,16 @@ and the algorithm iterates nIt times.}
 
 \item{verbose}{If verbose = TRUE, then it prints the iteration process
 (only relevant if iterate = TRUE).}
+
+\item{formula}{an object of class "\link{Formula}"
+(or one that can be coerced to that class):
+a symbolic description of the model to be fitted.
+The details of model specification are given under ‘Details’.}
+
+\item{data}{an optional data frame, list or environment
+(or object coercible by as.data.frame to a data frame) containing the
+variables in the model. If not found in data, the variables are taken from
+environment(formula), typically the environment from which walsNB is called.}
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method

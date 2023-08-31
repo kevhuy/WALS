@@ -4,7 +4,7 @@ test_that("walsGLM estimation converges", {
   HMDA <- na.omit(HMDA)
 
   fitBinomial <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
-                           selfemp + afam, data = HMDA, family = binomialWALS(),
+                           selfemp + afam, family = binomialWALS(), data = HMDA,
                          prior = weibull(), iterate = TRUE)
   expect_true(fitBinomial$converged)
 
@@ -13,8 +13,8 @@ test_that("walsGLM estimation converges", {
   NMES1988 <- na.omit(NMES1988)
 
   fitPoisson <- walsGLM(emergency ~ health + chronic + age + gender |
-                          I((age^2)/10) + married + region, data = NMES1988,
-                        family = poissonWALS(), prior = laplace(), iterate = TRUE)
+                          I((age^2)/10) + married + region, family = poissonWALS(),
+                        data = NMES1988, prior = laplace(), iterate = TRUE)
   expect_true(fitPoisson$converged)
 })
 
@@ -29,7 +29,7 @@ test_that("walsGLM limiting nIt works and returns finite coefficients", {
   limit <- 10
 
   fitBinomial <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
-                           selfemp + afam, data = HMDA, family = binomialWALS(),
+                           selfemp + afam, family = binomialWALS(), data = HMDA,
                          prior = weibull(), iterate = TRUE)
 
   expect_true(fitBinomial$converged)
@@ -41,8 +41,24 @@ test_that("walsGLM limiting nIt works and returns finite coefficients", {
   expect_true(coefsNorm < limit)
 })
 
+test_that("Different class methods of walsGLM yield same results", {
+  data("HMDA", package = "AER")
+  HMDA <- na.omit(HMDA)
 
-test_that("Different methods for walsNB yield same results", {
+  fitFormula <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
+                           selfemp + afam, data = HMDA, family = binomialWALS(),
+                         prior = weibull(), keepX = TRUE, keepY = TRUE)
+  fitMatrix <- walsGLM(fitFormula$x$focus, fitFormula$x$aux, fitFormula$y,
+                       family = binomialWALS(), prior = weibull())
+  fitDefault <- walsGLM.default(fitFormula$x$focus, fitFormula$x$aux, fitFormula$y,
+                                family = binomialWALS(), prior = weibull())
+
+  expect_identical(coef(fitFormula), coef(fitMatrix), coef(fitDefault))
+  expect_identical(vcov(fitFormula), vcov(fitMatrix), vcov(fitDefault))
+})
+
+
+test_that("Different methods for walsGLM yield same results", {
   ## Check if estimated regression coefficients from different methods
   ## yield same results.
 
@@ -58,11 +74,11 @@ test_that("Different methods for walsNB yield same results", {
   # small numerical differences between the methods.
 
   glmWALSsvd <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
-                           selfemp + afam, data = HMDA, family = binomialWALS(),
+                           selfemp + afam, family = binomialWALS(), data = HMDA,
                          prior = weibull(), iterate = TRUE, method = "svd")
 
   glmWALSoriginal <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
-                              selfemp + afam, data = HMDA, family = binomialWALS(),
+                              selfemp + afam, family = binomialWALS(), data = HMDA,
                             prior = weibull(), iterate = TRUE, method = "original")
 
   expect_equal(coef(glmWALSsvd), coef(glmWALSoriginal), tolerance = tol)
