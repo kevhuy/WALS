@@ -295,11 +295,12 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 
 #' @export
 summary.walsGLM <- function(object, ...) {
+  object <- summary.wals(object, ...)
 
-  se <- sqrt(diag(object$vcovBeta))
-  object$se <- se
-  object$coefficients <- cbind(object$coef, se)
-  colnames(object$coefficients) <- c("Estimate", "Std. Error")
+  # inspired by summary.glm() in stats
+  if (!is.na(object$family$dispersion)) {
+    object$dispersion <- object$family$dispersion
+  } else object$dispersion <- NA
 
   class(object) <- "summary.walsGLM"
   return(object)
@@ -307,17 +308,25 @@ summary.walsGLM <- function(object, ...) {
 
 #' @export
 print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
+      "", sep = "\n")
 
-  dist <- x$family$family
-  link <- x$family$link
-  prior <- x$prior$prior
+  printCallCoefs(x, digits, ...)
 
-  cat(paste0("\nCoefficients (", dist," with ", link, " link", " and ",
-             prior, " prior): \n"))
-  printCoefmat(x$coefficients, digits = digits,...)
+
 
   cat(paste0("\nStarting values for estimation: \n"))
   print(signif(x$betaStart, digits))
+
+  # inspired by print.summary.glm() from stats
+  if (!is.na(x$dispersion)) {
+    cat(paste0("\n(Dispersion parameter for ", x$family$family,
+        " family taken to be ", format(x$dispersion),")\n"))
+  } else {
+    cat("\n(", x$family$family, " family used)\n")
+  }
+
+  printPriorNKappa(x, digits)
 
   invisible(x)
 }

@@ -369,22 +369,10 @@ summary.wals <- function(object, ...) {
 
 #' @export
 print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
-  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
-
-  cat(paste0("\nCoefficients of k1 = ", x$k1, " focus regressors: \n"))
-  printCoefmat(x$focusCoefs, digits = digits,...)
-
-  cat(paste0("\nCoefficients of k2 = ", x$k2, " auxiliary regressors: \n"))
-  printCoefmat(x$auxCoefs, digits = digits,...)
-
-  priorPars <- paste(names(x$prior$printPars), signif(x$prior$printPars, digits),
-                     sep = " = ", collapse = ", ")
-  cat(paste0("\nPrior: ", x$prior$prior, "(", priorPars, ")"))
-
-  cat(paste0("\nNumber of observations: ", x$n))
-
-  cat(paste0("\nKappa: ", signif(sqrt(x$condition), 3), "\n"))
-
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
+      "", sep = "\n")
+  printCallCoefs(x, digits, ...)
+  printPriorNKappa(x, digits)
   invisible(x)
 }
 

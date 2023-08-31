@@ -645,3 +645,22 @@ svdLSplus <- function(U, V, singularVals, y, ell, geB) {
 
   return(A - E)
 }
+
+## Helpers for summary methods
+printCallCoefs <- function(x, digits, ...) {
+  cat(paste0("\nCoefficients of k1 = ", x$k1, " focus regressors: \n"))
+  printCoefmat(x$focusCoefs, digits = digits,...)
+
+  cat(paste0("\nCoefficients of k2 = ", x$k2, " auxiliary regressors: \n"))
+  printCoefmat(x$auxCoefs, digits = digits,...)
+}
+
+printPriorNKappa <- function(x, digits) {
+  priorPars <- paste(names(x$prior$printPars), signif(x$prior$printPars, digits),
+                     sep = " = ", collapse = ", ")
+  cat(paste0("\nPrior: ", x$prior$prior, "(", priorPars, ")"))
+
+  cat(paste0("\nNumber of observations: ", x$n))
+
+  cat(paste0("\nKappa: ", signif(sqrt(x$condition), 3), "\n"))
+}
