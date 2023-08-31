@@ -43,7 +43,7 @@ test_that("walsNB limiting nIt works and returns finite coefficients", {
 
 })
 
-test_that("walsNBmatrix estimation returns same coefs as with formula", {
+test_that("Different walsNB class methods yield same result", {
   ## Test on NMES1988 dataset
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
@@ -62,8 +62,14 @@ test_that("walsNBmatrix estimation returns same coefs as with formula", {
                          iterate = TRUE, tol = 1e-6,
                          verbose = TRUE)
 
-  # check coefs
-  expect_equal(coef(nbWals), coef(nbWalsMatrix))
+  nbWalsDefault <- walsNB.default(nbWals$x$focus, X2 = nbWals$x$aux,
+                                  y = nbWals$y, link = "log", prior = weibull(),
+                                  method = "fullSVD", iterate = TRUE, tol = 1e-6,
+                                  verbose = TRUE)
+
+  # check coefs and vcov
+  expect_identical(coef(nbWals), coef(nbWalsMatrix), coef(nbWalsDefault))
+  expect_identical(vcov(nbWals), vcov(nbWalsMatrix), vcov(nbWalsDefault))
 })
 
 test_that("walsNBmatrix predictions equal walsNB predictions", {

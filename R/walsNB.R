@@ -205,12 +205,14 @@ walsNB.matrix <- function(X1, X2, y, link = "log", subset = NULL,
   return(out)
 }
 
-
+#' @rdname walsNB
 #' @export
-walsNB.default <- function(y, X1, X2, ...) {
-  out <- walsNB.fit(X1 = X1, X2 = X2, y = y, ...)
-  class(out) <- c("walsNB", "walsGLM", "wals")
-  return(out)
+walsNB.default <- function(x, ...) {
+  # inspired by glmboost.default in mboost.
+  if (extends(class(x), "matrix")) {
+    return(walsNB.matrix(X1 = x, ...))
+  }
+  stop("No method for objects of class ", sQuote(class(x)), " implemented.")
 }
 
 

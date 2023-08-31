@@ -4,6 +4,7 @@
 \alias{walsNB}
 \alias{walsNB.formula}
 \alias{walsNB.matrix}
+\alias{walsNB.default}
 \title{Weighted Average Least Squares Negative Binomial}
 \usage{
 walsNB(x, ...)
@@ -50,6 +51,8 @@ walsNB(x, ...)
   verbose = FALSE,
   ...
 )
+
+\method{walsNB}{default}(x, ...)
 }
 \arguments{
 \item{...}{Arguments for workhorse \link[WALS]{walsNB.fit}.}
