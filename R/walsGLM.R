@@ -118,8 +118,13 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   out$converged <- converged
 
   # add more elements
-  if (keepY) out$y <- y
+  if (keepY) out$y <- family$initializeY(y)
   if (keepX) out$x <- list(focus = X1, aux = X2)
+
+  # deviance
+  wt <- if (is.null(weights)) rep(1, nrow(X1)) else weights
+  mu <- drop(family$linkinv(X1 %*% out$beta1 + X2 %*% out$beta2))
+  out$deviance <- sum(family$dev.resids(out$y, mu, wt))
 
   return(out)
 }
@@ -302,6 +307,7 @@ summary.walsGLM <- function(object, ...) {
     object$dispersion <- object$family$dispersion
   } else object$dispersion <- NA
 
+
   class(object) <- "summary.walsGLM"
   return(object)
 }
@@ -325,6 +331,9 @@ print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), .
   } else {
     cat("\n(", x$family$family, " family used)\n")
   }
+
+  cat(paste0("\nResidual deviance: ", signif(x$deviance, max(5L, digits + 1L)),
+             "\n"))
 
   printPriorNKappa(x, digits)
 
