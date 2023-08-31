@@ -22,11 +22,18 @@ poissonWALS <- function(...) {
 
   } else stop(sprintf("%s link not implemented yet", fam$link))
 
+  fam$initializeY <- function(y) {
+    # only checks y
+    if (any(y < 0)) stop("negative values not allowed for the 'Poisson' family")
+    return(y)
+  }
+
   ## functions for Xbar_1, Xbar_2 and ybar
   # does nothing with y, just passes it
   fam$transformX <- function(X, etaStart, y = NULL) transformX(X, etaStart,
                                                                fam$psi(etaStart))
   fam$transformY <- function(y, X1bar, X2bar, beta1, beta2, etaStart) {
+    y <- fam$initializeY(y)
     transformY(y, X1bar, X2bar, beta1, beta2, etaStart,
                vBar = fam$theta.eta(etaStart), muBar = fam$linkinv(etaStart),
                psiBar = fam$psi(etaStart))
@@ -42,7 +49,7 @@ poissonWALS <- function(...) {
 }
 
 #' Binomial family with additional functions
-#' 
+#'
 #' Extends \code{binomial} family from \code{stats} with transformations required
 #' for \code{walsGLM}.
 #'
@@ -59,14 +66,18 @@ binomialWALS <- function(...) {
 
   } else stop(sprintf("%s link not implemented yet", fam$link))
 
+  fam$initializeY <- function(y) {
+    # convert factor to numeric
+    if (is.factor(y)) y <- y != levels(y)[1L]
+    return(y)
+  }
+
   ## functions for Xbar_1, Xbar_2 and ybar
   # does nothing with y, just passes it
   fam$transformX <- function(X, etaStart, y = NULL) transformX(X, etaStart,
                                                                fam$psi(etaStart))
   fam$transformY <- function(y, X1bar, X2bar, beta1, beta2, etaStart) {
-    # convert factor to numeric
-    if (is.factor(y)) y <- y != levels(y)[1L]
-
+    y <- fam$initializeY(y)
     transformY(y, X1bar, X2bar, beta1, beta2, etaStart,
                vBar = fam$theta.eta(etaStart), muBar = fam$linkinv(etaStart),
                psiBar = fam$psi(etaStart))
@@ -115,7 +126,7 @@ negativeBinomial <- function(theta, link = "log") {
     dev.resids <- function(y, mu, wt) {
       return(2 * wt * (y * log(pmax(1, y)/mu) - (y + theta) * log((y + theta)/(mu + theta))))
     }
-    
+
     # initializes mustart and n for IRLS in glm.fit
     initialize <- expression({
       if (any(y < 0))
@@ -146,14 +157,20 @@ negativeBinomial <- function(theta, link = "log") {
 #' Family object for negative binomial distribution type 2 (NB2) with fixed
 #' dispersion parameter. Extends \link{negativeBinomial} with functions
 #' required in \code{walsGLM}.
-#' 
+#'
 #' @param scale dispersion parameter of NB2, always larger than 0.
 #' @param link specifies link function, currently only "log" and "canonical"
 #' are supported.
-#' 
+#'
 #' @export
 negbinFixedWALS <- function(scale, link) {
   fam <- negativeBinomial(theta = scale, link = link)
+
+  fam$initializeY <- function(y) {
+    # only checks for valid values
+    if (any(y < 0)) stop("negative values not allowed for the negative binomial family")
+    return(y)
+  }
 
   if (fam$link == "canonical") {
     # Canonical link
@@ -171,6 +188,7 @@ negbinFixedWALS <- function(scale, link) {
       return(as.vector( (sqrt(scale)*exp(0.5*etaStart)) / (1 - exp(etaStart)) ) * X)
     }
     fam$transformY <- function(y, X1bar, X2bar, beta1, beta2, etaStart) {
+      y <- fam$initializeY(y)
       return( X1bar %*% beta1 + X2bar %*% beta2
               + (exp(-0.5)/sqrt(scale)) * (y*(1 - exp(etaStart)) - scale*exp(etaStart)) )
     }
@@ -186,6 +204,7 @@ negbinFixedWALS <- function(scale, link) {
       return(as.vector(  exp(0.5*eta) * sqrt(scale * (scale + y))/(exp(eta) + scale)) * X)
     }
     fam$transformY <- function(y, X1bar, X2bar, beta1, beta2, etaStart) {
+      y <- fam$initializeY(y)
       return( X1bar %*% beta1 + X2bar %*% beta2
               + exp(-0.5*etaStart) * sqrt( scale / (scale + y))
               * (y - exp(etaStart)) )
@@ -204,14 +223,14 @@ negbinFixedWALS <- function(scale, link) {
 }
 
 #' NB2 family with variable scale parameter and additional functions
-#' 
+#'
 #' Family object for negative binomial distribution type 2 (NB2) with variable
 #' dispersion parameter. Extends \link{negativeBinomial} with functions
 #' required in \link{walsNB}.
-#' 
+#'
 #' @param scale dispersion parameter of NB2 to be used.
 #' @param link specifies the link function, currently only "log" is supported.
-#' 
+#'
 #' @export
 negbinWALS <- function(scale, link) {
   alpha <- log(scale)
@@ -230,6 +249,7 @@ negbinWALS <- function(scale, link) {
     }
 
     out$transformY0 <- function(y, X1bar, X2bar, beta1, beta2, eta) {
+      y <- out$initializeY(y)
       mu <- exp(eta)
       uplus <- ((y - mu) * ( exp(0.5*(alpha - eta - log(y + scale))) *
         ((mu*(1.0 - alpha) + scale)/(mu + scale))  ))
