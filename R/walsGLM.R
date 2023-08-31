@@ -221,7 +221,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 
   ## call
   cl <- match.call()
-  if(missing(data)) data <- environment(formula)
+  if (missing(data)) data <- environment(formula)
   mf <- match.call(expand.dots = FALSE)
   m <- match(c("formula", "data", "subset", "na.action", "weights", "offset"), names(mf), 0L)
   mf <- mf[c(1L, m)]
@@ -322,11 +322,6 @@ print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), .
   invisible(x)
 }
 
-#' @export
-coef.walsGLM <- function(object) return(object$coef)
-
-#' @export
-vcov.walsGLM <- function(object) return(object$vcovBeta)
 
 #' @export
 predict.walsGLM <- function(object, newdata,
