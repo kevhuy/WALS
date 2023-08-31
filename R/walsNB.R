@@ -189,15 +189,18 @@ walsNB.matrix <- function(X1, X2, y, link = "log", subset = NULL,
                           model = TRUE, keepY = TRUE, keepX = FALSE,
                           iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                           verbose = FALSE, ...) {
+  cl <- match.call()
+
   if (!is.null(subset)) {
     X1[subset,] <- X1; X2[subset,]; y <- y[subset]
   }
+
   out <- walsNB.fitIterate(y, X1, X2, link, na.action, weights, offset,
                            prior, controlInitNB, keepY, keepX,
                            iterate, tol, maxIt, nIt,
                            verbose, ...)
 
-
+  out$call <- cl
   class(out) <- c("walsNBmatrix", "walsNB", "walsGLM", "wals")
   return(out)
 }
