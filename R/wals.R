@@ -18,8 +18,9 @@
 wals <- function(x, ...) UseMethod("wals", x)
 
 #' @export
-wals.formula <- function(formula, data, subset, na.action, weights, offset,
-                         family, prior = weibull(), model = TRUE, keepY = TRUE,
+wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
+                         weights = NULL, offset = NULL, prior = weibull(),
+                         model = TRUE, keepY = TRUE,
                          keepX = FALSE, sigma = NULL, ...) {
   ## call
   cl <- match.call()
@@ -106,10 +107,16 @@ wals.formula <- function(formula, data, subset, na.action, weights, offset,
 #' wals(X1, X2, y, prior = weibull())
 #'
 #' @export
-wals.matrix <- function(X1, X2, y, na.action, weights, offset, prior = weibull(),
+wals.matrix <- function(X1, X2, y, subset = NULL, na.action = NULL,
+                        weights = NULL, offset = NULL, prior = weibull(),
                         keepY = TRUE, keepX = FALSE, sigma = NULL,
                         ...) {
   cl <- match.call()
+
+  if (!is.null(subset)) {
+    X1[subset,] <- X1; X2[subset,]; y <- y[subset]
+  }
+
   out <- wals.fit(X1, X2, y, sigma, prior, ...)
 
   out$call <- cl

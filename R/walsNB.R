@@ -84,7 +84,8 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' summary(fitLaplace)
 #'
 #' @export
-walsNB.formula <- function(formula, data, subset, na.action, weights, offset,
+walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
+                           weights = NULL, offset = NULL,
                            link = "log", prior = weibull(),
                            controlInitNB = controlNB(),
                            model = TRUE, keepY = TRUE, keepX = FALSE,
@@ -182,12 +183,15 @@ walsNB.formula <- function(formula, data, subset, na.action, weights, offset,
 #' a constant column and can also be generated using model.matrix().
 #' @param y Count response as vector
 #' @export
-walsNB.matrix <- function(X1, X2, y, link = "log", na.action, weights, offset,
+walsNB.matrix <- function(X1, X2, y, link = "log", subset = NULL,
+                          na.action = NULL, weights = NULL, offset = NULL,
                           prior = weibull(), controlInitNB = controlNB(),
                           model = TRUE, keepY = TRUE, keepX = FALSE,
                           iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                           verbose = FALSE, ...) {
-
+  if (!is.null(subset)) {
+    X1[subset,] <- X1; X2[subset,]; y <- y[subset]
+  }
   out <- walsNB.fitIterate(y, X1, X2, link, na.action, weights, offset,
                            prior, controlInitNB, keepY, keepX,
                            iterate, tol, maxIt, nIt,
@@ -619,7 +623,8 @@ walsNB.fit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' actually fits the model.
 #'
 #' @export walsNB.fitIterate
-walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action, weights, offset,
+walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
+                              weights = NULL, offset = NULL,
                               prior = weibull(), controlInitNB = controlNB(),
                               keepY = TRUE, keepX = FALSE,
                               iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
