@@ -44,7 +44,7 @@ poissonWALS <- function(...) {
     return(dpois(x, lambda = mu, log = log))
   }
 
-  class(fam) <- c("familyWALS", class(fam))
+  class(fam) <- c("familyWALScount", "familyWALS", class(fam))
   return(fam)
 }
 
@@ -218,7 +218,7 @@ negbinFixedWALS <- function(scale, link) {
     return(dnbinom(x, size = scale, mu = mu, log = log))
   }
 
-  class(fam) <- c("familyWALS", class(fam))
+  class(fam) <- c("familyWALScount", "familyWALS", class(fam))
   return(fam)
 }
 

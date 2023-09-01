@@ -99,6 +99,20 @@ test_that("walsNBmatrix predictions equal walsNB predictions", {
   expect_identical(pred1, pred2)
 })
 
+test_that("Probability prediction works", {
+  data("NMES1988", package = "AER")
+  dd <- na.omit(NMES1988)
+
+  fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
+              adl + region + gender + married + income + school + afam + employed)
+
+  nbWals <- walsNB(fWals, data = dd, link = "log",prior = weibull(),
+                   method = "fullSVD")
+
+  # expect no error in probability prediction.
+  expect_error(predict(nbWals, newdata = dd, type = "prob"), regexp = NA)
+})
+
 
 test_that("Initialization with MASS::glm.nb runs", {
   data("NMES1988", package = "AER")

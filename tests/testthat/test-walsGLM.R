@@ -123,3 +123,23 @@ test_that("logLik.walsGLM returns correct value", {
   ll <- sum(dbinom(fitFormula$y, size = 1, prob = mu, log = TRUE))
   expect_equal(logLik(fitFormula), ll, tolerance = tol)
 })
+
+test_that("Probability predictions work as intended", {
+  data("NMES1988", package = "AER")
+  NMES1988 <- na.omit(NMES1988)
+  fitPoisson <- walsGLM(emergency ~ health + chronic + age + gender |
+                          I((age^2)/10) + married + region, family = poissonWALS(),
+                        data = NMES1988, prior = laplace())
+  # expect no error in probability prediction.
+  expect_error(predict(fitPoisson, newdata = NMES1988, type = "prob"),
+               regexp = NA)
+
+  data("HMDA", package = "AER")
+  HMDA <- na.omit(HMDA)
+  fitBinomial <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
+                           selfemp + afam, data = HMDA, family = binomialWALS(),
+                         prior = subbotin())
+  # expect error in probability prediction
+  expect_error(predict(fitBinomial, newdata = HMDA, type = "prob"),
+               regexp = "Probability predictions of counts not supported for")
+})
