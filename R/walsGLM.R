@@ -121,6 +121,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   if (keepY) out$y <- family$initializeY(y)
   if (keepX) out$x <- list(focus = X1, aux = X2)
   out$weights <- weights
+  out$it <- if(iterate) it else NULL
 
   # deviance & residuals
   wt <- if (is.null(weights)) rep(1, nrow(X1)) else weights
@@ -345,6 +346,16 @@ print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), .
              "\n"))
 
   printPriorNKappa(x, digits)
+
+  if (!is.null(x$it)) {
+    if (!is.null(x$converged)) {
+      convStatus <- if (x$converged) "converged " else "did not converge "
+      cat(paste0("\nFitting algorithm ", convStatus, "in ", x$it, " iterations.\n"))
+    } else if (is.null(x$converged)) {
+      # manually ran nIt iterations of fitting algo without checking for conv.
+      cat(paste0("\nFitting algorithm run for ", x$it, " iterations.\n"))
+    }
+  }
 
   invisible(x)
 }

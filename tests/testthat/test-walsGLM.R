@@ -93,7 +93,8 @@ test_that("residuals.walsGLM return correct values", {
 
   fitPoisson <- walsGLM(emergency ~ health + chronic + age + gender |
                           I((age^2)/10) + married + region, family = poissonWALS(),
-                        data = NMES1988, prior = laplace(), iterate = TRUE)
+                        data = NMES1988, prior = laplace(), iterate = TRUE,
+                        verbose = TRUE)
   y <- NMES1988$emergency
   mu <- predict(fitPoisson, newdata = NMES1988)
   pearson <- (y - mu) / sqrt(mu)
