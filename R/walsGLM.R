@@ -381,18 +381,22 @@ predict.walsGLM <- function(object, newdata,
   if (missing(newdata)) {
     switch(type,
            "response" = {
-             return(object$fitted.values)
+             return(fitted(object))
            },
            "link" = {
-             return(object$family$linkfun(object$fitted.values))
+             return(object$fitted.link)
            },
            "variance" = {
-             return(object$family$variance(object$fitted.values))
+             return(object$family$variance(fitted(object)))
            },
            "prob" = {
              stop("predicted probabilities cannot be computed with missing newdata")
+           },
+           "density" = {
+             # reconstruct y via residuals
+             y <- residuals(object, type = "response") + fitted(object)
+             return(object$family$density(y, object$fitted.link, log = log))
            }
-           # TODO: add density prediction
            )
 
   } else {
