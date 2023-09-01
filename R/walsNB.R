@@ -60,7 +60,9 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' @param maxIt Only used it iterate = TRUE and nIt = NULL. Aborts iterative fitting
 #' when number of iterations exceed maxIt
 #' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
-#' and the algorithm iterates nIt times.
+#' and the algorithm iterates nIt times. This option should not be used unless
+#' the user has a specific reason to run the algorithm nIt times, e.g. for
+#' replication purposes.
 #' @param verbose If verbose = TRUE, then it prints the iteration process of
 #' internal function \link[WALS]{walsNB.fitIterate} (only relevant if iterate = TRUE).
 #' @param ... Arguments for workhorse \link[WALS]{walsNB.fit}.

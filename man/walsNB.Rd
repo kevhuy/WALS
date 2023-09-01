@@ -104,7 +104,9 @@ the previous and current rho falls below tol, then the algorithm stops.}
 when number of iterations exceed maxIt}
 
 \item{nIt}{Only used if iterate = TRUE. If this is specified, then tol is ignored
-and the algorithm iterates nIt times.}
+and the algorithm iterates nIt times. This option should not be used unless
+the user has a specific reason to run the algorithm nIt times, e.g. for
+replication purposes.}
 
 \item{verbose}{If verbose = TRUE, then it prints the iteration process of
 internal function \link[WALS]{walsNB.fitIterate} (only relevant if iterate = TRUE).}
