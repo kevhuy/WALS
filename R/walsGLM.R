@@ -429,24 +429,20 @@ predict.walsGLM <- function(object, newdata,
 residuals.walsGLM <- function(object, type = c("deviance", "pearson", "response"),
                               ...) {
   type <- match.arg(type)
+  y <- object$residuals + fitted(object)
+  mu <- fitted(object)
+  wt <- if (is.null(object$weights)) rep(1, length(y)) else object$weights
 
-  if (type == "deviance" || type == "pearson") {
-    y <- object$y
-    if (is.null(y)) stop(paste("Not enough information in fitted model to return",
-                               type, "residuals"))
-    mu <- fitted(object)
-    wt <- if (is.null(object$weights)) rep(1, length(y)) else object$weights
-
-    switch(type,
-           deviance = { # inspired by stats:::residuals.glm()
-             dres <- sqrt(pmax((object$family$dev.resids)(y, mu, wt), 0))
-             return(ifelse(y > mu, dres, -dres))
-           },
-           pearson = {
-             return((y - mu) * sqrt(wt)/sqrt(object$family$variance(mu)))
-           }
-    )
-  } else if (type == "response") return(object$residuals)
+  switch(type,
+         deviance = { # inspired by stats:::residuals.glm()
+           dres <- sqrt(pmax((object$family$dev.resids)(y, mu, wt), 0))
+           return(ifelse(y > mu, dres, -dres))
+         },
+         pearson = {
+           return((y - mu) * sqrt(wt)/sqrt(object$family$variance(mu)))
+         },
+         response = {return(object$residuals)}
+  )
 }
 
 
