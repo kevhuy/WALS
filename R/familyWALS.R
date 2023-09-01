@@ -85,7 +85,7 @@ binomialWALS <- function(...) {
 
   fam$density <- function(x, eta, log = FALSE, ...) {
     mu <- fam$linkinv(eta)
-    return(dbinom(x, prob = mu, log = log, ...))
+    return(dbinom(x, size = 1, prob = mu, log = log, ...))
   }
 
   class(fam) <- c("familyWALS", class(fam))
