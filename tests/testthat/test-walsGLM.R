@@ -108,3 +108,17 @@ test_that("residuals.walsGLM return correct values", {
   expect_equal(devres, residuals(fitPoisson, type = "deviance"), tolerance = tol)
   expect_equal(resids, residuals(fitPoisson, type = "response"), tolerance = tol)
 })
+
+test_that("logLik.walsGLM returns correct value", {
+  tol <- 1e-6
+
+  data("HMDA", package = "AER")
+  HMDA <- na.omit(HMDA)
+  fitFormula <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
+                          selfemp + afam, data = HMDA, family = binomialWALS(),
+                        prior = weibull(), keepX = TRUE, keepY = TRUE)
+  X <- cbind(model.matrix(fitFormula, "focus"), model.matrix(fitFormula, "aux"))
+  mu <- plogis(X %*% coef(fitFormula))
+  ll <- sum(dbinom(fitFormula$y, size = 1, prob = mu, log = TRUE))
+  expect_equal(logLik(fitFormula), ll, tolerance = tol)
+})

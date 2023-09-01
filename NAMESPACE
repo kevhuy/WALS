@@ -2,6 +2,7 @@
 
 S3method(coef,wals)
 S3method(fitted,wals)
+S3method(logLik,walsGLM)
 S3method(model.matrix,wals)
 S3method(nobs,wals)
 S3method(predict,wals)

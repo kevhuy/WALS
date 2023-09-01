@@ -445,4 +445,9 @@ residuals.walsGLM <- function(object, type = c("deviance", "pearson", "response"
   )
 }
 
-
+#' @export
+logLik.walsGLM <- function(object, ...) {
+  if (!missing(...)) warning("extra arguments discarded")
+  y <- residuals(object, type = "response") + fitted(object)
+  return(sum(object$family$density(y, object$fitted.link, log = TRUE)))
+}
