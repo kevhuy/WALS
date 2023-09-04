@@ -379,67 +379,77 @@ predict.walsGLM <- function(object, newdata,
   }
 
   if (missing(newdata)) {
-    switch(type,
-           "response" = {
-             return(fitted(object))
-           },
-           "link" = {
-             return(object$fitted.link)
-           },
-           "variance" = {
-             return(object$family$variance(fitted(object)))
-           },
-           "prob" = {
-             stop("predicted probabilities cannot be computed with missing newdata")
-           },
-           "density" = {
-             # reconstruct y via residuals
-             y <- residuals(object, type = "response") + fitted(object)
-             return(object$family$density(y, object$fitted.link, log = log))
-           }
-           )
+    link <- object$fitted.link
+
+    if (type == "density") {
+      y <- residuals(object, type = "response") + fitted(object)
+    } else y <- NULL
 
   } else {
-
     # compute link
     newMatrices <- genNewdata(object$terms, object$contrasts, newdata,
                               na.action = na.action, xlev = object$levels)
-
     link <- drop(newMatrices$X1 %*% object$beta1 + newMatrices$X2 %*% object$beta2)
 
-    switch(type,
-           "response" = {
-             return(object$family$linkinv(link))
-           },
-           "link" = {
-             return(link)
-           },
-           "variance" = {
-             mu <- object$family$linkinv(link)
-             return(object$family$variance(mu))
-           },
-           "prob" = {
-             if (!is.null(object$y)) y <- object$y
-             else if (!is.null(object$model)) y <- model.response(object$model)
-             else if (!is.null(at)) y <- at
-             else stop(c("predicted probabilities cannot be
+    if (type == "density") {
+      y <- getY(terms(object, "focus"), newdata, na.action = na.action)
+    } else y <- NULL
+
+  }
+  return(.predictGLM(object, link, y, type, at, log))
+}
+
+#' @export
+predict.walsGLMmatrix <- function(object, newX1, newX2, newY = NULL,
+                                  type = c("response", "link", "variance", "prob",
+                                           "density", "logDens"),
+                                  at = NULL,
+                                  na.action = na.pass, log = FALSE, ...) {
+  # convenience type
+  if (type == "logDens") {
+    type <- "density"
+    log <- TRUE
+  }
+
+  if (missing(newX1) || missing(newX2)) {
+    return(predict.walsGLM(object, type = type, at = at, na.action = na.action,
+                           log = log, ...))
+  } else {
+    link <- newX1 %*% object$beta1 + newX2 %*% object$beta2
+    return(.predictGLM(object, link, newY, type, at, log))
+  }
+}
+
+.predictGLM <- function(object, link, y, type, at, log, ...) {
+  switch(type,
+         "response" = {
+           return(object$family$linkinv(link))
+         },
+         "link" = {
+           return(link)
+         },
+         "variance" = {
+           mu <- object$family$linkinv(link)
+           return(object$family$variance(mu))
+         },
+         "prob" = {
+           if (!is.null(object$y)) y <- object$y
+           else if (!is.null(object$model)) y <- model.response(object$model)
+           else if (!is.null(at)) y <- at
+           else stop(c("predicted probabilities cannot be
                          computed for fits with y = FALSE, model = FALSE
                          and at = NULL"))
 
-             if (any(at < 0)) stop("prediction at count < 0 not allowed")
+           if (any(at < 0)) stop("prediction at count < 0 not allowed")
 
-             yUnique <- if (is.null(at)) 0:max(y) else at
-             return(predictCounts(object$family, yUnique = yUnique,
-                                        rowNames = rownames(newMatrices$X1),
-                                        eta = link, ...))
-           },
-           "density" = {
-             y <- getY(terms(object, "focus"), newdata, na.action = na.action)
-             return(object$family$density(y, link, log = log))
-           })
-
-  }
-
+           yUnique <- if (is.null(at)) 0:max(y) else at
+           return(predictCounts(object$family, yUnique = yUnique,
+                                rowNames = names(link),
+                                eta = link, ...))
+         },
+         "density" = {
+           return(object$family$density(y, link, log = log))
+         })
 }
 
 #' @export
