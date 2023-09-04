@@ -99,6 +99,31 @@ test_that("walsNBmatrix predictions equal walsNB predictions", {
   expect_identical(pred1, pred2)
 })
 
+test_that("residuals of walsNB return correct values", {
+  tol <- 1e-6
+
+  data("NMES1988", package = "AER")
+  NMES1988 <- na.omit(NMES1988)
+
+  fitNB <- walsNB(visits ~ health + chronic + age + gender |
+                    I((age^2)/10) + married + region,
+                  data = NMES1988, prior = laplace(), verbose = TRUE)
+
+  y <- NMES1988$visits
+  mu <- predict(fitNB, newdata = NMES1988)
+  rho <- fitNB$rho
+
+  pearson <- (y - mu) / sqrt(mu + (mu^2)/rho)
+  devres <- pmax(2 * (y*log(pmax(1, y)/mu) - (y + rho)*log((y + rho) / (mu + rho))), 0)
+  devres <- sqrt(devres)
+  devres <- ifelse(y - mu > 0, devres, -devres)
+  resids <- y - mu
+
+  expect_equal(pearson, residuals(fitNB, type = "pearson"), tolerance = tol)
+  expect_equal(devres, residuals(fitNB, type = "deviance"), tolerance = tol)
+  expect_equal(resids, residuals(fitNB, type = "response"), tolerance = tol)
+})
+
 test_that("Predictions use correct link values", {
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
