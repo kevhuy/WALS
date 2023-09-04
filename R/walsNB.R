@@ -203,7 +203,7 @@ walsNB.matrix <- function(X1, X2, y, link = "log", subset = NULL,
                            verbose, ...)
 
   out$call <- cl
-  class(out) <- c("walsNBmatrix", "walsNB", "walsGLM", "wals")
+  class(out) <- c("walsNBmatrix", "walsNB", "walsGLMmatrix", "walsGLM", "wals")
   return(out)
 }
 
@@ -782,76 +782,6 @@ print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ..
 
   invisible(x)
 }
-
-
-#' @export
-predict.walsNBmatrix <- function(object, newX1, newX2, newY = NULL,
-                                  type = c("response", "link", "variance", "prob",
-                                           "density", "logDens"),
-                                  at = NULL,
-                                  na.action = na.pass, log = FALSE, ...) {
-  # TODO: include offsets
-  type <- match.arg(type)
-
-  # convenience type for scores.R
-  if (type == "logDens") {
-    type <- "density"
-    log <- TRUE
-  }
-
-  if (missing(newX1) || missing(newX2)) {
-    switch(type,
-           "response" = {
-             return(object$fitted.values)
-           },
-           "link" = {
-             return(object$family$linkfun(object$fitted.values))
-           },
-           "variance" = {
-             return(object$family$variance(object$fitted.values))
-           },
-           "prob" = {
-             stop("predicted probabilities cannot be computed with missing newdata")
-           }
-           # TODO: add density prediction
-    )
-
-  } else {
-
-    link <- newX1 %*% object$beta1 + newX2 %*% object$beta2
-
-    switch(type,
-           "response" = {
-             return(object$family$linkinv(link))
-           },
-           "link" = {
-             return(link)
-           },
-           "variance" = {
-             mu <- object$family$linkinv(link)
-             return(object$family$variance(mu))
-           },
-           "prob" = {
-             if (!is.null(object$y)) y <- object$y
-             else if (!is.null(at)) y <- at
-             else stop(c("predicted probabilities cannot be
-                         computed for fits with y = FALSE, and at = NULL"))
-
-             if (any(at < 0)) stop("prediction at count < 0 not allowed")
-
-             yUnique <- if (is.null(at)) 0:max(y) else at
-             return(predictCounts(object$family, yUnique = yUnique,
-                                  rowNames = rownames(newX1),
-                                  eta = link, ...))
-           },
-           "density" = {
-             return(object$family$density(newY, link, log = log))
-           })
-
-  }
-
-}
-
 
 
 ## Helper functions ------------------------------------------------------------
