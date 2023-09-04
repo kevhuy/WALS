@@ -767,6 +767,11 @@ walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
 ## Class methods ---------------------------------------------------------------
 
 #' @export
+vcov.walsNB <- function(object, ...) {
+  stop("No method for objects of class ", sQuote(class(object)[1]), " implemented.")
+}
+
+#' @export
 summary.walsNB <- function(object, ...) {
   object <- summary.wals(object, ...)
 
