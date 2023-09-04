@@ -163,7 +163,7 @@ walsGLM.matrix <- function(X1, X2, y, family, subset = NULL, na.action = NULL,
 
   out$call <- cl
 
-  class(out) <- c("walsMatrix", "wals")
+  class(out) <- c("walsGLMmatrix", "walsGLM", "walsMatrix", "wals")
   return(out)
 }
 
