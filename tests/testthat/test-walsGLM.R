@@ -110,6 +110,26 @@ test_that("residuals.walsGLM return correct values", {
   expect_equal(resids, residuals(fitPoisson, type = "response"), tolerance = tol)
 })
 
+test_that("Predictions use correct link values", {
+  data("HMDA", package = "AER")
+  HMDA <- na.omit(HMDA)
+  fitFormula <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
+                          selfemp + afam, data = HMDA, family = binomialWALS(),
+                        prior = weibull(), keepX = TRUE, keepY = TRUE)
+  linkFormula <- as.vector(model.matrix(fitFormula, "focus") %*% coef(fitFormula, "focus")
+                           + model.matrix(fitFormula, "aux") %*% coef(fitFormula, "aux"))
+
+  fitMatrix <- walsGLM(fitFormula$x$focus, fitFormula$x$aux, fitFormula$y,
+                       family = binomialWALS(), prior = weibull())
+  linkMatrix <- as.vector(fitFormula$x$focus %*% coef(fitMatrix, "focus")
+                          + fitFormula$x$aux %*% coef(fitMatrix, "aux"))
+
+  expect_identical(linkFormula, as.vector(predict(fitFormula, newdata = HMDA,
+                                                  type = "link")))
+  expect_identical(linkMatrix, as.vector(predict(fitMatrix, newX1 = fitFormula$x$focus,
+                                                 newX2 = fitFormula$x$aux, type = "link")))
+})
+
 test_that("logLik.walsGLM returns correct value", {
   tol <- 1e-6
 
