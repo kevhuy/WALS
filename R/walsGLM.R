@@ -115,13 +115,13 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
   # replace starting values with original starting values
   out$betaStart <- betaStart
-  out$converged <- converged
 
   # add more elements
   if (keepY) out$y <- family$initializeY(y)
   if (keepX) out$x <- list(focus = X1, aux = X2)
   out$weights <- weights
-  out$it <- if(iterate) it else NULL
+  out$converged <- converged
+  out$it <- if (iterate) it else NULL
 
   # deviance & residuals
   wt <- if (is.null(weights)) rep(1, nrow(X1)) else weights
@@ -330,8 +330,6 @@ print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), .
       "", sep = "\n")
 
   printCallCoefs(x, digits, ...)
-
-
 
   cat(paste0("\nStarting values for estimation: \n"))
   print(signif(x$betaStart, digits))
