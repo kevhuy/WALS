@@ -99,6 +99,28 @@ test_that("walsNBmatrix predictions equal walsNB predictions", {
   expect_identical(pred1, pred2)
 })
 
+test_that("Predictions use correct link values", {
+  data("NMES1988", package = "AER")
+  dd <- na.omit(NMES1988)
+
+  fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
+              adl + region + gender + married + income + school + afam + employed)
+  fitFormula <- walsNB(fWals, data = dd, link = "log", prior = weibull(),
+                       method = "fullSVD", keepY = TRUE, keepX = TRUE)
+  linkFormula <- as.vector(model.matrix(fitFormula, "focus") %*% coef(fitFormula, "focus")
+                           + model.matrix(fitFormula, "aux") %*% coef(fitFormula, "aux"))
+
+  fitMatrix <- walsNB(fitFormula$x$focus, fitFormula$x$aux, fitFormula$y,
+                      prior = weibull())
+  linkMatrix <- as.vector(fitFormula$x$focus %*% coef(fitMatrix, "focus")
+                          + fitFormula$x$aux %*% coef(fitMatrix, "aux"))
+
+  expect_identical(linkFormula, as.vector(predict(fitFormula, newdata = dd,
+                                                  type = "link")))
+  expect_identical(linkMatrix, as.vector(predict(fitMatrix, newX1 = fitFormula$x$focus,
+                                                 newX2 = fitFormula$x$aux, type = "link")))
+})
+
 test_that("Probability prediction works", {
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
