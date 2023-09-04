@@ -795,7 +795,7 @@ print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ..
   printCallCoefs(x, digits, ...)
 
   cat(paste0("\nStarting values for estimation: \n"))
-  print(signif(x$betaStart, digits))
+  print.default(format(x$betaStart, digits = digits), print.gap = 2, quote = FALSE)
 
   # inspired by print.summary.glm() from stats
   cat(paste0("\n(Dispersion parameter rho for Negative Binomial family estimated as ",
