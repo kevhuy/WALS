@@ -1,6 +1,6 @@
 #' Fits a NB2 regression via maximum likelihood with log link for mean and
 #' dispersion parameter.
-#' 
+#'
 #' Only works with log-link so far, no other links tested.
 #'
 #'
@@ -22,9 +22,14 @@ fitNB2 <- function(X, Y, family, control = controlNB()) {
     fit <- MASS::glm.nb(Y ~ -1 + X, model = FALSE, x = FALSE, y = FALSE,
                         control = glm.control(maxit = control$controlOptim$maxit,
                                               epsilon = control$epsilonMASS))
-    out <- list(coefficients = coef(fit), theta = fit$theta,
+
+    # Remove 'X' at beginning of variable names --> delete first character
+    fittedCoefs <- coef(fit)
+    names(fittedCoefs) <- sub('.', '', names(fittedCoefs))
+
+    out <- list(coefficients = fittedCoefs, theta = fit$theta,
                 # generate error code 99 if IWLS algo in glm.nb failed
-                convergence = if(fit$converged) 0 else 99,
+                convergence = if (fit$converged) 0 else 99,
                 ll = logLik(fit), message = NULL, start = NULL)
     return(out)
   }
