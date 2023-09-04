@@ -405,6 +405,9 @@ predict.walsGLMmatrix <- function(object, newX1, newX2, newY = NULL,
                                            "density", "logDens"),
                                   at = NULL,
                                   na.action = na.pass, log = FALSE, ...) {
+  # TODO: include offsets
+  type <- match.arg(type)
+
   # convenience type
   if (type == "logDens") {
     type <- "density"
