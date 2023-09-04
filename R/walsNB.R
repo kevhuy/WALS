@@ -770,6 +770,14 @@ walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
 
 ## Class methods ---------------------------------------------------------------
 
+#' Calculate Variance-Covariance Matrix for a \code{walsNB} object
+#'
+#' This method always raises an error because the covariance matrix of the
+#' walsNB estimator has not been derived yet.
+#'
+#' @param object An object of class \code{walsNB}.
+#' @param ... For expansion in the future.
+#'
 #' @export
 vcov.walsNB <- function(object, ...) {
   stop("No method for objects of class ", sQuote(class(object)[1]), " implemented.")
