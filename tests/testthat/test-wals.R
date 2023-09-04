@@ -73,6 +73,37 @@ test_that("walsMatrix predictions equal to wals", {
   expect_equal(pred1, pred2)
 })
 
+test_that("Predictions are correct", {
+  data("CASchools", package = "AER")
+  CASchools$stratio <- CASchools$students / CASchools$teachers
+  dd <- na.omit(CASchools)
+
+  # add artificial factors for testing
+  dd$englishFactor <- as.factor(dd$english > 20)
+  dd$incomeFactor <- as.factor(dd$income > 17)
+
+  fWals <- math ~ read + stratio | englishFactor + lunch + expenditure + incomeFactor
+
+  walsEst <- wals(fWals, data = dd, method = "original", eigenSVD = TRUE,
+                  prior = weibull(), keepY = TRUE, keepX = TRUE)
+  meanFormula <- as.vector(model.matrix(walsEst, "focus") %*% coef(walsEst, "focus")
+                           + model.matrix(walsEst, "aux") %*% coef(walsEst, "aux"))
+
+  walsEstMatrix <- wals(walsEst$x$focus, X2 = walsEst$x$aux, y = walsEst$y,
+                        prior = weibull(), method = "original", keepX = TRUE)
+  meanMatrix <- as.vector(walsEst$x$focus %*% coef(walsEstMatrix, "focus")
+                          + walsEst$x$aux %*% coef(walsEstMatrix, "aux"))
+
+  # check predictions
+  predFormula <- as.vector(predict(walsEst, newdata = dd))
+  predMatrix <- as.vector(predict(walsEstMatrix, newX1 = walsEstMatrix$x$focus,
+                                  newX2 = walsEstMatrix$x$aux))
+
+  expect_identical(predFormula, meanFormula)
+  expect_identical(predMatrix, meanMatrix)
+})
+
+
 test_that("wals.matrix and wals.default identical", {
   data("CASchools", package = "AER")
   CASchools$stratio <- CASchools$students / CASchools$teachers
