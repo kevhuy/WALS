@@ -559,12 +559,14 @@ walsNB.fit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
   rho <- exp(alpha)
 
   # convert to betas
-  beta1 <- Delta1 * gamma1
-  beta2 <- outSemiOrt$D2 %*% gamma2
+  beta1 <- as.vector(Delta1 * gamma1)
+  beta2 <- as.vector(outSemiOrt$D2 %*% gamma2)
 
   if (keepUn) {
-    betaUn1 = Delta1 * gammaUn1
-    betaUn2 = outSemiOrt$D2 %*% gammaUn2
+    betaUn1 <- as.vector(Delta1 * gammaUn1)
+    betaUn2 <- as.vector(outSemiOrt$D2 %*% gammaUn2)
+    names(betaUn1) <- X1names
+    names(betaUn2) <- X2names
   }
 
 
@@ -597,6 +599,8 @@ walsNB.fit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
   # assign names to variables
   names(fit$coef) <- Xnames
   names(fit$betaStart) <- Xnames
+  names(fit$beta1) <- names(fit$gamma1) <- X1names
+  names(fit$beta2) <- names(fit$gamma2) <- X2names
   return(fit)
 }
 
