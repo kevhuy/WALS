@@ -589,6 +589,10 @@ walsNB.fit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
   fit$rhoStart <- rhoStart
   fit$fitted.link <- drop(X1 %*% fit$beta1 + X2 %*% fit$beta2)
   fit$fitted.values <- family$linkinv(fit$fitted.link)
+  fit$k1 <- k1
+  fit$k2 <- k2
+  fit$n <- n
+  fit$condition <- outSemiOrt$condition
 
   # assign names to variables
   names(fit$coef) <- Xnames
@@ -719,6 +723,7 @@ walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
 
     betaCurrent <- out$coef
     rhoCurrent <- out$rho
+    it <- it + 1
 
     if (verbose) cat(paste("\r finished iteration", i))
 
@@ -739,15 +744,20 @@ walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
   out$betaStart <- betaStart
   out$rhoStart <- rhoStart
   out$familyStart <- familyStart
-  out$converged <- converged
-
-
-
 
   # add more elements
   if (keepY) out$y <- y
   if (keepX) out$x <- list(focus = X1, aux = X2)
   out$initialFit <- nb2
+  out$weights <- weights
+  out$converged <- converged
+  out$it <- if (iterate) it else NULL
+
+  # deviance & residuals
+  wt <- if (is.null(weights)) rep(1, nrow(X1)) else weights
+  mu <- out$fitted.values
+  out$deviance <- sum(family$dev.resids(out$y, mu, wt))
+  out$residuals <- out$y - mu
 
   return(out)
 }
@@ -758,27 +768,44 @@ walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
 
 #' @export
 summary.walsNB <- function(object, ...) {
+  object <- summary.wals(object, ...)
 
-  object$coefficients <- cbind(object$coef)
-  colnames(object$coefficients) <- c("Estimate")
+  # remove SE estimation from walsGLM
+  object$focusCoefs <- object$focusCoefs[,"Estimate", drop = FALSE]
+  object$auxCoefs <- object$auxCoefs[,"Estimate", drop = FALSE]
 
-  class(object) <- "summary.walsNB"
+  class(object) <- c("summary.walsNB")
   return(object)
 }
 
 #' @export
 print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
+      "", sep = "\n")
 
-  dist <- x$family$family
-  link <- x$family$link
-  prior <- x$prior$prior
-
-  cat(paste0("\nCoefficients (", dist," with ", link, " link", " and ",
-             prior, " prior): \n"))
-  printCoefmat(x$coefficients, digits = digits,...)
+  printCallCoefs(x, digits, ...)
 
   cat(paste0("\nStarting values for estimation: \n"))
   print(signif(x$betaStart, digits))
+
+  # inspired by print.summary.glm() from stats
+  cat(paste0("\n(Dispersion parameter rho for Negative Binomial family estimated as ",
+             signif(x$rho, digits),")\n"))
+
+  cat(paste0("\nResidual deviance: ", signif(x$deviance, max(5L, digits + 1L)),
+             "\n"))
+
+  printPriorNKappa(x, digits)
+
+  if (!is.null(x$it)) {
+    if (!is.null(x$converged)) {
+      convStatus <- if (x$converged) "converged " else "did not converge "
+      cat(paste0("\nFitting algorithm ", convStatus, "in ", x$it, " iterations.\n"))
+    } else if (is.null(x$converged)) {
+      # manually ran nIt iterations of fitting algo without checking for conv.
+      cat(paste0("\nFitting algorithm run for ", x$it, " iterations.\n"))
+    }
+  }
 
   invisible(x)
 }
