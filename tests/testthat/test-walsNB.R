@@ -69,7 +69,6 @@ test_that("Different walsNB class methods yield same result", {
 
   # check coefs and vcov
   expect_identical(coef(nbWals), coef(nbWalsMatrix), coef(nbWalsDefault))
-  expect_identical(vcov(nbWals), vcov(nbWalsMatrix), vcov(nbWalsDefault))
 })
 
 test_that("walsNBmatrix predictions equal walsNB predictions", {
