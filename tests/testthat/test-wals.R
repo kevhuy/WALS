@@ -63,6 +63,39 @@ test_that("Estimates match Magnus et al. (2010), Journal of Econometrics", {
   expect_identical(round(sqrt(diag(vcov(fitWals))), 4), seVals)
 })
 
+test_that("Estimates match De Luca & Magnus (2011), The Stata Journal", {
+  # original values from table on p. 534 of De Luca & Magnus (2011)
+  coefVals <- c("(Intercept)" = .0617514,
+                "lgdp60" = -.0156501,
+                "equipinv" = .1582128,
+                "school60" = .0166758,
+                "life60" = .0008515,
+                "popgrowth" = .2713869,
+                "law" = .0134105,
+                "tropics" = -.0059973,
+                "avelf" = -.0076757,
+                "confuc" = .046455)
+  seVals <- c("(Intercept)" = .0217909,
+              "lgdp60" = .0031439,
+              "equipinv" = .054421,
+              "school60" = .009667,
+              "life60" = .0003505,
+              "popgrowth" = .2425285,
+              "law" = .0058037,
+              "tropics" = .0034556,
+              "avelf" = .0050657,
+              "confuc" = .0142765)
+
+  # Difference to Magnus et al. (2010): prescale = TRUE, use recent version of
+  # WALS which is scale independent thanks to prescaling of regressors.
+  fitWals <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+                    law + tropics + avelf + confuc, data = GrowthMPP,
+                  prior = laplace(), prescale = TRUE)
+
+  expect_identical(round(coef(fitWals), 7), coefVals)
+  expect_identical(round(sqrt(diag(vcov(fitWals))), 7), seVals)
+})
+
 test_that("walsMatrix coefs and covmat equal to wals", {
   data("CASchools", package = "AER")
   CASchools$stratio <- CASchools$students / CASchools$teachers
