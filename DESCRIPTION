@@ -1,6 +1,6 @@
 Package: WALS
 Title: WALS - Weighted Average Least Squares
-Version: 0.1.1.9000
+Version: 0.1.1.9001
 Authors@R: 
     person(given = "Kevin",
            family = "Huynh",
