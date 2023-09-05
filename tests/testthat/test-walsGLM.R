@@ -1,26 +1,20 @@
 test_that("walsGLM estimation converges", {
-  ## Test Binomial on HMDA dataset
   data("HMDA", package = "AER")
   HMDA <- na.omit(HMDA)
-
   fitBinomial <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
                            selfemp + afam, family = binomialWALS(), data = HMDA,
                          prior = weibull(), iterate = TRUE)
   expect_true(fitBinomial$converged)
 
-  ## Test Poisson on NMES1988 dataset
   data("NMES1988", package = "AER")
   NMES1988 <- na.omit(NMES1988)
-
   fitPoisson <- walsGLM(emergency ~ health + chronic + age + gender |
                           I((age^2)/10) + married + region, family = poissonWALS(),
                         data = NMES1988, prior = laplace(), iterate = TRUE)
   expect_true(fitPoisson$converged)
 })
 
-
 test_that("walsGLM limiting nIt works and returns finite coefficients", {
-  ## Test on HMDA dataset
   data("HMDA", package = "AER")
   HMDA <- na.omit(HMDA)
 
@@ -57,22 +51,16 @@ test_that("Different class methods of walsGLM yield same results", {
   expect_identical(vcov(fitFormula), vcov(fitMatrix), vcov(fitDefault))
 })
 
-
 test_that("Different methods for walsGLM yield same results", {
   ## Check if estimated regression coefficients from different methods
   ## yield same results.
-
   tol <- 1e-06 # relative tolerance for deviations
-
-  ## Test on HMDA dataset
   data("HMDA", package = "AER")
   HMDA <- na.omit(HMDA)
-
   fWals <- deny ~ pirat + hirat + lvrat + chist + mhist + phist | selfemp + afam
 
   # Turn off iteration in all models as iterating WALS algo will magnify
   # small numerical differences between the methods.
-
   glmWALSsvd <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
                            selfemp + afam, family = binomialWALS(), data = HMDA,
                          prior = weibull(), iterate = TRUE, method = "svd")
@@ -84,10 +72,8 @@ test_that("Different methods for walsGLM yield same results", {
   expect_equal(coef(glmWALSsvd), coef(glmWALSoriginal), tolerance = tol)
 })
 
-
 test_that("residuals.walsGLM return correct values", {
-  tol <- 1e-6
-
+  tol <- 1e-6 # relative tolerance for deviations
   data("NMES1988", package = "AER")
   NMES1988 <- na.omit(NMES1988)
 
@@ -113,6 +99,7 @@ test_that("residuals.walsGLM return correct values", {
 test_that("Predictions use correct link values", {
   data("HMDA", package = "AER")
   HMDA <- na.omit(HMDA)
+
   fitFormula <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
                           selfemp + afam, data = HMDA, family = binomialWALS(),
                         prior = weibull(), keepX = TRUE, keepY = TRUE)
@@ -132,15 +119,17 @@ test_that("Predictions use correct link values", {
 
 test_that("logLik.walsGLM returns correct value", {
   tol <- 1e-6
-
   data("HMDA", package = "AER")
   HMDA <- na.omit(HMDA)
+
   fitFormula <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
                           selfemp + afam, data = HMDA, family = binomialWALS(),
                         prior = weibull(), keepX = TRUE, keepY = TRUE)
+
   X <- cbind(model.matrix(fitFormula, "focus"), model.matrix(fitFormula, "aux"))
   mu <- plogis(X %*% coef(fitFormula))
   ll <- sum(dbinom(fitFormula$y, size = 1, prob = mu, log = TRUE))
+
   expect_equal(logLik(fitFormula), ll, tolerance = tol)
 })
 

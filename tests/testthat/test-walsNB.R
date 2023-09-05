@@ -1,5 +1,4 @@
 test_that("walsNB estimation converges", {
-  ## Test on NMES1988 dataset
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
 
@@ -15,12 +14,9 @@ test_that("walsNB estimation converges", {
   expect_true(nbWals$converged)
 })
 
-
 test_that("walsNB limiting nIt works and returns finite coefficients", {
-  ## Test on NMES1988 dataset
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
 
@@ -44,10 +40,8 @@ test_that("walsNB limiting nIt works and returns finite coefficients", {
 })
 
 test_that("Different walsNB class methods yield same result", {
-  ## Test on NMES1988 dataset
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
 
@@ -72,10 +66,8 @@ test_that("Different walsNB class methods yield same result", {
 })
 
 test_that("walsNBmatrix predictions equal walsNB predictions", {
-  ## Test on NMES1988 dataset
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
 
@@ -100,7 +92,6 @@ test_that("walsNBmatrix predictions equal walsNB predictions", {
 
 test_that("residuals of walsNB return correct values", {
   tol <- 1e-6
-
   data("NMES1988", package = "AER")
   NMES1988 <- na.omit(NMES1988)
 
@@ -126,9 +117,9 @@ test_that("residuals of walsNB return correct values", {
 test_that("Predictions use correct link values", {
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
+
   fitFormula <- walsNB(fWals, data = dd, link = "log", prior = weibull(),
                        method = "fullSVD", keepY = TRUE, keepX = TRUE)
   linkFormula <- as.vector(model.matrix(fitFormula, "focus") %*% coef(fitFormula, "focus")
@@ -148,7 +139,6 @@ test_that("Predictions use correct link values", {
 test_that("Probability prediction works", {
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
 
@@ -159,11 +149,9 @@ test_that("Probability prediction works", {
   expect_error(predict(nbWals, newdata = dd, type = "prob"), regexp = NA)
 })
 
-
 test_that("Initialization with MASS::glm.nb runs", {
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
 
@@ -176,12 +164,9 @@ test_that("Initialization with MASS::glm.nb runs", {
 
 })
 
-
 test_that("Initialization with restricted estimator", {
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
 
@@ -205,6 +190,7 @@ test_that("Initialization with restricted estimator", {
   ## only constant as focus
   fWals <- (visits ~ 1 | health + chronic + age + I((age^2)/10) + insurance + medicaid +
               adl + region + gender + married + income + school + afam + employed)
+
   # expect no error in estimation.
   expect_error(walsNB(fWals, data = dd, link = "log",prior = weibull(),
                       method = "fullSVD", iterate = TRUE, tol = 1e-6,
@@ -224,17 +210,12 @@ test_that("Initialization with restricted estimator", {
 
 })
 
-
 test_that("Different methods for walsNB yield same results", {
   ## Check if estimated regression coefficients from different methods
   ## yield same results.
-
   tol <- 1e-06 # relative tolerance for deviations
-
-  ## Test on NMES1988 dataset
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
-
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
               adl + region + gender + married + income + school + afam + employed)
 
