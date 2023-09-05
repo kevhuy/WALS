@@ -1,4 +1,4 @@
-test_that("walsNB.formula with only constant focus works", {
+test_that("wals.formula with only constant focus works", {
   data("CASchools", package = "AER")
   CASchools$stratio <- CASchools$students / CASchools$teachers
   dd <- na.omit(CASchools)
