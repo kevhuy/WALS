@@ -31,6 +31,38 @@ test_that("some class methods of wals", {
   expect_true(nobs(walsEst) == nrow(dd))
 })
 
+test_that("Estimates match Magnus et al. (2010), Journal of Econometrics", {
+  # original values from Table 2 in Magnus et al. (2010)
+  coefVals <- c("(Intercept)" = .0594,
+                "lgdp60" = -.0156,
+                "equipinv" = .1555,
+                "school60" = .0175,
+                "life60" = .0009,
+                "popgrowth" = .2651,
+                "law" = .0147,
+                "tropics" = -.0055,
+                "avelf" = -.0053,
+                "confuc" = .0443)
+  seVals <- c("(Intercept)" = 0.0221,
+              "lgdp60" = .0033,
+              "equipinv" = .0551,
+              "school60" = .0097,
+              "life60" = .0004,
+              "popgrowth" = .2487,
+              "law" = .0065,
+              "tropics" = .0037,
+              "avelf" = .0048,
+              "confuc" = .0163)
+
+  # Important: prescale = FALSE, still used old version of WALS in Magnus et al. (2010)
+  fitWals <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+                    law + tropics + avelf + confuc, data = GrowthMPP,
+                  prior = laplace(), prescale = FALSE)
+
+  expect_identical(round(coef(fitWals), 4), coefVals)
+  expect_identical(round(sqrt(diag(vcov(fitWals))), 4), seVals)
+})
+
 test_that("walsMatrix coefs and covmat equal to wals", {
   data("CASchools", package = "AER")
   CASchools$stratio <- CASchools$students / CASchools$teachers
