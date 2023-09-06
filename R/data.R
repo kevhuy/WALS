@@ -2,8 +2,6 @@
 #'
 #' Growth regression data used in \insertCite{magnus2010growth;textual}{WALS}.
 #'
-#' @usage data("GrowthMPP")
-#'
 #' @format A data frame with 72 observations on 11 variables:
 #' \describe{
 #' \item{country}{factor. Name of the country.}

@@ -32,7 +32,7 @@ website.
 \url{https://www.janmagnus.nl/items/WALS.pdf}.
 }
 \usage{
-data("GrowthMPP")
+GrowthMPP
 }
 \description{
 Growth regression data used in \insertCite{magnus2010growth;textual}{WALS}.
