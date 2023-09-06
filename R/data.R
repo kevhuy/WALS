@@ -108,10 +108,10 @@
 #' use all variables except for a constant as auxiliary regressors and divide all
 #' regressors by their in-sample maximum before running
 #' \code{wals(..., prescale = FALSE)} (\bold{NOTE: It is not recommended to use
-#' prescale = FALSE as this runs an old version of the WALS estimator,
-#' prescale = FALSE is only for replication purposes}). The resulting coefficients
-#' and standard errors have to be divided by the maximum of the regressors again
-#' to get the values presented in Table I of the paper.
+#' \code{prescale = FALSE} as this runs an old version of the WALS estimator,
+#' \code{prescale = FALSE} should only be used for replication purposes}).
+#' The resulting coefficients and standard errors have to be divided by the maximum
+#'of the regressors again to get the values presented in Table I of the paper.
 #'
 #' @source Journal of Applied Econometrics Data Archive.
 #' The data was taken from the archive entry of
@@ -135,8 +135,8 @@
 #'
 #' fitMP <- wals(gdpgrowth ~ 1 | ., data = datscaled, prescale = FALSE,
 #'               prior = laplace(), eigenSVD = FALSE)
-#' outTab <- cbind('coef' = coef(fitMP)/scaleVector,
-#'                 'se' = sqrt(diag(vcov(fitMP)))/scaleVector)
+#' outTab <- cbind("coef" = coef(fitMP)/scaleVector,
+#'                 "se" = sqrt(diag(vcov(fitMP)))/scaleVector)
 #' print(round(outTab, 4))
 #'
 "GrowthMP"
