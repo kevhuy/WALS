@@ -2,11 +2,27 @@
 % Please edit documentation in R/wals.R
 \name{wals}
 \alias{wals}
+\alias{wals.formula}
 \alias{wals.matrix}
 \alias{wals.default}
 \title{Weighted Average Least Squares for linear regression models}
 \usage{
 wals(x, ...)
+
+\method{wals}{formula}(
+  formula,
+  data,
+  subset = NULL,
+  na.action = NULL,
+  weights = NULL,
+  offset = NULL,
+  prior = weibull(),
+  model = TRUE,
+  keepY = TRUE,
+  keepX = FALSE,
+  sigma = NULL,
+  ...
+)
 
 \method{wals}{matrix}(
   X1,
@@ -39,6 +55,27 @@ Calculates WALS estimates and variances when some regressors (X1) are present
 in all models and model selection takes place over the rest (X2).
 }
 \examples{
+## Replicate third panel of Table I in Amini & Parmeter (2012)
+data("SDM", package = "BayesVarSel")
+
+# rescale response
+SDM$y <- SDM$y / 100
+
+# NOTE: Authors manually scale data, then rescale the resulting coefs and se.
+X <- model.matrix(y ~ ., data = SDM)
+Xscaled <- apply(X, MARGIN = 2, function(x) x/max(x))
+Xscaled <- Xscaled[,-1]
+scaleVector <- apply(X, MARGIN = 2, function(x) max(x))
+SDMscaled <- as.data.frame(cbind(y = SDM$y, Xscaled))
+
+# NOTE: prescale = FALSE, still used old version of WALS in Magnus et al. (2010).
+# Not recommended anymore!
+fitDW <- wals(y ~ 1 | ., data = SDMscaled, prescale = FALSE, eigenSVD = FALSE,
+              prior = laplace())
+outTab <- cbind(fitDW$coef/scaleVector, sqrt(diag(vcov(fitDW)))/scaleVector)
+printVars <- c("(Intercept)", "EAST", "P60", "IPRICE1", "GDPCH60L", "TROPICAR")
+print(round(outTab[printVars,], 5))
+
 X <- model.matrix(mpg ~ disp + hp + wt + vs + am + carb, data = mtcars)
 X1 <- X[,c("(Intercept)", "disp", "hp", "wt")] # focus
 X2 <- X[,c("vs", "am", "carb")] # auxiliary
