@@ -23,7 +23,7 @@ order tradition').}
 \item{avelf}{Average of five different indices of ethnolinguistic
 fragmentation which is measured as the probability of two random people
 in a country not sharing the same language.}
-\item{confuc}{Fraction of Confucian population in 1970 and 1980.}
+\item{confucian}{Fraction of Confucian population in 1970 and 1980.}
 }
 }
 \source{
@@ -47,17 +47,17 @@ variables.
 \examples{
 ## Replicate table on p. 534 of De Luca & Magnus (2011)
 fitDM <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
-                  law + tropics + avelf + confuc, data = GrowthMPP,
+                  law + tropics + avelf + confucian, data = GrowthMPP,
                 prior = laplace())
 tableDM <- cbind("coef" = coef(fitDM), "se" = sqrt(diag(vcov(fitDM))))
 print(round(tableDM, 7))
 
 
 ## Replicate Table 2 in Magnus et al. (2010)
-## NOTE: prescale = FALSE, still used old version of WALS in Magnus et al. (2010).
-## Not recommended anymore!
+# NOTE: prescale = FALSE, still used old version of WALS in Magnus et al. (2010).
+# Not recommended anymore!
 fitMPP <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
-                  law + tropics + avelf + confuc, data = GrowthMPP,
+                  law + tropics + avelf + confucian, data = GrowthMPP,
                 prior = laplace(), prescale = FALSE)
 tableMPP <- cbind("coef" = coef(fitMPP), "se" = sqrt(diag(vcov(fitMPP))))
 print(round(tableMPP, 4))

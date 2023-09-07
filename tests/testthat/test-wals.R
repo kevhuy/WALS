@@ -35,7 +35,7 @@ test_that("Estimates match Magnus et al. (2010), Journal of Econometrics", {
                 "law" = .0147,
                 "tropics" = -.0055,
                 "avelf" = -.0053,
-                "confuc" = .0443)
+                "confucian" = .0443)
   seVals <- c("(Intercept)" = 0.0221,
               "lgdp60" = .0033,
               "equipinv" = .0551,
@@ -45,11 +45,11 @@ test_that("Estimates match Magnus et al. (2010), Journal of Econometrics", {
               "law" = .0065,
               "tropics" = .0037,
               "avelf" = .0048,
-              "confuc" = .0163)
+              "confucian" = .0163)
 
   # Important: prescale = FALSE, still used old version of WALS in Magnus et al. (2010)
   fitWals <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
-                    law + tropics + avelf + confuc, data = GrowthMPP,
+                    law + tropics + avelf + confucian, data = GrowthMPP,
                   prior = laplace(), prescale = FALSE)
 
   expect_identical(round(coef(fitWals), 4), coefVals)
@@ -67,7 +67,7 @@ test_that("Estimates match De Luca & Magnus (2011), The Stata Journal", {
                 "law" = .0134105,
                 "tropics" = -.0059973,
                 "avelf" = -.0076757,
-                "confuc" = .046455)
+                "confucian" = .046455)
   seVals <- c("(Intercept)" = .0217909,
               "lgdp60" = .0031439,
               "equipinv" = .054421,
@@ -77,12 +77,12 @@ test_that("Estimates match De Luca & Magnus (2011), The Stata Journal", {
               "law" = .0058037,
               "tropics" = .0034556,
               "avelf" = .0050657,
-              "confuc" = .0142765)
+              "confucian" = .0142765)
 
   # Difference to Magnus et al. (2010): prescale = TRUE, use recent version of
   # WALS which is scale independent thanks to prescaling of regressors.
   fitWals <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
-                    law + tropics + avelf + confuc, data = GrowthMPP,
+                    law + tropics + avelf + confucian, data = GrowthMPP,
                   prior = laplace(), prescale = TRUE)
 
   expect_identical(round(coef(fitWals), 7), coefVals)
