@@ -55,6 +55,14 @@ Calculates WALS estimates and variances when some regressors (X1) are present
 in all models and model selection takes place over the rest (X2).
 }
 \examples{
+## Replicate table on p. 534 of De Luca & Magnus (2011)
+fitDM <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+                  law + tropics + avelf + confucian, data = GrowthMPP,
+                prior = laplace())
+tableDM <- cbind("coef" = coef(fitDM), "se" = sqrt(diag(vcov(fitDM))))
+print(round(tableDM, 7))
+
+
 ## Replicate first panel of Table I in Amini & Parmeter (2012)
 data("datafls", package = "BMS")
 
@@ -69,11 +77,11 @@ flsScaled <- as.data.frame(cbind(y = datafls$y, Xscaled))
 # Not recommended anymore!
 fitFLS <- wals(y ~ 1 | ., data = flsScaled, prescale = FALSE, eigenSVD = FALSE,
                prior = laplace())
-outTab <- cbind('coef' = fitFLS$coef/scaleVector,
-                'se' = sqrt(diag(vcov(fitFLS)))/scaleVector)
+tableFLS <- cbind('coef' = coef(fitFLS)/scaleVector,
+                  'se' = sqrt(diag(vcov(fitFLS)))/scaleVector)
 printVars <- c("(Intercept)", "GDP60", "Confucian", "LifeExp", "EquipInv",
                "SubSahara", "Muslim", "RuleofLaw")
-print(round(outTab[printVars,], 4))
+print(round(tableFLS[printVars,], 4))
 
 
 ## Replicate third panel of Table I in Amini & Parmeter (2012)
@@ -93,9 +101,9 @@ SDMscaled <- as.data.frame(cbind(y = SDM$y, Xscaled))
 # Not recommended anymore!
 fitDW <- wals(y ~ 1 | ., data = SDMscaled, prescale = FALSE, eigenSVD = FALSE,
               prior = laplace())
-outTab <- cbind(fitDW$coef/scaleVector, sqrt(diag(vcov(fitDW)))/scaleVector)
+tableDW <- cbind(coef(fitDW)/scaleVector, sqrt(diag(vcov(fitDW)))/scaleVector)
 printVars <- c("(Intercept)", "EAST", "P60", "IPRICE1", "GDPCH60L", "TROPICAR")
-print(round(outTab[printVars,], 5))
+print(round(tableDW[printVars,], 5))
 
 X <- model.matrix(mpg ~ disp + hp + wt + vs + am + carb, data = mtcars)
 X1 <- X[,c("(Intercept)", "disp", "hp", "wt")] # focus

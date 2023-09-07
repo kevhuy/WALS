@@ -20,6 +20,14 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' @rdname wals
 #'
 #' @examples
+#' ## Replicate table on p. 534 of De Luca & Magnus (2011)
+#' fitDM <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+#'                   law + tropics + avelf + confucian, data = GrowthMPP,
+#'                 prior = laplace())
+#' tableDM <- cbind("coef" = coef(fitDM), "se" = sqrt(diag(vcov(fitDM))))
+#' print(round(tableDM, 7))
+#'
+#'
 #' ## Replicate first panel of Table I in Amini & Parmeter (2012)
 #' data("datafls", package = "BMS")
 #'
@@ -34,11 +42,11 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' # Not recommended anymore!
 #' fitFLS <- wals(y ~ 1 | ., data = flsScaled, prescale = FALSE, eigenSVD = FALSE,
 #'                prior = laplace())
-#' outTab <- cbind('coef' = fitFLS$coef/scaleVector,
-#'                 'se' = sqrt(diag(vcov(fitFLS)))/scaleVector)
+#' tableFLS <- cbind('coef' = coef(fitFLS)/scaleVector,
+#'                   'se' = sqrt(diag(vcov(fitFLS)))/scaleVector)
 #' printVars <- c("(Intercept)", "GDP60", "Confucian", "LifeExp", "EquipInv",
 #'                "SubSahara", "Muslim", "RuleofLaw")
-#' print(round(outTab[printVars,], 4))
+#' print(round(tableFLS[printVars,], 4))
 #'
 #'
 #' ## Replicate third panel of Table I in Amini & Parmeter (2012)
@@ -58,9 +66,9 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' # Not recommended anymore!
 #' fitDW <- wals(y ~ 1 | ., data = SDMscaled, prescale = FALSE, eigenSVD = FALSE,
 #'               prior = laplace())
-#' outTab <- cbind(fitDW$coef/scaleVector, sqrt(diag(vcov(fitDW)))/scaleVector)
+#' tableDW <- cbind(coef(fitDW)/scaleVector, sqrt(diag(vcov(fitDW)))/scaleVector)
 #' printVars <- c("(Intercept)", "EAST", "P60", "IPRICE1", "GDPCH60L", "TROPICAR")
-#' print(round(outTab[printVars,], 5))
+#' print(round(tableDW[printVars,], 5))
 #'
 #' @export
 wals.formula <- function(formula, data, subset = NULL, na.action = NULL,

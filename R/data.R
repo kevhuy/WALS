@@ -37,14 +37,6 @@
 #' \insertAllCited{}
 #'
 #' @examples
-#' ## Replicate table on p. 534 of De Luca & Magnus (2011)
-#' fitDM <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
-#'                   law + tropics + avelf + confucian, data = GrowthMPP,
-#'                 prior = laplace())
-#' tableDM <- cbind("coef" = coef(fitDM), "se" = sqrt(diag(vcov(fitDM))))
-#' print(round(tableDM, 7))
-#'
-#'
 #' ## Replicate Table 2 in Magnus et al. (2010)
 #' # NOTE: prescale = FALSE, still used old version of WALS in Magnus et al. (2010).
 #' # Not recommended anymore!
