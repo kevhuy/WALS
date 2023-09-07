@@ -20,6 +20,27 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' @rdname wals
 #'
 #' @examples
+#' ## Replicate first panel of Table I in Amini & Parmeter (2012)
+#' data("datafls", package = "BMS")
+#'
+#' # NOTE: Authors manually scale data, then rescale the resulting coefs and se.
+#' X <- model.matrix(y ~ ., data = datafls)
+#' Xscaled <- apply(X, MARGIN = 2, function(x) x/max(x))
+#' Xscaled <- Xscaled[,-1]
+#' scaleVector <- apply(X, MARGIN = 2, function(x) max(x))
+#' flsScaled <- as.data.frame(cbind(y = datafls$y, Xscaled))
+#'
+#' # NOTE: prescale = FALSE, still used old version of WALS in Magnus et al. (2010).
+#' # Not recommended anymore!
+#' fitFLS <- wals(y ~ 1 | ., data = flsScaled, prescale = FALSE, eigenSVD = FALSE,
+#'                prior = laplace())
+#' outTab <- cbind('coef' = fitFLS$coef/scaleVector,
+#'                 'se' = sqrt(diag(vcov(fitFLS)))/scaleVector)
+#' printVars <- c("(Intercept)", "GDP60", "Confucian", "LifeExp", "EquipInv",
+#'                "SubSahara", "Muslim", "RuleofLaw")
+#' print(round(outTab[printVars,], 4))
+#'
+#'
 #' ## Replicate third panel of Table I in Amini & Parmeter (2012)
 #' data("SDM", package = "BayesVarSel")
 #'

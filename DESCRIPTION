@@ -31,6 +31,7 @@ Imports:
 Suggests:
 	AER,
 	BayesVarSel,
+	BMS,
 	testthat
 RdMacros: Rdpack
 Roxygen: list(markdown = TRUE)
