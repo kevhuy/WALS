@@ -4,10 +4,11 @@
 \alias{binomialWALS}
 \title{Binomial family with additional functions}
 \usage{
-binomialWALS(...)
+binomialWALS(link = "logit")
 }
 \arguments{
-\item{...}{see \link[stats]{family} for details.}
+\item{link}{specifies link for \code{binomial} family.
+See \link[stats]{family} for details.}
 }
 \description{
 Extends \code{binomial} family from \code{stats} with transformations required

@@ -3,11 +3,13 @@
 #' Extends \code{poisson} family from \code{stats} with transformations required
 #' for \code{walsGLM}.
 #'
-#' @param ... see \link[stats]{family} for details.
+#' @param link specifies link for \code{poisson} family.
+#' See \link[stats]{family} for details.
+#'
 #' @export
-poissonWALS <- function(...) {
+poissonWALS <- function(link = "log") {
   # copy default family
-  fam <- poisson(...)
+  fam <- poisson(link)
 
 
   if (fam$link == "log") {
@@ -53,10 +55,12 @@ poissonWALS <- function(...) {
 #' Extends \code{binomial} family from \code{stats} with transformations required
 #' for \code{walsGLM}.
 #'
-#' @param ... see \link[stats]{family} for details.
+#' @param link specifies link for \code{binomial} family.
+#' See \link[stats]{family} for details.
+#'
 #' @export
-binomialWALS <- function(...) {
-  fam <- binomial(...)
+binomialWALS <- function(link = "logit") {
+  fam <- binomial(link)
 
   if (fam$link == "logit") {
     # Canonical link

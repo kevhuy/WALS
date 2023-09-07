@@ -4,10 +4,11 @@
 \alias{poissonWALS}
 \title{Poisson family with additional functions}
 \usage{
-poissonWALS(...)
+poissonWALS(link = "log")
 }
 \arguments{
-\item{...}{see \link[stats]{family} for details.}
+\item{link}{specifies link for \code{poisson} family.
+See \link[stats]{family} for details.}
 }
 \description{
 Extends \code{poisson} family from \code{stats} with transformations required
