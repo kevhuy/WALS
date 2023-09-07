@@ -117,7 +117,7 @@
 #' \insertAllCited{}
 #'
 #' @examples
-#' ## Replicate results in Table I of Amini & Parmeter (2012)
+#' ## Replicate second panel of Table I in Amini & Parmeter (2012)
 #' ## NOTE: Authors manually scale data, then rescale the resulting coefs and se.
 #' X <- model.matrix(gdpgrowth ~ ., data = GrowthMP)
 #' scaleVector <- apply(X, MARGIN = 2, max)
@@ -127,8 +127,10 @@
 #'
 #' fitMP <- wals(gdpgrowth ~ 1 | ., data = datscaled, prescale = FALSE,
 #'               prior = laplace(), eigenSVD = FALSE)
-#' outTab <- cbind("coef" = coef(fitMP)/scaleVector,
-#'                 "se" = sqrt(diag(vcov(fitMP)))/scaleVector)
-#' print(round(outTab, 4))
+#' tableMP <- cbind("coef" = coef(fitMP)/scaleVector,
+#'                  "se" = sqrt(diag(vcov(fitMP)))/scaleVector)
+#' printVars <- c("(Intercept)", "lgdp60", "yrsopen", "mining", "primexp70",
+#'                "invest")
+#' print(round(tableMP[printVars,], 4))
 #'
 "GrowthMP"
