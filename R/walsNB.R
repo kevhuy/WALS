@@ -179,22 +179,23 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' response vector y.
 #' @rdname walsNB
 #'
-#' @param X1 Design matrix for focus regressors. Usually includes a constant
+#' @param x Design matrix for focus regressors. Usually includes a constant
 #' (column full of 1's) and can be generated using model.matrix().
-#' @param X2 Design matrix for auxiliary regressors. Usually does not include
+#' @param x2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param y Count response as vector
 #' @export
-walsNB.matrix <- function(X1, X2, y, link = "log", subset = NULL,
+walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
                           na.action = NULL, weights = NULL, offset = NULL,
                           prior = weibull(), controlInitNB = controlNB(),
                           model = TRUE, keepY = TRUE, keepX = FALSE,
                           iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                           verbose = FALSE, ...) {
   cl <- match.call()
-
+  X1 <- x
+  X2 <- x2
   if (!is.null(subset)) {
-    X1[subset,] <- X1; X2[subset,]; y <- y[subset]
+    X1 <- X1[subset,]; X2 <- X2[subset,]; y <- y[subset]
   }
 
   out <- walsNBfitIterate(y, X1, X2, link, na.action, weights, offset,
@@ -212,7 +213,7 @@ walsNB.matrix <- function(X1, X2, y, link = "log", subset = NULL,
 walsNB.default <- function(x, ...) {
   # inspired by glmboost.default in mboost.
   if (extends(class(x), "matrix")) {
-    return(walsNB.matrix(X1 = x, ...))
+    return(walsNB.matrix(x, ...))
   }
   stop("No method for objects of class ", sQuote(class(x)), " implemented.")
 }

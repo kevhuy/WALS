@@ -12,8 +12,8 @@ walsGLM(x, ...)
 \method{walsGLM}{default}(x, ...)
 
 \method{walsGLM}{matrix}(
-  X1,
-  X2,
+  x,
+  x2,
   y,
   family,
   subset = NULL,

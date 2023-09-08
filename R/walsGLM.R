@@ -138,23 +138,24 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 walsGLM.default <- function(x, ...) {
   # inspired by glmboost.default in mboost.
   if (extends(class(x), "matrix")) {
-    return(walsGLM.matrix(X1 = x, ...))
+    return(walsGLM.matrix(x, ...))
   }
   stop("No method for objects of class ", sQuote(class(x)), " implemented.")
 }
 
 #' @rdname walsGLM
 #' @export
-walsGLM.matrix <- function(X1, X2, y, family, subset = NULL, na.action = NULL,
+walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
                            weights = NULL, offset = NULL,
                            prior = weibull(), controlGlmFit = list(),
                            keepY = TRUE, keepX = FALSE,
                            iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                            verbose = FALSE, ...) {
   cl <- match.call()
-
+  X1 <- x
+  X2 <- x2
   if (!is.null(subset)) {
-    X1[subset,] <- X1; X2[subset,]; y <- y[subset]
+    X1 <- X1[subset,]; X2 <- X2[subset,]; y <- y[subset]
   }
 
   out <- walsGLMfitIterate(y, X1, X2, family, na.action, weights, offset, prior,

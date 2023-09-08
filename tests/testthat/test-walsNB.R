@@ -51,12 +51,12 @@ test_that("Different walsNB class methods yield same result", {
                    iterate = TRUE, tol = 1e-6,
                    verbose = TRUE, keepY = TRUE, keepX = TRUE)
 
-  nbWalsMatrix <- walsNB(nbWals$x$focus, X2 = nbWals$x$aux, y = nbWals$y,
+  nbWalsMatrix <- walsNB(nbWals$x$focus, x2 = nbWals$x$aux, y = nbWals$y,
                          link = "log", prior = weibull(), method = "fullSVD",
                          iterate = TRUE, tol = 1e-6,
                          verbose = TRUE)
 
-  nbWalsDefault <- walsNB.default(nbWals$x$focus, X2 = nbWals$x$aux,
+  nbWalsDefault <- walsNB.default(nbWals$x$focus, x2 = nbWals$x$aux,
                                   y = nbWals$y, link = "log", prior = weibull(),
                                   method = "fullSVD", iterate = TRUE, tol = 1e-6,
                                   verbose = TRUE)
@@ -77,7 +77,7 @@ test_that("walsNBmatrix predictions equal walsNB predictions", {
                    iterate = TRUE, tol = 1e-6,
                    verbose = TRUE, keepY = TRUE, keepX = TRUE)
 
-  nbWalsMatrix <- walsNB(nbWals$x$focus, X2 = nbWals$x$aux, y = nbWals$y,
+  nbWalsMatrix <- walsNB(nbWals$x$focus, x2 = nbWals$x$aux, y = nbWals$y,
                          link = "log", prior = weibull(), method = "fullSVD",
                          iterate = TRUE, tol = 1e-6,
                          verbose = TRUE)
