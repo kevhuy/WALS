@@ -168,7 +168,7 @@ wals.matrix <- function(x, x2, y, subset = NULL, na.action = NULL,
   X1 <- x
   X2 <- x2
   if (!is.null(subset)) {
-    X1[subset,] <- X1; X2[subset,] <- X2; y <- y[subset]
+    X1 <- X1[subset,]; X2 <- X2[subset,]; y <- y[subset]
   }
 
   out <- walsFit(X1, X2, y, sigma, prior, ...)
