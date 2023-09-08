@@ -6,11 +6,11 @@
 #'
 #' @return For \code{walsNB.formula}, it returns an object of class
 #' \code{walsNB} which inherits from \code{walsGLM} and \code{wals}.
-#' See return of \link[WALS]{walsNB.fit} for more details.
+#' See return of \link[WALS]{walsNBfit} for more details.
 #'
 #' For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
 #' which inherits from \code{walsNB}, \code{walsGLM} and \code{wals}.
-#' See return of \link[WALS]{walsNB.fit} for more details.
+#' See return of \link[WALS]{walsNBfit} for more details.
 #'
 #' @references
 #' \insertAllCited{}
@@ -64,8 +64,8 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' the user has a specific reason to run the algorithm nIt times, e.g. for
 #' replication purposes.
 #' @param verbose If verbose = TRUE, then it prints the iteration process of
-#' internal function \link[WALS]{walsNB.fitIterate} (only relevant if iterate = TRUE).
-#' @param ... Arguments for workhorse \link[WALS]{walsNB.fit}.
+#' internal function \link[WALS]{walsNBfitIterate} (only relevant if iterate = TRUE).
+#' @param ... Arguments for workhorse \link[WALS]{walsNBfit}.
 #'
 #'
 #' @details
@@ -152,7 +152,7 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
   offset <- getOffset(formula, mf, cl, n)
 
   ## Fit model
-  out <- walsNB.fitIterate(Y, X1, X2, link, na.action, weights, offset,
+  out <- walsNBfitIterate(Y, X1, X2, link, na.action, weights, offset,
                            prior, controlInitNB, keepY, keepX,
                            iterate, tol, maxIt, nIt, verbose, ...)
 
@@ -197,7 +197,7 @@ walsNB.matrix <- function(X1, X2, y, link = "log", subset = NULL,
     X1[subset,] <- X1; X2[subset,]; y <- y[subset]
   }
 
-  out <- walsNB.fitIterate(y, X1, X2, link, na.action, weights, offset,
+  out <- walsNBfitIterate(y, X1, X2, link, na.action, weights, offset,
                            prior, controlInitNB, keepY, keepX,
                            iterate, tol, maxIt, nIt,
                            verbose, ...)
@@ -223,9 +223,9 @@ walsNB.default <- function(x, ...) {
 #'
 #'
 #' Workhorse function behind \link{walsNB} and used internally in
-#' \link{walsNB.fitIterate}.
+#' \link{walsNBfitIterate}.
 #'
-#' @usage walsNB.fit(
+#' @usage walsNBfit(
 #'  X1,
 #'  X2,
 #'  y,
@@ -370,8 +370,8 @@ walsNB.default <- function(x, ...) {
 #' \insertAllCited{}
 #'
 #'
-#' @export walsNB.fit
-walsNB.fit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
+#' @export
+walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
                        prior, method = c("fullSVD", "original"),
                        svdTol = .Machine$double.eps,
                        svdRtol = 1e-6, keepUn = FALSE, keepR = FALSE,
@@ -633,12 +633,12 @@ walsNB.fit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
 #' and the algorithm iterates nIt times.
 #' @param verbose If verbose = TRUE, then it prints the iteration process of
-#' internal function walsNB.fitIterate (only relevant if we iterate = TRUE).
-#' @param ... Arguments to be passed to the workhorse function walsNB.fit which
+#' internal function walsNBfitIterate (only relevant if we iterate = TRUE).
+#' @param ... Arguments to be passed to the workhorse function walsNBfit which
 #' actually fits the model.
 #'
-#' @export walsNB.fitIterate
-walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
+#' @export
+walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
                               weights = NULL, offset = NULL,
                               prior = weibull(), controlInitNB = controlNB(),
                               keepY = TRUE, keepX = FALSE,
@@ -719,7 +719,7 @@ walsNB.fitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
     family <- negbinWALS(scale = rhoCurrent, link = link)
 
     ## call workhorse
-    out <- walsNB.fit(X1 = X1, X2 = X2, y = y, betaStart1 = betaCurrent[1L:k1],
+    out <- walsNBfit(X1 = X1, X2 = X2, y = y, betaStart1 = betaCurrent[1L:k1],
                       betaStart2 = betaCurrent[(k1 + 1L):(k1 + k2)],
                       rhoStart = rhoCurrent,
                       family = family, prior = prior,

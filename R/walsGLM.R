@@ -14,7 +14,7 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 
 #' Fitter function for Weighted Average Least Squares estimation of GLMs
 #'
-#' @usage walsGLM.fit(
+#' @usage walsGLMfit(
 #'  X1,
 #'  X2,
 #'  y,
@@ -24,8 +24,8 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #'  prior = weibull(),
 #'  ...)
 #'
-#' @export walsGLM.fit
-walsGLM.fit <- function(X1, X2, y, betaStart1, betaStart2,
+#' @export
+walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
                         family, prior = weibull(), ...) {
 
   X1names <- colnames(X1)
@@ -40,7 +40,7 @@ walsGLM.fit <- function(X1, X2, y, betaStart1, betaStart2,
 
 
   # use generic WALS algo for linear models
-  fit <- wals.fit(X1 = X1start, X2 = X2start, y = yStart, sigma = 1,
+  fit <- walsFit(X1 = X1start, X2 = X2start, y = yStart, sigma = 1,
                   prior = prior, prescale = TRUE, ...)
 
   fit$family <- family
@@ -91,7 +91,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
     betaOld <- betaCurrent
 
     ## call workhorse
-    out <- walsGLM.fit(X1 = X1, X2 = X2, y = y, betaStart1 = betaCurrent[1L:k1],
+    out <- walsGLMfit(X1 = X1, X2 = X2, y = y, betaStart1 = betaCurrent[1L:k1],
                        betaStart2 = betaCurrent[(k1 + 1L):(k1 + k2)],
                        family = family, prior = prior,
                        ...)
@@ -200,7 +200,7 @@ walsGLM.matrix <- function(X1, X2, y, family, subset = NULL, na.action = NULL,
 #' replication purposes.
 #' @param verbose If verbose = TRUE, then it prints the iteration process
 #' (only relevant if iterate = TRUE).
-#' @param ... Arguments for workhorse \link[WALS]{walsGLM.fit}.
+#' @param ... Arguments for workhorse \link[WALS]{walsGLMfit}.
 #'
 #' @details
 #' Formulas should always contain two parts, i.e. they should be of the form

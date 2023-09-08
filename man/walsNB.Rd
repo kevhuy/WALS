@@ -55,7 +55,7 @@ walsNB(x, ...)
 \method{walsNB}{default}(x, ...)
 }
 \arguments{
-\item{...}{Arguments for workhorse \link[WALS]{walsNB.fit}.}
+\item{...}{Arguments for workhorse \link[WALS]{walsNBfit}.}
 
 \item{formula}{an object of class "\link{Formula}"
 (or one that can be coerced to that class):
@@ -109,7 +109,7 @@ the user has a specific reason to run the algorithm nIt times, e.g. for
 replication purposes.}
 
 \item{verbose}{If verbose = TRUE, then it prints the iteration process of
-internal function \link[WALS]{walsNB.fitIterate} (only relevant if iterate = TRUE).}
+internal function \link[WALS]{walsNBfitIterate} (only relevant if iterate = TRUE).}
 
 \item{X1}{Design matrix for focus regressors. Usually includes a constant
 (column full of 1's) and can be generated using model.matrix().}
@@ -122,11 +122,11 @@ a constant column and can also be generated using model.matrix().}
 \value{
 For \code{walsNB.formula}, it returns an object of class
 \code{walsNB} which inherits from \code{walsGLM} and \code{wals}.
-See return of \link[WALS]{walsNB.fit} for more details.
+See return of \link[WALS]{walsNBfit} for more details.
 
 For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
 which inherits from \code{walsNB}, \code{walsGLM} and \code{wals}.
-See return of \link[WALS]{walsNB.fit} for more details.
+See return of \link[WALS]{walsNBfit} for more details.
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method

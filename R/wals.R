@@ -129,7 +129,7 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
   offset <- getOffset(formula, mf, cl, n)
 
   ## Fit model
-  out <- wals.fit(X1, X2, Y, sigma, prior, ...)
+  out <- walsFit(X1, X2, Y, sigma, prior, ...)
 
   # add more elements
   if (keepY) out$y <- Y
@@ -170,7 +170,7 @@ wals.matrix <- function(X1, X2, y, subset = NULL, na.action = NULL,
     X1[subset,] <- X1; X2[subset,]; y <- y[subset]
   }
 
-  out <- wals.fit(X1, X2, y, sigma, prior, ...)
+  out <- walsFit(X1, X2, y, sigma, prior, ...)
 
   out$call <- cl
   if (keepY) out$y <- y
@@ -196,7 +196,7 @@ wals.default <- function(x, ...) {
 #' Workhorse function behind \link{wals} and \link{walsGLM}.
 #'
 #' @usage
-#' wals.fit(
+#' walsFit(
 #'  X1,
 #'  X2,
 #'  y,
@@ -249,8 +249,8 @@ wals.default <- function(x, ...) {
 #' @references
 #' \insertAllCited{}
 #'
-#' @export wals.fit
-wals.fit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
+#' @export
+walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
                      method = "original", svdTol = .Machine$double.eps,
                      svdRtol = 1e-6, keepUn = FALSE, eigenSVD = TRUE,
                      prescale = TRUE, ...) {

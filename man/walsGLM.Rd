@@ -54,7 +54,7 @@ walsGLM(x, ...)
 )
 }
 \arguments{
-\item{...}{Arguments for workhorse \link[WALS]{walsGLM.fit}.}
+\item{...}{Arguments for workhorse \link[WALS]{walsGLMfit}.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}
