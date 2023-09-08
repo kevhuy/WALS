@@ -431,7 +431,7 @@ print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...)
 
 #' @export
 coef.wals <- function(object, type = c("all", "focus", "aux"),
-                      transformed = FALSE) {
+                      transformed = FALSE, ...) {
   type <- match.arg(type)
 
   if (transformed) {
@@ -451,7 +451,7 @@ coef.wals <- function(object, type = c("all", "focus", "aux"),
 
 #' @export
 vcov.wals <- function(object, type = c("all", "focus", "aux"),
-                      transformed = FALSE) {
+                      transformed = FALSE, ...) {
   type <- match.arg(type)
   k1 <- object$k1; k2 <- object$k2
   if (transformed) {
@@ -473,12 +473,12 @@ vcov.wals <- function(object, type = c("all", "focus", "aux"),
 nobs.wals <- function(object, ...) return(object$n)
 
 #' @export
-terms.wals <- function(object, type = c("focus", "aux")) {
-  return(object$terms[[match.arg(type)]])
+terms.wals <- function(x, type = c("focus", "aux"), ...) {
+  return(x$terms[[match.arg(type)]])
 }
 
 #' @export
-model.matrix.wals <- function(object, type = c("focus", "aux")) {
+model.matrix.wals <- function(object, type = c("focus", "aux"), ...) {
   type <- match.arg(type)
   if (!is.null(object$x)) {
     return(object$x[[type]])
@@ -535,7 +535,7 @@ predict.walsMatrix <- function(object, newX1, newX2, ...) {
 }
 
 #' @export
-fitted.wals <- function(object) return(object$fitted.values)
+fitted.wals <- function(object, ...) return(object$fitted.values)
 
 #' @export
-residuals.wals <- function(object) return(object$residuals)
+residuals.wals <- function(object, ...) return(object$residuals)
