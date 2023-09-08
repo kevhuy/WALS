@@ -147,8 +147,8 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 }
 
 #' @rdname wals
-#' @param X1 matrix of focus regressors.
-#' @param X2 matrix of auxiliary regressors.
+#' @param x matrix of focus regressors.
+#' @param x2 matrix of auxiliary regressors.
 #' @param y response vector.
 #'
 #' @examples
@@ -160,14 +160,15 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' wals(X1, X2, y, prior = weibull())
 #'
 #' @export
-wals.matrix <- function(X1, X2, y, subset = NULL, na.action = NULL,
+wals.matrix <- function(x, x2, y, subset = NULL, na.action = NULL,
                         weights = NULL, offset = NULL, prior = weibull(),
                         keepY = TRUE, keepX = FALSE, sigma = NULL,
                         ...) {
   cl <- match.call()
-
+  X1 <- x
+  X2 <- x2
   if (!is.null(subset)) {
-    X1[subset,] <- X1; X2[subset,]; y <- y[subset]
+    X1[subset,] <- X1; X2[subset,] <- X2; y <- y[subset]
   }
 
   out <- walsFit(X1, X2, y, sigma, prior, ...)
@@ -185,7 +186,7 @@ wals.matrix <- function(X1, X2, y, subset = NULL, na.action = NULL,
 wals.default <- function(x, ...) {
   # inspired by glmboost.default in mboost.
   if (extends(class(x), "matrix")) {
-    return(wals.matrix(X1 = x, ...))
+    return(wals.matrix(x, ...))
   }
   stop("No method for objects of class ", sQuote(class(x)), " implemented.")
 }

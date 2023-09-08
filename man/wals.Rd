@@ -25,8 +25,8 @@ wals(x, ...)
 )
 
 \method{wals}{matrix}(
-  X1,
-  X2,
+  x,
+  x2,
   y,
   subset = NULL,
   na.action = NULL,
@@ -42,9 +42,9 @@ wals(x, ...)
 \method{wals}{default}(x, ...)
 }
 \arguments{
-\item{X1}{matrix of focus regressors.}
+\item{x}{matrix of focus regressors.}
 
-\item{X2}{matrix of auxiliary regressors.}
+\item{x2}{matrix of auxiliary regressors.}
 
 \item{y}{response vector.}
 }

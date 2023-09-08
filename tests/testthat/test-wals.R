@@ -98,7 +98,7 @@ test_that("walsMatrix coefs and covmat equal to wals", {
   walsEst <- wals(fWals, data = dd, method = "original", eigenSVD = TRUE,
                   prior = weibull(), keepY = TRUE, keepX = TRUE)
 
-  walsEstMatrix <- wals(walsEst$x$focus, X2 = walsEst$x$aux, y = walsEst$y,
+  walsEstMatrix <- wals(walsEst$x$focus, x2 = walsEst$x$aux, y = walsEst$y,
                         method = "original", eigenSVD = TRUE, prior = weibull())
 
   # check coefs & covariance matrix
@@ -120,7 +120,7 @@ test_that("walsMatrix predictions equal to wals", {
   walsEst <- wals(fWals, data = dd, method = "original", eigenSVD = TRUE,
                   prior = weibull(), keepY = TRUE, keepX = TRUE)
 
-  walsEstMatrix <- wals(walsEst$x$focus, X2 = walsEst$x$aux, y = walsEst$y,
+  walsEstMatrix <- wals(walsEst$x$focus, x2 = walsEst$x$aux, y = walsEst$y,
                         prior = weibull(), method = "original", keepX = TRUE)
 
   # check predictions
@@ -146,7 +146,7 @@ test_that("Predictions are correct", {
   meanFormula <- as.vector(model.matrix(walsEst, "focus") %*% coef(walsEst, "focus")
                            + model.matrix(walsEst, "aux") %*% coef(walsEst, "aux"))
 
-  walsEstMatrix <- wals(walsEst$x$focus, X2 = walsEst$x$aux, y = walsEst$y,
+  walsEstMatrix <- wals(walsEst$x$focus, x2 = walsEst$x$aux, y = walsEst$y,
                         prior = weibull(), method = "original", keepX = TRUE)
   meanMatrix <- as.vector(walsEst$x$focus %*% coef(walsEstMatrix, "focus")
                           + walsEst$x$aux %*% coef(walsEstMatrix, "aux"))
@@ -170,9 +170,9 @@ test_that("wals.matrix and wals.default identical", {
   X1 <- as.matrix(cbind(1, CASchools[, c("read", "stratio")]))
   X2 <- as.matrix(CASchools[, c("english", "lunch", "expenditure")])
 
-  walsMatrix <- wals(X1, X2 = X2, y = y, method = "original",
+  walsMatrix <- wals(X1, x2 = X2, y = y, method = "original",
                      prior = weibull())
-  walsDefault <- wals.default(X1, X2 = X2, y = y, method = "original",
+  walsDefault <- wals.default(X1, x2 = X2, y = y, method = "original",
                               prior = weibull())
 
   # check coefs & covariance matrix
