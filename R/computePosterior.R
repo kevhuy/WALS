@@ -25,14 +25,6 @@
 #' See section "Numerical integration in Bayesian estimation step"
 #' in the appendix of \insertCite{huynhwals;textual}{WALS} for details.
 #'
-#'
-#' \code{computePosterior.familyPrior_laplace} is the specialized method for the
-#' S3 class \code{familyPrior_laplace} and computes the posterior first and
-#' second moments of the normal location problem with a
-#' Laplace prior using the analytical formula (without numerical integration).
-#' For more details, see \insertCite{deluca2020laplace;textual}{WALS} and the
-#' original code of Magnus and De Luca.
-#'
 #' @references
 #' \insertAllCited{}
 #'
@@ -72,6 +64,14 @@ computePosterior.default <- function(prior, x) {
 }
 
 #' Compute posterior moments for Laplace prior
+#'
+#' @details
+#' \code{computePosterior.familyPrior_laplace} is the specialized method for the
+#' S3 class \code{familyPrior_laplace} and computes the posterior first and
+#' second moments of the normal location problem with a
+#' Laplace prior using the analytical formula (without numerical integration).
+#' For more details, see \insertCite{deluca2020laplace;textual}{WALS} and the
+#' original code of Magnus and De Luca.
 #'
 #' @rdname computePosterior
 computePosterior.familyPrior_laplace <- function(prior, x) {

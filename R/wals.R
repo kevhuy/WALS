@@ -1,5 +1,9 @@
 #' Weighted Average Least Squares for linear regression models
 #'
+#' Performs model averaging for linear regression models using the
+#' Weighted-Average Least Squares method by
+#' \insertCite{magnus2010growth;textual}{WALS}.
+#'
 #' R port of MATLAB code wals.m (version 2.0, revision 18 december 2013)
 #' by J.R. Magnus and G.De Luca, available from https://www.janmagnus.nl/items/WALS.pdf.
 #' Calculates WALS estimates and variances when some regressors (X1) are present
@@ -17,7 +21,41 @@
 #' @export
 wals <- function(x, ...) UseMethod("wals", x)
 
-#' @rdname wals
+#' \code{wals.formula} uses formulas to specify the design matrix.
+#' @param formula an object of class "\link{Formula}"
+#' (or one that can be coerced to that class):
+#' a symbolic description of the model to be fitted.
+#' The details of model specification are given under ‘Details’.
+#' @param data an optional data frame, list or environment
+#' (or object coercible by as.data.frame to a data frame) containing the
+#' variables in the model. If not found in data, the variables are taken from
+#' environment(formula), typically the environment from which walsNB is called.
+#' @param subset an optional vector specifying a subset of observations to be
+#' used in the fitting process.
+#' @param weights **not implemented yet.**
+#' @param offset **not implemented yet.**
+#' @param na.action **not implemented yet.**
+#' @param prior Object of class \code{familyPrior}. For example \link{weibull}
+#' or \link{laplace}.
+#' @param model if \code{TRUE} (default), then the model.frame is stored in
+#' the return.
+#' @param keepY if \code{TRUE} (default), then the response is stored in
+#' the return.
+#' @param keepX if \code{TRUE}, then the model matrix is stored in the return.
+#' the return.
+#' @param sigma if NULL (default), then the variance of the error term is
+#' estimated. See \link[WALS]{walsFit} for more details.
+#' @param ... Arguments for workhorse \link[WALS]{walsFit}.
+#'
+#' @details
+#' Formulas should always contain two parts, i.e. they should be of the form
+#' "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
+#' regressors (includes a constant by default) and the ones after "|" are the
+#' auxiliary regressors.
+#'
+#' **WARNING:** Interactions in formula do not work properly yet.
+#' It is recommended to manually create the interactions beforehand and then
+#' to insert them as 'linear terms' in the formula.
 #'
 #' @examples
 #' ## Replicate table on p. 534 of De Luca & Magnus (2011)
@@ -70,6 +108,7 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' printVars <- c("(Intercept)", "EAST", "P60", "IPRICE1", "GDPCH60L", "TROPICAR")
 #' print(round(tableDW[printVars,], 5))
 #'
+#' @rdname wals
 #' @export
 wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
                          weights = NULL, offset = NULL, prior = weibull(),
@@ -146,12 +185,15 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
   return(out)
 }
 
-#' @rdname wals
+#' \code{wals.matrix()} uses prespecified design matrices x (focus) and
+#' x2 (auxiliary) and response vector y.
+#'
 #' @param x matrix of focus regressors.
 #' @param x2 matrix of auxiliary regressors.
 #' @param y response vector.
 #'
 #' @examples
+#' ## Example for wals.matrix()
 #' X <- model.matrix(mpg ~ disp + hp + wt + vs + am + carb, data = mtcars)
 #' X1 <- X[,c("(Intercept)", "disp", "hp", "wt")] # focus
 #' X2 <- X[,c("vs", "am", "carb")] # auxiliary
@@ -159,6 +201,7 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #'
 #' wals(X1, X2, y, prior = weibull())
 #'
+#' @rdname wals
 #' @export
 wals.matrix <- function(x, x2, y, subset = NULL, na.action = NULL,
                         weights = NULL, offset = NULL, prior = weibull(),

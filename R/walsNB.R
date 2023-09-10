@@ -19,14 +19,7 @@
 walsNB <- function(x, ...) UseMethod("walsNB", x)
 
 
-#' Fits a NB2 regression with the Weighted-Average Least Squares method
-#'
-#' **WARNING:** Interactions in formula do work work properly yet.
-#' It is recommended to manually create the interactions beforehand and then
-#' to insert them as 'linear terms' in the formula.
-#'
 #' \code{walsNB.formula} uses formulas to specify the design matrix.
-#' @rdname walsNB
 #'
 #' @param formula an object of class "\link{Formula}"
 #' (or one that can be coerced to that class):
@@ -43,7 +36,7 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' @param na.action **not implemented yet.**
 #' @param link specifies the link function, currently only "log" is supported.
 #' @param prior Object of class \code{familyPrior}. For example \link{weibull}
-#' or \link{laplace}. Not tested with other priors.
+#' or \link{laplace}.
 #' @param model if \code{TRUE} (default), then the model.frame is stored in
 #' the return.
 #' @param keepY if \code{TRUE} (default), then the response is stored in
@@ -74,6 +67,10 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' regressors (includes a constant by default) and the ones after "|" are the
 #' auxiliary regressors.
 #'
+#' **WARNING:** Interactions in formula do not work properly yet.
+#' It is recommended to manually create the interactions beforehand and then
+#' to insert them as 'linear terms' in the formula.
+#'
 #' @examples
 #' data("NMES1988", package = "AER")
 #'
@@ -85,6 +82,7 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #'                      married + region, data = NMES1988, prior = laplace())
 #' summary(fitLaplace)
 #'
+#' @rdname walsNB
 #' @export
 walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
                            weights = NULL, offset = NULL,
@@ -173,17 +171,16 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 
 
 
-#' Fits a NB2 regression with the Weighted-Average Least Squares method
-#'
-#' \code{walsNB.matrix()} uses prespecified design matrices X1 and X2 and
-#' response vector y.
-#' @rdname walsNB
+#' \code{walsNB.matrix()} uses prespecified design matrices x (focus) and
+#' x2 (auxiliary) and response vector y.
 #'
 #' @param x Design matrix for focus regressors. Usually includes a constant
 #' (column full of 1's) and can be generated using model.matrix().
 #' @param x2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param y Count response as vector
+#'
+#' @rdname walsNB
 #' @export
 walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
                           na.action = NULL, weights = NULL, offset = NULL,

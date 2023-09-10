@@ -82,7 +82,7 @@ used in the fitting process.}
 \item{link}{specifies the link function, currently only "log" is supported.}
 
 \item{prior}{Object of class \code{familyPrior}. For example \link{weibull}
-or \link{laplace}. Not tested with other priors.}
+or \link{laplace}.}
 
 \item{controlInitNB}{Controls estimation of starting values for one-step ML,
 see \link[WALS]{controlNB}.}
@@ -131,21 +131,16 @@ See return of \link[WALS]{walsNBfit} for more details.
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method
 of \insertCite{huynhwalsnb;textual}{WALS}.
-
-\strong{WARNING:} Interactions in formula do work work properly yet.
-It is recommended to manually create the interactions beforehand and then
-to insert them as 'linear terms' in the formula.
-
-\code{walsNB.matrix()} uses prespecified design matrices X1 and X2 and
-response vector y.
 }
 \details{
-\code{walsNB.formula} uses formulas to specify the design matrix.
-
 Formulas should always contain two parts, i.e. they should be of the form
 "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
 regressors (includes a constant by default) and the ones after "|" are the
 auxiliary regressors.
+
+\strong{WARNING:} Interactions in formula do not work properly yet.
+It is recommended to manually create the interactions beforehand and then
+to insert them as 'linear terms' in the formula.
 }
 \examples{
 data("NMES1988", package = "AER")
