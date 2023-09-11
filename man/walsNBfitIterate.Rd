@@ -49,7 +49,7 @@ see \link[WALS]{controlNB}.}
 
 \item{keepY}{If \code{TRUE}, then output keeps response.}
 
-\item{keepX}{If \code{TRUE}, then output keeps design matrix.}
+\item{keepX}{If \code{TRUE}, then output keeps the design matrices.}
 
 \item{iterate}{if TRUE then the WALS algorithm is iterated using the previous
 estimates as starting values}
@@ -70,6 +70,28 @@ internal function walsNBfitIterate (only relevant if we iterate = TRUE).}
 \item{...}{Arguments to be passed to the workhorse function walsNBfit which
 actually fits the model.}
 }
+\value{
+A list containing all elements returned from \link[WALS]{walsNBfit}
+and additionally the following elements:
+\item{y}{If \code{keepY = TRUE}, contains the response vector. Else \code{NULL}.}
+\item{x}{list. If \code{keepX} is true, then it is a list with elements
+\code{x1} and \code{x2} containing the design matrices of the focus and
+auxiliary regressors, respectively.}
+\item{initialFit}{List containing information (e.g. convergence) on the
+estimation of the starting values for \link[WALS]{walsNBfit}.
+See return of \link[WALS]{fitNB2} for more information.}
+\item{weights}{returns the argument \code{weights}.}
+\item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
+\code{TRUE} if iterative fitting converged, else \code{FALSE}. Is \code{NULL}
+if \code{iterate = FALSE}.}
+\item{it}{Number of iterations run in the iterative fitting algorithm.
+\code{NULL} if \code{iterate = FALSE}.}
+\item{deviance}{Deviance of the fitted NB2 distribution.}
+\item{residuals}{Raw residuals, i.e. response - fitted mean.}
+}
 \description{
 See description of \link{walsNB}.
+}
+\seealso{
+\link{walsNB}, \link{walsNBfit}.
 }

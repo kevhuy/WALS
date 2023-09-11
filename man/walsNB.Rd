@@ -121,12 +121,25 @@ a constant column and can also be generated using model.matrix().}
 }
 \value{
 For \code{walsNB.formula}, it returns an object of class
-\code{walsNB} which inherits from \code{walsGLM} and \code{wals}.
-See return of \link[WALS]{walsNBfit} for more details.
+\code{walsNB} which inherits from \code{walsGLM} and \code{wals}. It contains
+all elements returned from \link[WALS]{walsNBfitIterate} and additionally
+\item{cl}{Call of the function.}
+\item{formula}{\code{formula} used.}
+\item{terms}{List containing the model terms of the focus and auxiliary
+regressors separately, as well as for the full model.}
+\item{levels}{List containing the levels of the focus and auxiliary
+regressors separately, as well as for the full model.}
+\item{contrasts}{List containing the contrasts of the design matrices of
+focus and auxiliary regressors.}
+\item{model}{If \code{model = TRUE}, contains the model frame. Else \code{NULL}.}
+
+See returns of \link[WALS]{walsNBfit} and \link[WALS]{walsNBfitIterate}
+for more details.
 
 For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
-which inherits from \code{walsNB}, \code{walsGLM} and \code{wals}.
-See return of \link[WALS]{walsNBfit} for more details.
+which inherits from \code{walsNB}, \code{walsGLMmatrix}, \code{walsGLM} and
+\code{wals}. It contains all elements returned from \link[WALS]{walsNBfitIterate}
+and additionally the call in \code{cl}.
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method

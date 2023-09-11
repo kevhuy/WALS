@@ -3,15 +3,6 @@
 #' Fits an NB2 regression model using the Weighted-Average Least Squares method
 #' of \insertCite{huynhwalsnb;textual}{WALS}.
 #'
-#'
-#' @return For \code{walsNB.formula}, it returns an object of class
-#' \code{walsNB} which inherits from \code{walsGLM} and \code{wals}.
-#' See return of \link[WALS]{walsNBfit} for more details.
-#'
-#' For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
-#' which inherits from \code{walsNB}, \code{walsGLM} and \code{wals}.
-#' See return of \link[WALS]{walsNBfit} for more details.
-#'
 #' @references
 #' \insertAllCited{}
 #'
@@ -70,6 +61,22 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' **WARNING:** Interactions in formula do not work properly yet.
 #' It is recommended to manually create the interactions beforehand and then
 #' to insert them as 'linear terms' in the formula.
+#'
+#' @returns For \code{walsNB.formula}, it returns an object of class
+#' \code{walsNB} which inherits from \code{walsGLM} and \code{wals}. It contains
+#' all elements returned from \link[WALS]{walsNBfitIterate} and additionally
+#' \item{cl}{Call of the function.}
+#' \item{formula}{\code{formula} used.}
+#' \item{terms}{List containing the model terms of the focus and auxiliary
+#' regressors separately, as well as for the full model.}
+#' \item{levels}{List containing the levels of the focus and auxiliary
+#' regressors separately, as well as for the full model.}
+#' \item{contrasts}{List containing the contrasts of the design matrices of
+#' focus and auxiliary regressors.}
+#' \item{model}{If \code{model = TRUE}, contains the model frame. Else \code{NULL}.}
+#'
+#' See returns of \link[WALS]{walsNBfit} and \link[WALS]{walsNBfitIterate}
+#' for more details.
 #'
 #' @examples
 #' data("NMES1988", package = "AER")
@@ -180,6 +187,11 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' a constant column and can also be generated using model.matrix().
 #' @param y Count response as vector
 #'
+#' @returns For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
+#' which inherits from \code{walsNB}, \code{walsGLMmatrix}, \code{walsGLM} and
+#' \code{wals}. It contains all elements returned from \link[WALS]{walsNBfitIterate}
+#' and additionally the call in \code{cl}.
+#'
 #' @rdname walsNB
 #' @export
 walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
@@ -282,7 +294,7 @@ walsNB.default <- function(x, ...) {
 #'
 #'
 #'
-#' @return A list containing
+#' @returns A list containing
 #' \item{coef}{Model averaged estimates of all coefficients.}
 #' \item{beta1}{Model averaged estimates of the coefficients of the focus regressors.}
 #' \item{beta2}{Model averaged estimates of the coefficients of the auxiliary regressors.}
@@ -375,6 +387,8 @@ walsNB.default <- function(x, ...) {
 #' All variables in the code that are contain "start" in their name feature the
 #' starting values for the one-step ML estimation of submodels. See section
 #' "One-step ML estimator" of \insertCite{huynhwalsnb}{WALS} for details.
+#'
+#' @seealso [walsNB], [walsNBfitIterate].
 #'
 #' @references
 #' \insertAllCited{}
@@ -626,7 +640,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
 #' see \link[WALS]{controlNB}.
 #' @param keepY If \code{TRUE}, then output keeps response.
-#' @param keepX If \code{TRUE}, then output keeps design matrix.
+#' @param keepX If \code{TRUE}, then output keeps the design matrices.
 #' @param iterate if TRUE then the WALS algorithm is iterated using the previous
 #' estimates as starting values
 #' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
@@ -640,6 +654,26 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' internal function walsNBfitIterate (only relevant if we iterate = TRUE).
 #' @param ... Arguments to be passed to the workhorse function walsNBfit which
 #' actually fits the model.
+#'
+#' @returns A list containing all elements returned from \link[WALS]{walsNBfit}
+#' and additionally the following elements:
+#' \item{y}{If \code{keepY = TRUE}, contains the response vector. Else \code{NULL}.}
+#' \item{x}{list. If \code{keepX} is true, then it is a list with elements
+#' \code{x1} and \code{x2} containing the design matrices of the focus and
+#' auxiliary regressors, respectively.}
+#' \item{initialFit}{List containing information (e.g. convergence) on the
+#' estimation of the starting values for \link[WALS]{walsNBfit}.
+#' See return of \link[WALS]{fitNB2} for more information.}
+#' \item{weights}{returns the argument \code{weights}.}
+#' \item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
+#' \code{TRUE} if iterative fitting converged, else \code{FALSE}. Is \code{NULL}
+#' if \code{iterate = FALSE}.}
+#' \item{it}{Number of iterations run in the iterative fitting algorithm.
+#' \code{NULL} if \code{iterate = FALSE}.}
+#' \item{deviance}{Deviance of the fitted NB2 distribution.}
+#' \item{residuals}{Raw residuals, i.e. response - fitted mean.}
+#'
+#' @seealso [walsNB], [walsNBfit].
 #'
 #' @export
 walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
@@ -758,7 +792,7 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
   if (keepX) out$x <- list(focus = X1, aux = X2)
   out$initialFit <- nb2
   out$weights <- weights
-  out$converged <- converged
+  out$converged <- if (iterate) converged else NULL
   out$it <- if (iterate) it else NULL
 
   # deviance & residuals

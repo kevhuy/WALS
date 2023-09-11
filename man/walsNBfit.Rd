@@ -178,3 +178,6 @@ starting values for the one-step ML estimation of submodels. See section
 \references{
 \insertAllCited{}
 }
+\seealso{
+\link{walsNB}, \link{walsNBfitIterate}.
+}
