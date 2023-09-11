@@ -73,7 +73,7 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' regressors separately, as well as for the full model.}
 #' \item{contrasts}{List containing the contrasts of the design matrices of
 #' focus and auxiliary regressors.}
-#' \item{model}{If \code{model = TRUE}, contains the model frame. Else \code{NULL}.}
+#' \item{model}{If \code{model = TRUE}, contains the model frame.}
 #'
 #' See returns of \link[WALS]{walsNBfit} and \link[WALS]{walsNBfitIterate}
 #' for more details.
@@ -655,7 +655,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #'
 #' @returns A list containing all elements returned from \link[WALS]{walsNBfit}
 #' and additionally the following elements:
-#' \item{y}{If \code{keepY = TRUE}, contains the response vector. Else \code{NULL}.}
+#' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 #' \item{x}{list. If \code{keepX} is true, then it is a list with elements
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
 #' auxiliary regressors, respectively.}

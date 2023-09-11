@@ -131,7 +131,7 @@ regressors separately, as well as for the full model.}
 regressors separately, as well as for the full model.}
 \item{contrasts}{List containing the contrasts of the design matrices of
 focus and auxiliary regressors.}
-\item{model}{If \code{model = TRUE}, contains the model frame. Else \code{NULL}.}
+\item{model}{If \code{model = TRUE}, contains the model frame.}
 
 See returns of \link[WALS]{walsNBfit} and \link[WALS]{walsNBfitIterate}
 for more details.

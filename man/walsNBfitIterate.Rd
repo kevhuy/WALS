@@ -73,7 +73,7 @@ actually fits the model.}
 \value{
 A list containing all elements returned from \link[WALS]{walsNBfit}
 and additionally the following elements:
-\item{y}{If \code{keepY = TRUE}, contains the response vector. Else \code{NULL}.}
+\item{y}{If \code{keepY = TRUE}, contains the response vector.}
 \item{x}{list. If \code{keepX} is true, then it is a list with elements
 \code{x1} and \code{x2} containing the design matrices of the focus and
 auxiliary regressors, respectively.}
