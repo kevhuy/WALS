@@ -66,6 +66,39 @@ The option \code{prescale = FALSE} only exists for historical reasons.}
 
 \item{...}{Arguments for internal function \code{computePosterior()}.}
 }
+\value{
+A list containing
+\item{coef}{Model averaged estimates of all coefficients.}
+\item{beta1}{Model averaged estimates of the coefficients of the focus regressors.}
+\item{beta2}{Model averaged estimates of the coefficients of the auxiliary regressors.}
+\item{gamma1}{Model averaged estimates of the coefficients of the transformed
+focus regressors.}
+\item{gamma2}{Model averaged estimates of the coefficients of the transformed
+auxiliary regressors.}
+\item{vcovBeta}{Estimated covariance matrix of the regression coefficients.}
+\item{vcovGamma}{Estimated covariance matrix of the coefficients of the
+tranformed regressors.}
+\item{sigma}{Estimated or prespecified standard deviation of the error term.}
+\item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
+\item{method}{Stores \code{method} used from the arguments.}
+\item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the focus regressors.}
+\item{betaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the auxiliary regressors.}
+\item{gammaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the transformed focus regressors.}
+\item{gammaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the transformed auxiliary regressors.}
+\item{fitted.values}{Estimated conditional means of the data.}
+\item{residuals}{Residuals, i.e. response - fitted mean.}
+\item{X1names}{Names of the focus regressors.}
+\item{X2names}{Names of the auxiliary regressors.}
+\item{k1}{Number of focus regressors.}
+\item{k2}{Number of auxiliary regressors.}
+\item{n}{Number of observations.}
+\item{condition}{Condition number of the matrix
+\eqn{\Xi = \Delta_{2} X_{2}^{\top} M_{1} X_{2} \Delta_{2}}.}
+}
 \description{
 Workhorse function behind \link{wals} and \link{walsGLM}.
 }
