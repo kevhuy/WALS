@@ -250,10 +250,10 @@ walsNB.default <- function(x, ...) {
 #' @param betaStart1 Starting values for coefficients of focus regressors X1.
 #' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
 #' @param rhoStart Starting value for log-dispersion parameter of NB2
-#' @param family Object of class \code{family}. Currently only supports
+#' @param family Object of class \code{familyWALS}. Currently only supports
 #' \code{negativeBinomial()}.
 #' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-#' or \link[WALS]{laplace}. Not tested with other priors.
+#' or \link[WALS]{laplace}.
 #' @param method Specifies method used. Available methods are \code{"fullSVD"}
 #' (default) or \code{"original"}. See details.
 #' @param svdTol Tolerance for rank of matrix \eqn{\bar{Z}_{1}} and \eqn{\bar{Z}}.
@@ -278,42 +278,54 @@ walsNB.default <- function(x, ...) {
 #' The latter is used in the original MATLAB code for WALS in the linear regression model
 #' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
 #' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
-#' @param ... Arguments for internal function \code{computePosterior()}.
+#' @param ... Arguments for internal function \link[WALS]{computePosterior}.
 #'
 #'
 #'
-#' @return A list containing the coefficients in \code{coefs}.
-#'
-#' \code{beta1} and \code{beta2} are the model-averaged estimates of coefficients for the focus
-#' and auxiliary regressors, respectively.
-#'
-#' \code{gamma1} and \code{gamma2} are the model-averaged estimates of the
-#' coefficients of the transformed focus and auxiliary regressors.
-#'
-#' \code{rho} is the model-averaged estimate of the
-#' log-dispersion parameter of the NB2 distribution.
-#'
-#' \code{prior} contains the \code{prior} specified in the arguments.
-#'
-#' If \code{keepUn = TRUE}, then \code{betaUn1} and \code{betaUn2} contain the
-#' unrestricted one-step ML estimators of the coefficients of the focus and
-#' auxiliary regressors. \code{gammaUn1} and \code{gammaUn2} are the fully
-#' unrestricted estimates for the transformed focus and auxiliary regressors.
-#'
-#' If \code{keepR}, then \code{gamma1r} contains the fully restricted one-step
+#' @return A list containing
+#' \item{coef}{Model averaged estimates of all coefficients.}
+#' \item{beta1}{Model averaged estimates of the coefficients of the focus regressors.}
+#' \item{beta2}{Model averaged estimates of the coefficients of the auxiliary regressors.}
+#' \item{rho}{Model averaged estimate of the log-dispersion parameter of the
+#' NB2 distribution.}
+#' \item{gamma1}{Model averaged estimates of the coefficients of the transformed
+#' focus regressors.}
+#' \item{gamma2}{Model averaged estimates of the coefficients of the transformed
+#' auxiliary regressors.}
+#' \item{condition}{Condition number of the matrix
+#' \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
+#' \item{vcovBeta}{\code{NULL}, not implemented yet, placeholder for estimated
+#' covariance matrix of the regression coefficients.}
+#' \item{vcovGamma}{\code{NULL}, not implemented yet, placeholder for estimated
+#' covariance matrix of the coefficients of the tranformed regressors.}
+#' \item{betaStart}{Starting values of the regression coefficients for the
+#' one-step ML estimators.}
+#' \item{rhoStart}{Starting values of the dispersion parameter for the
+#' one-step ML estimators.}
+#' \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
+#' \item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the focus regressors. Else \code{NULL}.}
+#' \item{betaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the auxiliary regressors. Else \code{NULL}.}
+#' \item{gammaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the transformed focus regressors. Else \code{NULL}.}
+#' \item{gammaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the transformed auxiliary regressors. Else \code{NULL}.}
+#' \item{gamma1r}{If \code{keepR = TRUE}, contains the fully restricted one-step
 #' ML estimator for the transformed regressors (only focus regressors).
-#'
-#' \code{family} contains the \link[stats]{family} object from
-#' \link[WALS]{negbinWALS} used later for predictions.
-#'
-#' \code{betaStart} and \code{rhoStart} contain the starting values for the
-#' one-step ML estimators.
-#'
-#' \code{fitted.link} contains the linear link fitted to the data.
-#'
-#' \code{fitted.values} contains the estimated conditional mean for the data.
-#' Lives on the scale of the response.
-#'
+#' Else \code{NULL}.}
+#' \item{k1}{Number of focus regressors.}
+#' \item{k2}{Number of auxiliary regressors.}
+#' \item{n}{Number of observations.}
+#' \item{X1names}{Names of the focus regressors.}
+#' \item{X2names}{Names of the auxiliary regressors.}
+#' \item{familyStart}{\code{familyNBWALS}. The \link[stats]{family} object from
+#' \link[WALS]{negbinWALS} used for the estimation of the starting values.}
+#' \item{family}{\code{familyNBWALS}. The \link[stats]{family} object from
+#' \link[WALS]{negbinWALS} used later for predictions.}
+#' \item{fitted.link}{Linear link fitted to the data.}
+#' \item{fitted.values}{Estimated conditional mean for the data. Lives on the
+#' scale of the response.}
 #'
 #'
 #' @details The method to be specified in \code{method} mainly differ in the way
@@ -327,7 +339,7 @@ walsNB.default <- function(x, ...) {
 #' It is used for computing the inverse of
 #'
 #' \deqn{\bar{X}_{1}^{\top}\bar{X}_{1}
-#'  + \bar{g} \bar{\epsilon} X_{1}^{\top}\bar{q} \bar{q}^{\top} X_{1}},
+#'  + \bar{g} \bar{\epsilon} X_{1}^{\top}\bar{q} \bar{q}^{\top} X_{1},}
 #'
 #' when using the Sherman-Morrison-Woodbury formula. We further leverage the
 #' SVD of \eqn{\bar{Z}_1} and additionally \eqn{\bar{Z}} to compute the fully
@@ -349,7 +361,7 @@ walsNB.default <- function(x, ...) {
 #' \item{"original"} {Computes all inverses directly using \code{solve()} and
 #' does not make use of the Sherman-Morrison-Woodbury formula for certain
 #' inverses. Specifically: directly inverts the matrix
-#' \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{solve()}
+#' \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \link[base]{solve}
 #' in order to compute \eqn{\bar{M}_1}. Moreover, it computes the fully
 #' unrestricted estimators of the focus regressors
 #' \eqn{\tilde{\gamma}_{1u}} and of the auxiliary regressors
@@ -570,29 +582,23 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 
   fit <- list(coef = c(beta1, beta2), beta1 = beta1, beta2 = beta2,
               rho = as.numeric(rho), # otherwise it's 1x1 matrix
-              gamma1 = gamma1, gamma2 = gamma2,
+              gamma1 = gamma1, gamma2 = gamma2, condition = outSemiOrt$condition,
               vcovBeta = NULL, vcovGamma = NULL,
-              betaStart = c(betaStart1, betaStart2), prior = prior,
+              betaStart = c(betaStart1, betaStart2), rhoStart = rhoStart,
+              prior = prior,
               betaUn1 = if (keepUn) betaUn1 else NULL,
               betaUn2 = if (keepUn) betaUn2 else NULL,
               gammaUn1 = if (keepUn) gammaUn1 else NULL,
               gammaUn2 = if (keepUn) gammaUn2 else NULL,
-              gamma1r = if (keepR) gamma1r else NULL)
+              gamma1r = if (keepR) gamma1r else NULL,
+              k1 = k1, k2 = k2, n = n, X1names = X1names, X2names = X2names)
 
   # contains previous rho, used for obtaining betaStart etc.
   fit$familyStart <- family
   # new family with model averaged rho
   fit$family <- negbinWALS(rho, link = family$link)
-  fit$X1names <- X1names
-  fit$X2names <- X2names
-  fit$betaStart <- c(betaStart1, betaStart2)
-  fit$rhoStart <- rhoStart
   fit$fitted.link <- drop(X1 %*% fit$beta1 + X2 %*% fit$beta2)
   fit$fitted.values <- family$linkinv(fit$fitted.link)
-  fit$k1 <- k1
-  fit$k2 <- k2
-  fit$n <- n
-  fit$condition <- outSemiOrt$condition
 
   # assign names to variables
   names(fit$coef) <- Xnames

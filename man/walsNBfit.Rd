@@ -38,11 +38,11 @@ a constant column and can also be generated using model.matrix().}
 
 \item{rhoStart}{Starting value for log-dispersion parameter of NB2}
 
-\item{family}{Object of class \code{family}. Currently only supports
+\item{family}{Object of class \code{familyWALS}. Currently only supports
 \code{negativeBinomial()}.}
 
 \item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-or \link[WALS]{laplace}. Not tested with other priors.}
+or \link[WALS]{laplace}.}
 
 \item{method}{Specifies method used. Available methods are \code{"fullSVD"}
 (default) or \code{"original"}. See details.}
@@ -75,40 +75,53 @@ The latter is used in the original MATLAB code for WALS in the linear regression
 \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
 see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.}
 
-\item{...}{Arguments for internal function \code{computePosterior()}.}
+\item{...}{Arguments for internal function \link[WALS]{computePosterior}.}
 }
 \value{
-A list containing the coefficients in \code{coefs}.
-
-\code{beta1} and \code{beta2} are the model-averaged estimates of coefficients for the focus
-and auxiliary regressors, respectively.
-
-\code{gamma1} and \code{gamma2} are the model-averaged estimates of the
-coefficients of the transformed focus and auxiliary regressors.
-
-\code{rho} is the model-averaged estimate of the
-log-dispersion parameter of the NB2 distribution.
-
-\code{prior} contains the \code{prior} specified in the arguments.
-
-If \code{keepUn = TRUE}, then \code{betaUn1} and \code{betaUn2} contain the
-unrestricted one-step ML estimators of the coefficients of the focus and
-auxiliary regressors. \code{gammaUn1} and \code{gammaUn2} are the fully
-unrestricted estimates for the transformed focus and auxiliary regressors.
-
-If \code{keepR}, then \code{gamma1r} contains the fully restricted one-step
+A list containing
+\item{coef}{Model averaged estimates of all coefficients.}
+\item{beta1}{Model averaged estimates of the coefficients of the focus regressors.}
+\item{beta2}{Model averaged estimates of the coefficients of the auxiliary regressors.}
+\item{rho}{Model averaged estimate of the log-dispersion parameter of the
+NB2 distribution.}
+\item{gamma1}{Model averaged estimates of the coefficients of the transformed
+focus regressors.}
+\item{gamma2}{Model averaged estimates of the coefficients of the transformed
+auxiliary regressors.}
+\item{condition}{Condition number of the matrix
+\eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
+\item{vcovBeta}{\code{NULL}, not implemented yet, placeholder for estimated
+covariance matrix of the regression coefficients.}
+\item{vcovGamma}{\code{NULL}, not implemented yet, placeholder for estimated
+covariance matrix of the coefficients of the tranformed regressors.}
+\item{betaStart}{Starting values of the regression coefficients for the
+one-step ML estimators.}
+\item{rhoStart}{Starting values of the dispersion parameter for the
+one-step ML estimators.}
+\item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
+\item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the focus regressors. Else \code{NULL}.}
+\item{betaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the auxiliary regressors. Else \code{NULL}.}
+\item{gammaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the transformed focus regressors. Else \code{NULL}.}
+\item{gammaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+estimators of the coefficients of the transformed auxiliary regressors. Else \code{NULL}.}
+\item{gamma1r}{If \code{keepR = TRUE}, contains the fully restricted one-step
 ML estimator for the transformed regressors (only focus regressors).
-
-\code{family} contains the \link[stats]{family} object from
-\link[WALS]{negbinWALS} used later for predictions.
-
-\code{betaStart} and \code{rhoStart} contain the starting values for the
-one-step ML estimators.
-
-\code{fitted.link} contains the linear link fitted to the data.
-
-\code{fitted.values} contains the estimated conditional mean for the data.
-Lives on the scale of the response.
+Else \code{NULL}.}
+\item{k1}{Number of focus regressors.}
+\item{k2}{Number of auxiliary regressors.}
+\item{n}{Number of observations.}
+\item{X1names}{Names of the focus regressors.}
+\item{X2names}{Names of the auxiliary regressors.}
+\item{familyStart}{\code{familyNBWALS}. The \link[stats]{family} object from
+\link[WALS]{negbinWALS} used for the estimation of the starting values.}
+\item{family}{\code{familyNBWALS}. The \link[stats]{family} object from
+\link[WALS]{negbinWALS} used later for predictions.}
+\item{fitted.link}{Linear link fitted to the data.}
+\item{fitted.values}{Estimated conditional mean for the data. Lives on the
+scale of the response.}
 }
 \description{
 Workhorse function behind \link{walsNB} and used internally in
@@ -126,7 +139,7 @@ to compute \eqn{\bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2}}:
 It is used for computing the inverse of
 
 \deqn{\bar{X}_{1}^{\top}\bar{X}_{1}
- + \bar{g} \bar{\epsilon} X_{1}^{\top}\bar{q} \bar{q}^{\top} X_{1}},
+ + \bar{g} \bar{\epsilon} X_{1}^{\top}\bar{q} \bar{q}^{\top} X_{1},}
 
 when using the Sherman-Morrison-Woodbury formula. We further leverage the
 SVD of \eqn{\bar{Z}_1} and additionally \eqn{\bar{Z}} to compute the fully
@@ -147,7 +160,7 @@ of \insertCite{huynhwals;textual}{WALS}.}
 \item{"original"} {Computes all inverses directly using \code{solve()} and
 does not make use of the Sherman-Morrison-Woodbury formula for certain
 inverses. Specifically: directly inverts the matrix
-\eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{solve()}
+\eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \link[base]{solve}
 in order to compute \eqn{\bar{M}_1}. Moreover, it computes the fully
 unrestricted estimators of the focus regressors
 \eqn{\tilde{\gamma}_{1u}} and of the auxiliary regressors
