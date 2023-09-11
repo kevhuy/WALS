@@ -14,6 +14,9 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 
 #' Fitter function for Weighted Average Least Squares estimation of GLMs
 #'
+#' Workhorse function behind \link[WALS]{walsGLM} and used internally in
+#' \link[WALS]{walsGLMfitIterate}.
+#'
 #' @usage walsGLMfit(
 #'  X1,
 #'  X2,
@@ -36,6 +39,28 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' or \link[WALS]{laplace}.
 #' @param ... Further arguments passed to \link[WALS]{walsFit}.
 #'
+#' @details
+#' Uses \link[WALS]{walsFit} under the hood after transforming the regressors
+#' \code{X1} and \code{X2} and the response \code{y}. For more details, see
+#' \insertCite{huynhwals}{WALS} and \insertCite{deluca2018glm;textual}{WALS}.
+#'
+#' @returns A list containing all elements returned by \link[WALS]{walsFit},
+#' except for \code{residuals}, and additionally (some fields are replaced)
+#' \item{condition}{Condition number of the matrix
+#' \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
+#' \item{family}{Object of class \code{familyWALS}. The family used.}
+#' \item{betaStart}{Starting values of the regression coefficients for the
+#' one-step ML estimators.}
+#' \item{fitted.link}{Linear link fitted to the data.}
+#' \item{fitted.values}{Estimated conditional mean for the data. Lives on the
+#' scale of the response.}
+#'
+#'
+#' @seealso [walsGLM], [walsGLMfitIterate], [walsFit].
+#'
+#' @references
+#' \insertAllCited{}
+#'
 #' @export
 walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
                        family, prior = weibull(), ...) {
@@ -57,11 +82,62 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
   fit$betaStart <- c(betaStart1, betaStart2)
   fit$fitted.link <- drop(X1 %*% fit$beta1 + X2 %*% fit$beta2)
   fit$fitted.values <- family$linkinv(fit$fitted.link)
+  fit$residuals <- NULL
 
-  # class(fit) <- c("walsGLM", class(fit))
   return(fit)
 }
 
+#' Iteratively fitting walsGLM, internal function for walsGLM.formula and
+#' walsGLM.matrix.
+#'
+#' See description of \link[WALS]{walsGLM}.
+#'
+#' @param y Response as vector.
+#' @param X1 Design matrix for focus regressors. Usually includes a constant
+#' (column full of 1's) and can be generated using model.matrix().
+#' @param X2 Design matrix for auxiliary regressors. Usually does not include
+#' a constant column and can also be generated using model.matrix().
+#' @param family Object of class \code{familyWALS}.
+#' @param na.action Not implemented yet.
+#' @param weights Not implemented yet.
+#' @param offset Not implemented yet.
+#' @param prior Object of class \code{familyPrior}, e.g. \link[WALS]{weibull}.
+#' @param controlGLMfit Controls estimation of starting values for one-step ML,
+#' passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.
+#' @param keepY If \code{TRUE}, then output keeps response.
+#' @param keepX If \code{TRUE}, then output keeps the design matrices.
+#' @param iterate if TRUE then the WALS algorithm is iterated using the previous
+#' estimates as starting values.
+#' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
+#' between the previous beta and current beta falls below tol and the absolute
+#' difference between the previous and current rho falls below tol, then
+#' the algorithm stops.
+#' @param maxIt Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
+#' when number of iterations exceed maxIt.
+#' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
+#' and the algorithm iterates nIt times.
+#' @param verbose If verbose = TRUE, then it prints the iteration process
+#' (only relevant if iterate = TRUE).
+#' @param ... Arguments to be passed to the workhorse function walsGLMfit.
+#'
+#' @returns A list containing all elements returned from \link[WALS]{walsGLMfit}
+#' and additionally the following elements:
+#' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
+#' \item{x}{list. If \code{keepX} is true, then it is a list with elements
+#' \code{x1} and \code{x2} containing the design matrices of the focus and
+#' auxiliary regressors, respectively.}
+#' \item{weights}{returns the argument \code{weights}.}
+#' \item{offset}{returns the argument \code{offset}.}
+#' \item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
+#' \code{TRUE} if iterative fitting converged, else \code{FALSE}. Is \code{NULL}
+#' if \code{iterate = FALSE}.}
+#' \item{it}{Number of iterations run in the iterative fitting algorithm.
+#' \code{NULL} if \code{iterate = FALSE}.}
+#' \item{deviance}{Deviance of the fitted regression model.}
+#' \item{residuals}{Raw residuals, i.e. response - fitted mean.}
+#'
+#' @seealso [walsGLM], [walsGLMfit].
+#'
 #' @export
 walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
                               weights = NULL, offset = NULL,
@@ -127,7 +203,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   out$betaStart <- betaStart
 
   # add more elements
-  if (keepY) out$y <- family$initializeY(y)
+  if (keepY) out$y <- family$initializeY(y) # e.g. convert logical to 0s and 1s.
   if (keepX) out$x <- list(focus = X1, aux = X2)
   out$weights <- weights
   out$offset <- offset

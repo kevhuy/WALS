@@ -34,6 +34,30 @@ or \link[WALS]{laplace}.}
 
 \item{...}{Further arguments passed to \link[WALS]{walsFit}.}
 }
+\value{
+A list containing all elements returned by \link[WALS]{walsFit},
+except for \code{residuals}, and additionally (some fields are replaced)
+\item{condition}{Condition number of the matrix
+\eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
+\item{family}{Object of class \code{familyWALS}. The family used.}
+\item{betaStart}{Starting values of the regression coefficients for the
+one-step ML estimators.}
+\item{fitted.link}{Linear link fitted to the data.}
+\item{fitted.values}{Estimated conditional mean for the data. Lives on the
+scale of the response.}
+}
 \description{
-Fitter function for Weighted Average Least Squares estimation of GLMs
+Workhorse function behind \link[WALS]{walsGLM} and used internally in
+\link[WALS]{walsGLMfitIterate}.
+}
+\details{
+Uses \link[WALS]{walsFit} under the hood after transforming the regressors
+\code{X1} and \code{X2} and the response \code{y}. For more details, see
+\insertCite{huynhwals}{WALS} and \insertCite{deluca2018glm;textual}{WALS}.
+}
+\references{
+\insertAllCited{}
+}
+\seealso{
+\link{walsGLM}, \link{walsGLMfitIterate}, \link{walsFit}.
 }
