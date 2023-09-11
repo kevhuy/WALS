@@ -314,6 +314,7 @@ walsNB.default <- function(x, ...) {
 #' one-step ML estimators.}
 #' \item{rhoStart}{Starting values of the dispersion parameter for the
 #' one-step ML estimators.}
+#' \item{method}{Stores \code{method} used from the arguments.}
 #' \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
 #' \item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
 #' estimators of the coefficients of the focus regressors. Else \code{NULL}.}
@@ -599,7 +600,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
               gamma1 = gamma1, gamma2 = gamma2, condition = outSemiOrt$condition,
               vcovBeta = NULL, vcovGamma = NULL,
               betaStart = c(betaStart1, betaStart2), rhoStart = rhoStart,
-              prior = prior,
+              method = method, prior = prior,
               betaUn1 = if (keepUn) betaUn1 else NULL,
               betaUn2 = if (keepUn) betaUn2 else NULL,
               gammaUn1 = if (keepUn) gammaUn1 else NULL,

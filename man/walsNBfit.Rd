@@ -98,6 +98,7 @@ covariance matrix of the coefficients of the tranformed regressors.}
 one-step ML estimators.}
 \item{rhoStart}{Starting values of the dispersion parameter for the
 one-step ML estimators.}
+\item{method}{Stores \code{method} used from the arguments.}
 \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
 \item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
 estimators of the coefficients of the focus regressors. Else \code{NULL}.}
