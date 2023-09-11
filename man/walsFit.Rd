@@ -64,7 +64,7 @@ See \insertCite{deluca2011stata;textual}{WALS} for more details.
 \strong{WARNING: It is not recommended to set \code{prescale = FALSE}.}
 The option \code{prescale = FALSE} only exists for historical reasons.}
 
-\item{...}{Arguments for internal function \code{computePosterior()}.}
+\item{...}{Arguments for internal function \link[WALS]{computePosterior}.}
 }
 \value{
 A list containing

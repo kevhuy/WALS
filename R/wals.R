@@ -288,7 +288,7 @@ wals.default <- function(x, ...) {
 #' See \insertCite{deluca2011stata;textual}{WALS} for more details.
 #' \strong{WARNING: It is not recommended to set \code{prescale = FALSE}.}
 #' The option \code{prescale = FALSE} only exists for historical reasons.
-#' @param ... Arguments for internal function \code{computePosterior()}.
+#' @param ... Arguments for internal function \link[WALS]{computePosterior}.
 #'
 #'
 #' @returns A list containing
