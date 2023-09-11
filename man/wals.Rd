@@ -84,6 +84,34 @@ estimated. See \link[WALS]{walsFit} for more details.}
 
 \item{y}{response vector.}
 }
+\value{
+For \code{wals.formula}, it returns an object of class
+\code{wals}. It contains all elements returned from \link[WALS]{walsFit}
+and additionally
+\item{y}{If \code{keepY = TRUE}, contains the response vector.}
+\item{x}{list. If \code{keepX} is true, then it is a list with elements
+\code{x1} and \code{x2} containing the design matrices of the focus and
+auxiliary regressors, respectively.}
+\item{weights}{returns the argument \code{weights}.}
+\item{offset}{returns the argument \code{offset}.}
+\item{cl}{Call of the function.}
+\item{formula}{\code{formula} used.}
+\item{terms}{List containing the model terms of the focus and auxiliary
+regressors separately, as well as for the full model.}
+\item{levels}{List containing the levels of the focus and auxiliary
+regressors separately, as well as for the full model.}
+\item{contrasts}{List containing the contrasts of the design matrices of
+focus and auxiliary regressors.}
+\item{model}{If \code{model = TRUE}, contains the model frame.}
+
+See returns of \link[WALS]{walsFit} for more details.
+
+For \code{wals.matrix}, it returns an object of class \code{walsMatrix},
+which inherits from \code{wals}. It contains all elements returned from
+\link[WALS]{walsFit} and additionally the response \code{y}, the list \code{x}
+with model matrices \code{x1} and \code{x2}, the call \code{cl}, \code{offset}
+and \code{weights}.
+}
 \description{
 Performs model averaging for linear regression models using the
 Weighted-Average Least Squares method by

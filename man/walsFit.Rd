@@ -105,3 +105,6 @@ Workhorse function behind \link{wals} and \link{walsGLM}.
 \references{
 \insertAllCited{}
 }
+\seealso{
+\link{wals}.
+}

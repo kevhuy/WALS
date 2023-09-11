@@ -57,6 +57,27 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' It is recommended to manually create the interactions beforehand and then
 #' to insert them as 'linear terms' in the formula.
 #'
+#' @returns For \code{wals.formula}, it returns an object of class
+#' \code{wals}. It contains all elements returned from \link[WALS]{walsFit}
+#' and additionally
+#' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
+#' \item{x}{list. If \code{keepX} is true, then it is a list with elements
+#' \code{x1} and \code{x2} containing the design matrices of the focus and
+#' auxiliary regressors, respectively.}
+#' \item{weights}{returns the argument \code{weights}.}
+#' \item{offset}{returns the argument \code{offset}.}
+#' \item{cl}{Call of the function.}
+#' \item{formula}{\code{formula} used.}
+#' \item{terms}{List containing the model terms of the focus and auxiliary
+#' regressors separately, as well as for the full model.}
+#' \item{levels}{List containing the levels of the focus and auxiliary
+#' regressors separately, as well as for the full model.}
+#' \item{contrasts}{List containing the contrasts of the design matrices of
+#' focus and auxiliary regressors.}
+#' \item{model}{If \code{model = TRUE}, contains the model frame.}
+#'
+#' See returns of \link[WALS]{walsFit} for more details.
+#'
 #' @examples
 #' ## Replicate table on p. 534 of De Luca & Magnus (2011)
 #' fitDM <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
@@ -194,6 +215,12 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' @param x2 matrix of auxiliary regressors.
 #' @param y response vector.
 #'
+#' @returns For \code{wals.matrix}, it returns an object of class \code{walsMatrix},
+#' which inherits from \code{wals}. It contains all elements returned from
+#' \link[WALS]{walsFit} and additionally the response \code{y}, the list \code{x}
+#' with model matrices \code{x1} and \code{x2}, the call \code{cl}, \code{offset}
+#' and \code{weights}.
+#'
 #' @examples
 #' ## Example for wals.matrix()
 #' X <- model.matrix(mpg ~ disp + hp + wt + vs + am + carb, data = mtcars)
@@ -326,6 +353,8 @@ wals.default <- function(x, ...) {
 #' \item{n}{Number of observations.}
 #' \item{condition}{Condition number of the matrix
 #' \eqn{\Xi = \Delta_{2} X_{2}^{\top} M_{1} X_{2} \Delta_{2}}.}
+#'
+#' @seealso [wals].
 #'
 #' @references
 #' \insertAllCited{}
