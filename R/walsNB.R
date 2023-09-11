@@ -666,6 +666,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' estimation of the starting values for \link[WALS]{walsNBfit}.
 #' See return of \link[WALS]{fitNB2} for more information.}
 #' \item{weights}{returns the argument \code{weights}.}
+#' \item{offset}{returns the argument \code{offset}.}
 #' \item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
 #' \code{TRUE} if iterative fitting converged, else \code{FALSE}. Is \code{NULL}
 #' if \code{iterate = FALSE}.}
@@ -793,6 +794,7 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
   if (keepX) out$x <- list(focus = X1, aux = X2)
   out$initialFit <- nb2
   out$weights <- weights
+  out$offset <- offset
   out$converged <- if (iterate) converged else NULL
   out$it <- if (iterate) it else NULL
 

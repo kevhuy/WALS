@@ -81,6 +81,7 @@ auxiliary regressors, respectively.}
 estimation of the starting values for \link[WALS]{walsNBfit}.
 See return of \link[WALS]{fitNB2} for more information.}
 \item{weights}{returns the argument \code{weights}.}
+\item{offset}{returns the argument \code{offset}.}
 \item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
 \code{TRUE} if iterative fitting converged, else \code{FALSE}. Is \code{NULL}
 if \code{iterate = FALSE}.}
