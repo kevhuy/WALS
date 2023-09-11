@@ -14,6 +14,26 @@ walsGLMfit(
  prior = weibull(),
  ...)
 }
+\arguments{
+\item{X1}{Design matrix for focus regressors. Usually includes a constant
+(column full of 1's) and can be generated using model.matrix().}
+
+\item{X2}{Design matrix for auxiliary regressors. Usually does not include
+a constant column and can also be generated using model.matrix().}
+
+\item{y}{response as vector.}
+
+\item{betaStart1}{Starting values for coefficients of focus regressors X1.}
+
+\item{betaStart2}{Starting values for coefficients of auxiliary regressors X2.}
+
+\item{family}{Object of class \code{familyWALS}.}
+
+\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
+or \link[WALS]{laplace}.}
+
+\item{...}{Further arguments passed to \link[WALS]{walsFit}.}
+}
 \description{
 Fitter function for Weighted Average Least Squares estimation of GLMs
 }

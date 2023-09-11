@@ -24,16 +24,26 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #'  prior = weibull(),
 #'  ...)
 #'
+#' @param X1 Design matrix for focus regressors. Usually includes a constant
+#' (column full of 1's) and can be generated using model.matrix().
+#' @param X2 Design matrix for auxiliary regressors. Usually does not include
+#' a constant column and can also be generated using model.matrix().
+#' @param y response as vector.
+#' @param betaStart1 Starting values for coefficients of focus regressors X1.
+#' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
+#' @param family Object of class \code{familyWALS}.
+#' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
+#' or \link[WALS]{laplace}.
+#' @param ... Further arguments passed to \link[WALS]{walsFit}.
+#'
 #' @export
 walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
-                        family, prior = weibull(), ...) {
-
+                       family, prior = weibull(), ...) {
   X1names <- colnames(X1)
   X2names <- colnames(X2)
   Xnames <- c(X1names, X2names)
 
   etaStart <- X1 %*% betaStart1 + X2 %*% betaStart2
-
   X1start <- family$transformX(X1, etaStart, y)
   X2start <- family$transformX(X2, etaStart, y)
   yStart <- family$transformY(y, X1start, X2start, betaStart1, betaStart2, etaStart)
@@ -55,7 +65,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' @export
 walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
                               weights = NULL, offset = NULL,
-                              prior = weibull(), controlGlmFit = list(),
+                              prior = weibull(), controlGLMfit = list(),
                               keepY = TRUE, keepX = FALSE, iterate = FALSE,
                               tol = 1e-6, maxIt = 10000, nIt = NULL,
                               verbose = FALSE, ...) {
@@ -68,7 +78,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
   # generate starting values
   betaStart <- glm.fit(cbind(X1, X2), y, family = family,
-                       control = controlGlmFit)$coefficients
+                       control = controlGLMfit)$coefficients
   betaStart1 <- betaStart[1L:k1]
   betaStart2 <- betaStart[(k1 + 1L):(k1 + k2)]
 
@@ -120,6 +130,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   if (keepY) out$y <- family$initializeY(y)
   if (keepX) out$x <- list(focus = X1, aux = X2)
   out$weights <- weights
+  out$offset <- offset
   out$converged <- converged
   out$it <- if (iterate) it else NULL
 
@@ -147,7 +158,7 @@ walsGLM.default <- function(x, ...) {
 #' @export
 walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
                            weights = NULL, offset = NULL,
-                           prior = weibull(), controlGlmFit = list(),
+                           prior = weibull(), controlGLMfit = list(),
                            keepY = TRUE, keepX = FALSE,
                            iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                            verbose = FALSE, ...) {
@@ -159,7 +170,7 @@ walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
   }
 
   out <- walsGLMfitIterate(y, X1, X2, family, na.action, weights, offset, prior,
-                           controlGlmFit, keepY, keepX, iterate, tol, maxIt,
+                           controlGLMfit, keepY, keepX, iterate, tol, maxIt,
                            nIt, verbose, ...)
 
   out$call <- cl
@@ -225,7 +236,7 @@ walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
 #' @export
 walsGLM.formula <- function(formula, family, data, subset = NULL,
                             na.action = NULL, weights = NULL, offset = NULL,
-                            prior = weibull(), controlGlmFit = list(),
+                            prior = weibull(), controlGLMfit = list(),
                             model = TRUE, keepY = TRUE, keepX = FALSE,
                             iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
                             verbose = FALSE, ...) {
@@ -284,7 +295,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 
   ## Fit model
   out <- walsGLMfitIterate(Y, X1, X2, family, na.action, weights, offset, prior,
-                           controlGlmFit, keepY, keepX, iterate, tol, maxIt,
+                           controlGLMfit, keepY, keepX, iterate, tol, maxIt,
                            nIt, verbose, ...)
 
   # add more elements
