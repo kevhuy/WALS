@@ -494,7 +494,6 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
   walsEstimates$n <- n
   walsEstimates$condition <- outSemiOrt$condition
 
-  # class(walsEstimates) <- "wals"
   return(walsEstimates)
 }
 
