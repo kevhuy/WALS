@@ -173,6 +173,8 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
   # add more elements
   if (keepY) out$y <- Y
   if (keepX) out$x <- list(focus = X1, aux = X2)
+  out$weights <- weights
+  out$offset <- offset
   out$call <- cl
   out$formula <- oformula
   out$terms <- list(focus = mtX1, aux = mtX2, full = mt)
@@ -216,9 +218,11 @@ wals.matrix <- function(x, x2, y, subset = NULL, na.action = NULL,
 
   out <- walsFit(X1, X2, y, sigma, prior, ...)
 
-  out$call <- cl
   if (keepY) out$y <- y
   if (keepX) out$x <- list(focus = X1, aux = X2)
+  out$weights <- weights
+  out$offset <- offset
+  out$call <- cl
 
   class(out) <- c("walsMatrix", "wals")
   return(out)
