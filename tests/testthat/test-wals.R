@@ -6,7 +6,7 @@ test_that("wals.formula with only constant focus works", {
 
   # expect no error
   expect_error(wals(fWals, data = dd, prior = weibull(), method = "svd",
-                    eigenSVD = TRUE),
+                    eigenSVD = TRUE, keepUn = TRUE),
                regexp = NA)
 })
 
