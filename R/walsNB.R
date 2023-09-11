@@ -79,6 +79,7 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' for more details.
 #'
 #' @examples
+#' ## Example for walsNB.formula()
 #' data("NMES1988", package = "AER")
 #'
 #' fitWeibull <- walsNB(visits ~ health + chronic + age + gender | I((age^2)/10) +
@@ -191,6 +192,18 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' which inherits from \code{walsNB}, \code{walsGLMmatrix}, \code{walsGLM} and
 #' \code{wals}. It contains all elements returned from \link[WALS]{walsNBfitIterate}
 #' and additionally the call in \code{cl}.
+#'
+#' @examples
+#' ## Example for walsNB.matrix()
+#' data("NMES1988", package = "AER")
+#' X <- model.matrix(visits ~ health + chronic + age + gender + married + region,
+#'                   data = NMES1988)
+#' X1 <- X[, c("(Intercept)", "healthpoor", "healthexcellent", "chronic",
+#'         "age", "gendermale")]
+#' X2 <- X[, c("marriedyes", "regionnortheast", "regionmidwest", "regionwest")]
+#' y <- NMES1988$visits
+#' fit <- walsNB(X1, X2, y, prior = weibull())
+#' summary(fit)
 #'
 #' @rdname walsNB
 #' @export

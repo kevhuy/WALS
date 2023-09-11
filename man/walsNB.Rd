@@ -156,6 +156,7 @@ It is recommended to manually create the interactions beforehand and then
 to insert them as 'linear terms' in the formula.
 }
 \examples{
+## Example for walsNB.formula()
 data("NMES1988", package = "AER")
 
 fitWeibull <- walsNB(visits ~ health + chronic + age + gender | I((age^2)/10) +
@@ -165,6 +166,17 @@ summary(fitWeibull)
 fitLaplace <- walsNB(visits ~ health + chronic + age + gender | I((age^2)/10) +
                      married + region, data = NMES1988, prior = laplace())
 summary(fitLaplace)
+
+## Example for walsNB.matrix()
+data("NMES1988", package = "AER")
+X <- model.matrix(visits ~ health + chronic + age + gender + married + region,
+                  data = NMES1988)
+X1 <- X[, c("(Intercept)", "healthpoor", "healthexcellent", "chronic",
+        "age", "gendermale")]
+X2 <- X[, c("marriedyes", "regionnortheast", "regionmidwest", "regionwest")]
+y <- NMES1988$visits
+fit <- walsNB(X1, X2, y, prior = weibull())
+summary(fit)
 
 }
 \references{
