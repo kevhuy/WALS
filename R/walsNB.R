@@ -292,55 +292,6 @@ walsNB.default <- function(x, ...) {
 #' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
 #' @param ... Arguments for internal function \link[WALS]{computePosterior}.
 #'
-#'
-#'
-#' @returns A list containing
-#' \item{coef}{Model averaged estimates of all coefficients.}
-#' \item{beta1}{Model averaged estimates of the coefficients of the focus regressors.}
-#' \item{beta2}{Model averaged estimates of the coefficients of the auxiliary regressors.}
-#' \item{rho}{Model averaged estimate of the log-dispersion parameter of the
-#' NB2 distribution.}
-#' \item{gamma1}{Model averaged estimates of the coefficients of the transformed
-#' focus regressors.}
-#' \item{gamma2}{Model averaged estimates of the coefficients of the transformed
-#' auxiliary regressors.}
-#' \item{condition}{Condition number of the matrix
-#' \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
-#' \item{vcovBeta}{\code{NULL}, not implemented yet, placeholder for estimated
-#' covariance matrix of the regression coefficients.}
-#' \item{vcovGamma}{\code{NULL}, not implemented yet, placeholder for estimated
-#' covariance matrix of the coefficients of the tranformed regressors.}
-#' \item{betaStart}{Starting values of the regression coefficients for the
-#' one-step ML estimators.}
-#' \item{rhoStart}{Starting values of the dispersion parameter for the
-#' one-step ML estimators.}
-#' \item{method}{Stores \code{method} used from the arguments.}
-#' \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
-#' \item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
-#' estimators of the coefficients of the focus regressors. Else \code{NULL}.}
-#' \item{betaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
-#' estimators of the coefficients of the auxiliary regressors. Else \code{NULL}.}
-#' \item{gammaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
-#' estimators of the coefficients of the transformed focus regressors. Else \code{NULL}.}
-#' \item{gammaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
-#' estimators of the coefficients of the transformed auxiliary regressors. Else \code{NULL}.}
-#' \item{gamma1r}{If \code{keepR = TRUE}, contains the fully restricted one-step
-#' ML estimator for the transformed regressors (only focus regressors).
-#' Else \code{NULL}.}
-#' \item{k1}{Number of focus regressors.}
-#' \item{k2}{Number of auxiliary regressors.}
-#' \item{n}{Number of observations.}
-#' \item{X1names}{Names of the focus regressors.}
-#' \item{X2names}{Names of the auxiliary regressors.}
-#' \item{familyStart}{\code{familyNBWALS}. The \link[stats]{family} object from
-#' \link[WALS]{negbinWALS} used for the estimation of the starting values.}
-#' \item{family}{\code{familyNBWALS}. The \link[stats]{family} object from
-#' \link[WALS]{negbinWALS} used later for predictions.}
-#' \item{fitted.link}{Linear link fitted to the data.}
-#' \item{fitted.values}{Estimated conditional mean for the data. Lives on the
-#' scale of the response.}
-#'
-#'
 #' @details The method to be specified in \code{method} mainly differ in the way
 #' they compute the fully restricted and unrestricted estimators for the
 #' transformed regressors \eqn{Z}, i.e. \eqn{\tilde{\gamma_{1r}}},
@@ -388,6 +339,52 @@ walsNB.default <- function(x, ...) {
 #' All variables in the code that are contain "start" in their name feature the
 #' starting values for the one-step ML estimation of submodels. See section
 #' "One-step ML estimator" of \insertCite{huynhwalsnb}{WALS} for details.
+#'
+#' @returns A list containing
+#' \item{coef}{Model averaged estimates of all coefficients.}
+#' \item{beta1}{Model averaged estimates of the coefficients of the focus regressors.}
+#' \item{beta2}{Model averaged estimates of the coefficients of the auxiliary regressors.}
+#' \item{rho}{Model averaged estimate of the log-dispersion parameter of the
+#' NB2 distribution.}
+#' \item{gamma1}{Model averaged estimates of the coefficients of the transformed
+#' focus regressors.}
+#' \item{gamma2}{Model averaged estimates of the coefficients of the transformed
+#' auxiliary regressors.}
+#' \item{condition}{Condition number of the matrix
+#' \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
+#' \item{vcovBeta}{\code{NULL}, not implemented yet, placeholder for estimated
+#' covariance matrix of the regression coefficients.}
+#' \item{vcovGamma}{\code{NULL}, not implemented yet, placeholder for estimated
+#' covariance matrix of the coefficients of the tranformed regressors.}
+#' \item{betaStart}{Starting values of the regression coefficients for the
+#' one-step ML estimators.}
+#' \item{rhoStart}{Starting values of the dispersion parameter for the
+#' one-step ML estimators.}
+#' \item{method}{Stores \code{method} used from the arguments.}
+#' \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
+#' \item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the focus regressors. Else \code{NULL}.}
+#' \item{betaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the auxiliary regressors. Else \code{NULL}.}
+#' \item{gammaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the transformed focus regressors. Else \code{NULL}.}
+#' \item{gammaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+#' estimators of the coefficients of the transformed auxiliary regressors. Else \code{NULL}.}
+#' \item{gamma1r}{If \code{keepR = TRUE}, contains the fully restricted one-step
+#' ML estimator for the transformed regressors (only focus regressors).
+#' Else \code{NULL}.}
+#' \item{k1}{Number of focus regressors.}
+#' \item{k2}{Number of auxiliary regressors.}
+#' \item{n}{Number of observations.}
+#' \item{X1names}{Names of the focus regressors.}
+#' \item{X2names}{Names of the auxiliary regressors.}
+#' \item{familyStart}{\code{familyNBWALS}. The \link[stats]{family} object from
+#' \link[WALS]{negbinWALS} used for the estimation of the starting values.}
+#' \item{family}{\code{familyNBWALS}. The \link[stats]{family} object from
+#' \link[WALS]{negbinWALS} used later for predictions.}
+#' \item{fitted.link}{Linear link fitted to the data.}
+#' \item{fitted.values}{Estimated conditional mean for the data. Lives on the
+#' scale of the response.}
 #'
 #' @seealso [walsNB], [walsNBfitIterate].
 #'
