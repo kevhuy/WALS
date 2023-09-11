@@ -271,7 +271,7 @@ walsNB.default <- function(x, ...) {
 #' (column full of 1's) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
-#' @param y Count response as vector
+#' @param y Count response as vector.
 #' @param betaStart1 Starting values for coefficients of focus regressors X1.
 #' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
 #' @param rhoStart Starting value for log-dispersion parameter of NB2
@@ -634,11 +634,11 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 }
 
 #' Iteratively fitting walsNB, internal function for walsNB.formula and
-#' walsNB.vector.
+#' walsNB.matrix.
 #'
 #' See description of \link{walsNB}.
 #'
-#' @param y Count response as vector
+#' @param y Count response as vector.
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
 #' (column full of 1's) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
@@ -653,18 +653,18 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' @param keepY If \code{TRUE}, then output keeps response.
 #' @param keepX If \code{TRUE}, then output keeps the design matrices.
 #' @param iterate if TRUE then the WALS algorithm is iterated using the previous
-#' estimates as starting values
+#' estimates as starting values.
 #' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-#' between the previous beta and current beta falls below tol and the absolute difference between
-#' the previous and current rho falls below tol, then the algorithm stops.
+#' between the previous beta and current beta falls below tol and the absolute
+#' difference between the previous and current rho falls below tol, then
+#' the algorithm stops.
 #' @param maxIt Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
 #' when number of iterations exceed maxIt.
 #' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
 #' and the algorithm iterates nIt times.
-#' @param verbose If verbose = TRUE, then it prints the iteration process of
-#' internal function walsNBfitIterate (only relevant if we iterate = TRUE).
-#' @param ... Arguments to be passed to the workhorse function walsNBfit which
-#' actually fits the model.
+#' @param verbose If verbose = TRUE, then it prints the iteration process
+#' (only relevant if we iterate = TRUE).
+#' @param ... Arguments to be passed to the workhorse function walsNBfit.
 #'
 #' @returns A list containing all elements returned from \link[WALS]{walsNBfit}
 #' and additionally the following elements:
@@ -682,7 +682,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' if \code{iterate = FALSE}.}
 #' \item{it}{Number of iterations run in the iterative fitting algorithm.
 #' \code{NULL} if \code{iterate = FALSE}.}
-#' \item{deviance}{Deviance of the fitted NB2 distribution.}
+#' \item{deviance}{Deviance of the fitted (conditional) NB2 regression model.}
 #' \item{residuals}{Raw residuals, i.e. response - fitted mean.}
 #'
 #' @seealso [walsNB], [walsNBfit].

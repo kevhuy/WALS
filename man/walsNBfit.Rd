@@ -30,7 +30,7 @@ walsNBfit(
 \item{X2}{Design matrix for auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
 
-\item{y}{Count response as vector}
+\item{y}{Count response as vector.}
 
 \item{betaStart1}{Starting values for coefficients of focus regressors X1.}
 
