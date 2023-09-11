@@ -1,4 +1,4 @@
-#' Weighted Average Least Squares Negative Binomial
+#' Weighted-Average Least Squares for Negative Binomial Regression
 #'
 #' Fits an NB2 regression model using the Weighted-Average Least Squares method
 #' of \insertCite{huynhwalsnb;textual}{WALS}.

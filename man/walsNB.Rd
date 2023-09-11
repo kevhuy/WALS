@@ -5,7 +5,7 @@
 \alias{walsNB.formula}
 \alias{walsNB.matrix}
 \alias{walsNB.default}
-\title{Weighted Average Least Squares Negative Binomial}
+\title{Weighted-Average Least Squares for Negative Binomial Regression}
 \usage{
 walsNB(x, ...)
 

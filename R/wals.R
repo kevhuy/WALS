@@ -1,4 +1,4 @@
-#' Weighted Average Least Squares for linear regression models
+#' Weighted-Average Least Squares for linear regression models
 #'
 #' Performs model averaging for linear regression models using the
 #' Weighted-Average Least Squares method by

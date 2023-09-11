@@ -5,7 +5,7 @@
 \alias{wals.formula}
 \alias{wals.matrix}
 \alias{wals.default}
-\title{Weighted Average Least Squares for linear regression models}
+\title{Weighted-Average Least Squares for linear regression models}
 \usage{
 wals(x, ...)
 
