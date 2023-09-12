@@ -9,8 +9,8 @@
 #' @export
 walsNB <- function(x, ...) UseMethod("walsNB", x)
 
-
 #' \code{walsNB.formula} uses formulas to specify the design matrix.
+#' @rdname walsNB
 #'
 #' @param formula an object of class "\link{Formula}"
 #' (or one that can be coerced to that class):
@@ -90,7 +90,6 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #'                      married + region, data = NMES1988, prior = laplace())
 #' summary(fitLaplace)
 #'
-#' @rdname walsNB
 #' @export
 walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
                            weights = NULL, offset = NULL,
@@ -181,6 +180,7 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 
 #' \code{walsNB.matrix()} uses prespecified design matrices x (focus) and
 #' x2 (auxiliary) and response vector y.
+#' @rdname walsNB
 #'
 #' @param x Design matrix for focus regressors. Usually includes a constant
 #' (column full of 1's) and can be generated using model.matrix().
@@ -205,7 +205,6 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' fit <- walsNB(X1, X2, y, prior = weibull())
 #' summary(fit)
 #'
-#' @rdname walsNB
 #' @export
 walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
                           na.action = NULL, weights = NULL, offset = NULL,

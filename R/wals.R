@@ -22,6 +22,8 @@
 wals <- function(x, ...) UseMethod("wals", x)
 
 #' \code{wals.formula} uses formulas to specify the design matrix.
+#' @rdname wals
+#'
 #' @param formula an object of class "\link{Formula}"
 #' (or one that can be coerced to that class):
 #' a symbolic description of the model to be fitted.
@@ -129,7 +131,6 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' printVars <- c("(Intercept)", "EAST", "P60", "IPRICE1", "GDPCH60L", "TROPICAR")
 #' print(round(tableDW[printVars,], 5))
 #'
-#' @rdname wals
 #' @export
 wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
                          weights = NULL, offset = NULL, prior = weibull(),
@@ -210,6 +211,7 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 
 #' \code{wals.matrix()} uses prespecified design matrices x (focus) and
 #' x2 (auxiliary) and response vector y.
+#' @rdname wals
 #'
 #' @param x matrix of focus regressors.
 #' @param x2 matrix of auxiliary regressors.
@@ -230,7 +232,6 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #'
 #' wals(X1, X2, y, prior = weibull())
 #'
-#' @rdname wals
 #' @export
 wals.matrix <- function(x, x2, y, subset = NULL, na.action = NULL,
                         weights = NULL, offset = NULL, prior = weibull(),
