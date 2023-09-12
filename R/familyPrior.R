@@ -93,6 +93,17 @@ laplace <- function(b = log(2.0)) {
   return(out)
 }
 
+## Class methods ---------------------------------------------------------------
+
+#' @export
+print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  priorPars <- paste(names(x$printPars), signif(x$printPars, digits),
+                     sep = " = ", collapse = ", ")
+  cat(paste0("\nPrior: ", x$prior, "(", priorPars, ")\n\n"))
+  invisible(x)
+}
+
+## Densities of distributions --------------------------------------------------
 
 #' Double (reflected) weibull density
 #'
