@@ -10,17 +10,23 @@ ddweibull(x, q, b, log = FALSE)
 \item{x}{vector of quantiles.}
 
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution.}
+Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution.}
+Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 }
+\value{
+Gives the density.
+}
 \description{
-Wrapper around dgengamma.stacy() of VGAM to use the parametrization on pp. 131
-of \insertCite{magnus2016wals;textual}{WALS}.
+Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
+parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 }
 \references{
 \insertAllCited{}
+}
+\seealso{
+\link{weibull}, \link{ddgengamma}.
 }

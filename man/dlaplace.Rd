@@ -10,14 +10,20 @@ dlaplace(x, b, log = FALSE)
 \item{x}{vector of quantiles.}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution.}
+Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 }
+\value{
+Gives the (log-)density.
+}
 \description{
-Wrapper around dgengamma.stacy() of VGAM to use the parametrization on pp. 131
-of \insertCite{magnus2016wals;textual}{WALS}.
+Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
+parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 }
 \references{
 \insertAllCited{}
+}
+\seealso{
+\link{laplace}, \link{ddgengamma}.
 }

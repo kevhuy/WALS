@@ -20,6 +20,9 @@ Parameter of reflected generalized gamma distribution.}
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 }
+\value{
+Gives the (log-)density.
+}
 \description{
 Wrapper around dgengamma.stacy() of VGAM to use the parametrization on pp. 131
 of \insertCite{magnus2016wals;textual}{WALS}.
@@ -28,8 +31,9 @@ of \insertCite{magnus2016wals;textual}{WALS}.
 The density function is
 \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)} |x|^{-\alpha} \exp(-c |x|^{q})}.
 
-The function uses \code{dgengamma.stacy} internally from \code{VGAM} that uses
-the parametrization in table 12.13, p.369 of \insertCite{yee2015vgam;textual}{WALS}.
+The function uses \link[VGAM]{dgengamma.stacy} internally from \link[VGAM]{VGAM}
+that uses the parametrization in table 12.13, p.369 of
+\insertCite{yee2015vgam;textual}{WALS}.
 }
 \references{
 \insertAllCited{}

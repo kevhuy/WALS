@@ -654,3 +654,6 @@ fitted.wals <- function(object, ...) return(object$fitted.values)
 
 #' @export
 residuals.wals <- function(object, ...) return(object$residuals)
+
+#' @export
+familyPrior.wals <- function(object, ...) return(object$prior)

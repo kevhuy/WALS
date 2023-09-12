@@ -1,25 +1,38 @@
-## Contains distribution families for priors in WALS
-
-#' Double (reflected) Weibull prior
+#' Family Objects for Prior Distributions in WALS
 #'
-#' Double (reflected) Weibull prior for Bayesian posterior mean estimation of
-#' WALS estimators. Special case of the reflected generalized gamma distribution.
+#' \code{familyPrior} objects provide a convenient way to specify the prior
+#' used  for the Bayesian posterior mean estimation of the WALS estimators
+#' in \link{wals}, \link{walsGLM} and \link{walsNB}.
 #'
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #'
 #' @details
+#' The double (reflected) Weibull \link{weibull}, Subbotin \link{subbotin} and
+#' Laplace distributions (\link{laplace}) are all special cases of the reflected
+#' generalized gamma distribution (\link{ddgengamma}). The Laplace distribution
+#' is also a special case of the double Weibull and of the Subbotin distribution.
+#'
 #' The default values for the parameters \code{q} and \code{b} are minimax regret
-#' solutions. The double weibull prior is both neutral and robust.
-#' See section 9 "Enter Bayes: Neutrality and Robustness" of
-#' \insertCite{magnus2016wals;textual}{WALS} for details.
+#' solutions for the corresponding priors. The double (reflected) Weibull and
+#' Subbotin prior are both neutral and robust. In contrast, the Laplace prior
+#' is only neutral but not robust. See section 9 "Enter Bayes: Neutrality and
+#' Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details.
 #'
 #' @references
 #' \insertAllCited{}
 #'
+#' @seealso [wals], [walsGLM], [walsNB], [computePosterior], [ddweibull],
+#' [ddsubbotin], [dlaplace], [ddgengamma].
 #'
+#' @export
+familyPrior <- function(object, ...) UseMethod("familyPrior", object)
+
+
+#' Double (reflected) Weibull prior
+#' @rdname familyPrior
 #' @export
 weibull <- function(q = 0.887630085544086, b = log(2.0)) {
   alpha <- 1 - q
@@ -38,28 +51,9 @@ weibull <- function(q = 0.887630085544086, b = log(2.0)) {
 
 
 #' Subbotin prior
-#'
-#' Subbotin prior for Bayesian posterior mean estimation of WALS estimators.
-#' Special case of the reflected generalized gamma distribution.
-#'
-#' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
-#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
-#'
-#' @details
-#' The default values for the parameters \code{q} and \code{b} are minimax regret
-#' solutions. The Subbotin prior is both neutral and robust.
-#' See section 9 "Enter Bayes: Neutrality and Robustness" of
-#' \insertCite{magnus2016wals;textual}{WALS} for details.
-#'
-#' @references
-#' \insertAllCited{}
-#'
-#'
-#'
+#' @rdname familyPrior
 #' @export
-subbotin <- function(q = 0.799512530172489, b=0.937673273794677) {
+subbotin <- function(q = 0.799512530172489, b = 0.937673273794677) {
   alpha <- 0.0
   delta <- (1.0 - alpha)/q
 
@@ -76,25 +70,12 @@ subbotin <- function(q = 0.799512530172489, b=0.937673273794677) {
 
 
 #' Laplace prior
-#'
-#' Laplace prior for Bayesian posterior mean estimation of WALS estimators.
-#' Special case of the reflected generalized gamma distribution and of
-#' the Weibull and Subbotin prior.
-#'
-#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
-#'
-#' @details
-#' The default value for the parameter \code{b} is the minimax regret
-#' solution. The Laplace prior is only neutral but not robust.
-#' See section 9 "Enter Bayes: Neutrality and Robustness" of
-#' \insertCite{magnus2016wals;textual}{WALS} for details.
-#'
-#' @references
-#' \insertAllCited{}
-#'
-#'
-#'
+#' @rdname familyPrior
+#' @aliases familyPrior_laplace
+#' @returns \code{laplace} returns the specialized class \code{familyPrior_laplace}
+#' that inherits from \code{familyPrior}. This allows separate processing of
+#' the Laplace prior in the estimation functions as closed-form formulas
+#' exists for its posterior mean and variance.
 #' @export
 laplace <- function(b = log(2.0)) {
   alpha <- 0.0
@@ -115,18 +96,22 @@ laplace <- function(b = log(2.0)) {
 
 #' Double (reflected) weibull density
 #'
-#' Wrapper around dgengamma.stacy() of VGAM to use the parametrization on pp. 131
-#' of \insertCite{magnus2016wals;textual}{WALS}.
+#' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
+#' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @param x vector of quantiles.
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param log logical; if TRUE, probabilities p are given as log(p).
+#'
+#' @returns Gives the density.
 #'
 #' @references
 #' \insertAllCited{}
+#'
+#' @seealso [weibull], [ddgengamma].
 #'
 #' @export
 ddweibull <- function(x, q, b, log = FALSE) {
@@ -136,17 +121,21 @@ ddweibull <- function(x, q, b, log = FALSE) {
 
 #' Subbotin density
 #'
-#' Wrapper around dgengamma.stacy() of VGAM to use the parametrization on pp. 131
-#' of \insertCite{magnus2016wals;textual}{WALS}.
+#' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
+#' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param log logical; if TRUE, probabilities p are given as log(p).
+#'
+#' @returns Gives the (log-)density.
 #'
 #' @references
 #' \insertAllCited{}
+#'
+#' @seealso [subbotin], [ddgengamma].
 #'
 #' @export
 ddsubbotin <- function(x, q, b, log = FALSE) {
@@ -156,16 +145,20 @@ ddsubbotin <- function(x, q, b, log = FALSE) {
 
 #' Laplace density
 #'
-#' Wrapper around dgengamma.stacy() of VGAM to use the parametrization on pp. 131
-#' of \insertCite{magnus2016wals;textual}{WALS}.
+#' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
+#' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @param x vector of quantiles.
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param log logical; if TRUE, probabilities p are given as log(p).
+#'
+#' @returns Gives the (log-)density.
 #'
 #' @references
 #' \insertAllCited{}
+#'
+#' @seealso [laplace], [ddgengamma].
 #'
 #' @export
 dlaplace <- function(x, b, log = FALSE) {
@@ -195,8 +188,11 @@ dlaplace <- function(x, b, log = FALSE) {
 #' The density function is
 #' \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)} |x|^{-\alpha} \exp(-c |x|^{q})}.
 #'
-#' The function uses \code{dgengamma.stacy} internally from \code{VGAM} that uses
-#' the parametrization in table 12.13, p.369 of \insertCite{yee2015vgam;textual}{WALS}.
+#' The function uses \link[VGAM]{dgengamma.stacy} internally from \link[VGAM]{VGAM}
+#' that uses the parametrization in table 12.13, p.369 of
+#' \insertCite{yee2015vgam;textual}{WALS}.
+#'
+#' @returns Gives the (log-)density.
 #'
 #' @references
 #' \insertAllCited{}

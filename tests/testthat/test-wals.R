@@ -19,6 +19,9 @@ test_that("some class methods of wals", {
   walsEst <- wals(fWals, data = dd, method = "original", eigenSVD = TRUE,
                   prior = weibull(), keepY = TRUE, keepX = TRUE)
 
+  # expect no error in familyPrior extraction.
+  expect_error(familyPrior(walsEst), regexp = NA)
+
   expect_length(coef(walsEst), 6L) # check coefs
   expect_true(all(dim(vcov(walsEst)) == c(6L,6L))) # check vcov
   expect_true(nobs(walsEst) == nrow(dd)) # check nobs
