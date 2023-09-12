@@ -17,6 +17,10 @@ subbotin(q = 0.799512530172489, b = 0.937673273794677)
 laplace(b = log(2))
 }
 \arguments{
+\item{object}{Object of of class \code{familyPrior}.}
+
+\item{...}{Further arguments passed to methods.}
+
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
 Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
 

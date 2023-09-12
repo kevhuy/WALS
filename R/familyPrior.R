@@ -8,6 +8,8 @@
 #' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
 #' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
+#' @param object Object of of class \code{familyPrior}.
+#' @param ... Further arguments passed to methods.
 #'
 #' @details
 #' The double (reflected) Weibull \link{weibull}, Subbotin \link{subbotin} and
