@@ -184,7 +184,7 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' @rdname walsNB
 #'
 #' @param x Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1's) and can be generated using model.matrix().
+#' (column full of 1s) and can be generated using model.matrix().
 #' @param x2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param y Count response as vector
@@ -268,7 +268,7 @@ walsNB.default <- function(x, ...) {
 #'  )
 #'
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1's) and can be generated using model.matrix().
+#' (column full of 1s) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param y Count response as vector.
@@ -639,7 +639,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #'
 #' @param y Count response as vector.
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1's) and can be generated using model.matrix().
+#' (column full of 1s) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param link specifies the link function, currently only "log" is supported.

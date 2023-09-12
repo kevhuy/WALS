@@ -175,7 +175,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #' @rdname walsGLM
 #'
 #' @param x Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1's) and can be generated using model.matrix().
+#' (column full of 1s) and can be generated using model.matrix().
 #' @param x2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param y Count response as vector
@@ -247,7 +247,7 @@ walsGLM.default <- function(x, ...) {
 #'  ...)
 #'
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1's) and can be generated using model.matrix().
+#' (column full of 1s) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param y response as vector.
@@ -313,7 +313,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #'
 #' @param y Response as vector.
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1's) and can be generated using model.matrix().
+#' (column full of 1s) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
 #' @param family Object of class \link{familyWALS}.

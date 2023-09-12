@@ -55,7 +55,7 @@ walsGLM(x, ...)
 }
 \arguments{
 \item{x}{Design matrix for focus regressors. Usually includes a constant
-(column full of 1's) and can be generated using model.matrix().}
+(column full of 1s) and can be generated using model.matrix().}
 
 \item{...}{Arguments for workhorse \link[WALS]{walsGLMfit}.}
 
