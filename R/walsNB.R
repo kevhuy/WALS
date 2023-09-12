@@ -96,7 +96,7 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
                            link = "log", prior = weibull(),
                            controlInitNB = controlNB(),
                            model = TRUE, keepY = TRUE, keepX = FALSE,
-                           iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
+                           iterate = FALSE, tol = 1e-6, maxIt = 50, nIt = NULL,
                            verbose = FALSE, ...) {
 
   ## call
@@ -210,7 +210,7 @@ walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
                           na.action = NULL, weights = NULL, offset = NULL,
                           prior = weibull(), controlInitNB = controlNB(),
                           model = TRUE, keepY = TRUE, keepX = FALSE,
-                          iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
+                          iterate = FALSE, tol = 1e-6, maxIt = 50, nIt = NULL,
                           verbose = FALSE, ...) {
   cl <- match.call()
   X1 <- x
@@ -691,7 +691,7 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
                               weights = NULL, offset = NULL,
                               prior = weibull(), controlInitNB = controlNB(),
                               keepY = TRUE, keepX = FALSE,
-                              iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
+                              iterate = FALSE, tol = 1e-6, maxIt = 50, nIt = NULL,
                               verbose = FALSE, ...) {
 
   ## Useful quantities

@@ -96,7 +96,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
                             na.action = NULL, weights = NULL, offset = NULL,
                             prior = weibull(), controlGLMfit = list(),
                             model = TRUE, keepY = TRUE, keepX = FALSE,
-                            iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
+                            iterate = FALSE, tol = 1e-6, maxIt = 50, nIt = NULL,
                             verbose = FALSE, ...) {
 
   ## call
@@ -202,7 +202,7 @@ walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
                            weights = NULL, offset = NULL,
                            prior = weibull(), controlGLMfit = list(),
                            keepY = TRUE, keepX = FALSE,
-                           iterate = FALSE, tol = 1e-6, maxIt = 10000, nIt = NULL,
+                           iterate = FALSE, tol = 1e-6, maxIt = 50, nIt = NULL,
                            verbose = FALSE, ...) {
   cl <- match.call()
   X1 <- x
@@ -362,7 +362,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
                               weights = NULL, offset = NULL,
                               prior = weibull(), controlGLMfit = list(),
                               keepY = TRUE, keepX = FALSE, iterate = FALSE,
-                              tol = 1e-6, maxIt = 10000, nIt = NULL,
+                              tol = 1e-6, maxIt = 50, nIt = NULL,
                               verbose = FALSE, ...) {
   # Useful quantities
   k1 <- ncol(X1)

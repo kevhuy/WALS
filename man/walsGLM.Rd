@@ -24,7 +24,7 @@ walsGLM(x, ...)
   keepX = FALSE,
   iterate = FALSE,
   tol = 1e-06,
-  maxIt = 10000,
+  maxIt = 50,
   nIt = NULL,
   verbose = FALSE,
   ...
@@ -45,7 +45,7 @@ walsGLM(x, ...)
   keepX = FALSE,
   iterate = FALSE,
   tol = 1e-06,
-  maxIt = 10000,
+  maxIt = 50,
   nIt = NULL,
   verbose = FALSE,
   ...
