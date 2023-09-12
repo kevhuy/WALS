@@ -150,6 +150,7 @@ ddweibull <- function(x, q, b, log = FALSE) {
 #' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
+#' @param x vector of quantiles.
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
 #' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
@@ -234,5 +235,4 @@ ddgengamma <- function(x, q, alpha, b, log = FALSE) {
   } else {
     return(VGAM::dgengamma.stacy(abs(x), scale = scale, d = d, k = k, log = FALSE) / 2.0)
   }
-
 }

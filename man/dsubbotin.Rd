@@ -7,6 +7,8 @@
 dsubbotin(x, q, b, log = FALSE)
 }
 \arguments{
+\item{x}{vector of quantiles.}
+
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
 Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
 
