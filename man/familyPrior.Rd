@@ -28,15 +28,27 @@ Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
 Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
 }
 \value{
-\code{laplace} returns the specialized class \code{familyPrior_laplace}
-that inherits from \code{familyPrior}. This allows separate processing of
-the Laplace prior in the estimation functions as closed-form formulas
-exists for its posterior mean and variance.
+An object of class \code{familyPrior}. This is a list with the
+elements
+\item{q}{Parameter \eqn{q}.}
+\item{alpha}{Parameter \eqn{\alpha} (of the reflected generalized gamma
+distribution).}
+\item{b}{Parameter \eqn{c}.}
+\item{delta}{Parameter \eqn{\delta = (1 - \alpha)/q}.}
+\item{printPars}{vector. Contains the parameters that are shown in printing
+functions, e.g. \code{print.familyPrior}.}.
+\item{prior}{String with the name of the prior distribution.}
+
+\code{laplace} returns an object of the specialized class
+\code{familyPrior_laplace} that inherits from \code{familyPrior}.
+This allows separate processing of the Laplace prior in the estimation
+functions as closed-form formulas exists for its posterior mean and variance.
+The list elements are the same as for objects of class \code{familyPrior}.
 }
 \description{
 \code{familyPrior} objects provide a convenient way to specify the prior
-used  for the Bayesian posterior mean estimation of the WALS estimators
-in \link{wals}, \link{walsGLM} and \link{walsNB}.
+distribution usedfor the Bayesian posterior mean estimation of the WALS
+estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
 }
 \details{
 The double (reflected) Weibull \link{weibull}, Subbotin \link{subbotin} and

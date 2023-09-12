@@ -1,8 +1,8 @@
 #' Family Objects for Prior Distributions in WALS
 #'
 #' \code{familyPrior} objects provide a convenient way to specify the prior
-#' used  for the Bayesian posterior mean estimation of the WALS estimators
-#' in \link{wals}, \link{walsGLM} and \link{walsNB}.
+#' distribution usedfor the Bayesian posterior mean estimation of the WALS
+#' estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
 #'
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
 #' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
@@ -22,6 +22,17 @@
 #' Subbotin prior are both neutral and robust. In contrast, the Laplace prior
 #' is only neutral but not robust. See section 9 "Enter Bayes: Neutrality and
 #' Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details.
+#'
+#' @returns An object of class \code{familyPrior}. This is a list with the
+#' elements
+#' \item{q}{Parameter \eqn{q}.}
+#' \item{alpha}{Parameter \eqn{\alpha} (of the reflected generalized gamma
+#' distribution).}
+#' \item{b}{Parameter \eqn{c}.}
+#' \item{delta}{Parameter \eqn{\delta = (1 - \alpha)/q}.}
+#' \item{printPars}{vector. Contains the parameters that are shown in printing
+#' functions, e.g. \code{print.familyPrior}.}.
+#' \item{prior}{String with the name of the prior distribution.}
 #'
 #' @references
 #' \insertAllCited{}
@@ -74,10 +85,12 @@ subbotin <- function(q = 0.799512530172489, b = 0.937673273794677) {
 #' Laplace prior
 #' @rdname familyPrior
 #' @aliases familyPrior_laplace
-#' @returns \code{laplace} returns the specialized class \code{familyPrior_laplace}
-#' that inherits from \code{familyPrior}. This allows separate processing of
-#' the Laplace prior in the estimation functions as closed-form formulas
-#' exists for its posterior mean and variance.
+#' @returns \code{laplace} returns an object of the specialized class
+#' \code{familyPrior_laplace} that inherits from \code{familyPrior}.
+#' This allows separate processing of the Laplace prior in the estimation
+#' functions as closed-form formulas exists for its posterior mean and variance.
+#' The list elements are the same as for objects of class \code{familyPrior}.
+#'
 #' @export
 laplace <- function(b = log(2.0)) {
   alpha <- 0.0
