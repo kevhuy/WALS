@@ -2,14 +2,33 @@
 % Please edit documentation in R/walsGLM.R
 \name{walsGLM}
 \alias{walsGLM}
-\alias{walsGLM.default}
-\alias{walsGLM.matrix}
 \alias{walsGLM.formula}
+\alias{walsGLM.matrix}
+\alias{walsGLM.default}
 \title{Weighted Average Least Squares for Generalized Linear Models}
 \usage{
 walsGLM(x, ...)
 
-\method{walsGLM}{default}(x, ...)
+\method{walsGLM}{formula}(
+  formula,
+  family,
+  data,
+  subset = NULL,
+  na.action = NULL,
+  weights = NULL,
+  offset = NULL,
+  prior = weibull(),
+  controlGLMfit = list(),
+  model = TRUE,
+  keepY = TRUE,
+  keepX = FALSE,
+  iterate = FALSE,
+  tol = 1e-06,
+  maxIt = 10000,
+  nIt = NULL,
+  verbose = FALSE,
+  ...
+)
 
 \method{walsGLM}{matrix}(
   x,
@@ -32,29 +51,25 @@ walsGLM(x, ...)
   ...
 )
 
-\method{walsGLM}{formula}(
-  formula,
-  family,
-  data,
-  subset = NULL,
-  na.action = NULL,
-  weights = NULL,
-  offset = NULL,
-  prior = weibull(),
-  controlGLMfit = list(),
-  model = TRUE,
-  keepY = TRUE,
-  keepX = FALSE,
-  iterate = FALSE,
-  tol = 1e-06,
-  maxIt = 10000,
-  nIt = NULL,
-  verbose = FALSE,
-  ...
-)
+\method{walsGLM}{default}(x, ...)
 }
 \arguments{
+\item{x}{Design matrix for focus regressors. Usually includes a constant
+(column full of 1's) and can be generated using model.matrix().}
+
 \item{...}{Arguments for workhorse \link[WALS]{walsGLMfit}.}
+
+\item{formula}{an object of class "\link{Formula}"
+(or one that can be coerced to that class):
+a symbolic description of the model to be fitted.
+The details of model specification are given under ‘Details’.}
+
+\item{family}{Object of class \code{familyWALS}.}
+
+\item{data}{an optional data frame, list or environment
+(or object coercible by as.data.frame to a data frame) containing the
+variables in the model. If not found in data, the variables are taken from
+environment(formula), typically the environment from which walsNB is called.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}
@@ -64,6 +79,21 @@ used in the fitting process.}
 \item{weights}{\strong{not implemented yet.}}
 
 \item{offset}{\strong{not implemented yet.}}
+
+\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
+or \link[WALS]{laplace}.}
+
+\item{controlGLMfit}{Controls estimation of starting values for one-step ML,
+passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.}
+
+\item{model}{if \code{TRUE} (default), then the model.frame is stored in
+the return.}
+
+\item{keepY}{if \code{TRUE} (default), then the response is stored in
+the return.}
+
+\item{keepX}{if \code{TRUE}, then the model matrix is stored in the return.
+the return.}
 
 \item{iterate}{if TRUE then the WALS algorithm is iterated using the previous
 estimates as starting values}
@@ -82,29 +112,46 @@ replication purposes.}
 \item{verbose}{If verbose = TRUE, then it prints the iteration process
 (only relevant if iterate = TRUE).}
 
-\item{formula}{an object of class "\link{Formula}"
-(or one that can be coerced to that class):
-a symbolic description of the model to be fitted.
-The details of model specification are given under ‘Details’.}
+\item{x2}{Design matrix for auxiliary regressors. Usually does not include
+a constant column and can also be generated using model.matrix().}
 
-\item{data}{an optional data frame, list or environment
-(or object coercible by as.data.frame to a data frame) containing the
-variables in the model. If not found in data, the variables are taken from
-environment(formula), typically the environment from which walsNB is called.}
+\item{y}{Count response as vector}
+}
+\value{
+For \code{walsGLM.formula}, it returns an object of class
+\code{walsGLM} which inherits from \code{walsGLM}. It contains
+all elements returned from \link[WALS]{walsGLMfitIterate} and additionally
+\item{cl}{Call of the function.}
+\item{formula}{\code{formula} used.}
+\item{terms}{List containing the model terms of the focus and auxiliary
+regressors separately, as well as for the full model.}
+\item{levels}{List containing the levels of the focus and auxiliary
+regressors separately, as well as for the full model.}
+\item{contrasts}{List containing the contrasts of the design matrices of
+focus and auxiliary regressors.}
+\item{model}{If \code{model = TRUE}, contains the model frame.}
+
+See returns of \link[WALS]{walsGLMfit} and \link[WALS]{walsGLMfitIterate}
+for more details.
+
+For \code{walsGLM.matrix}, it returns an object of class
+\code{walsGLMmatrix}, which inherits from \code{walsGLM}, \code{walsMatrix}
+and \code{wals}. It contains all elements returned from
+\link[WALS]{walsGLMfitIterate} and additionally the call in \code{cl}.
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method
 described in \insertCite{deluca2018glm;textual}{WALS}.
-
-\strong{WARNING:} Interactions in formula do work work properly yet.
-It is recommended to manually create the interactions beforehand and then
-to insert them as 'linear terms' in the formula.
 }
 \details{
 Formulas should always contain two parts, i.e. they should be of the form
 "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
 regressors (includes a constant by default) and the ones after "|" are the
 auxiliary regressors.
+
+\strong{WARNING:} Interactions in formula do work work properly yet.
+It is recommended to manually create the interactions beforehand and then
+to insert them as 'linear terms' in the formula.
 }
 \examples{
 data("HMDA", package = "AER")
@@ -118,6 +165,17 @@ fitPoisson <- walsGLM(emergency ~ health + chronic + age + gender |
                       I((age^2)/10) + married + region, data = NMES1988,
                       family = poissonWALS(), prior = laplace())
 summary(fitPoisson)
+
+## Example for walsGLM.matrix()
+data("HMDA", package = "AER")
+X <- model.matrix(deny ~ pirat + hirat + lvrat + chist + mhist + phist + selfemp + afam,
+                  data = HMDA)
+X1 <- X[,c("(Intercept)", "pirat", "hirat", "lvrat", "chist2", "chist3",
+        "chist4", "chist5", "chist6", "mhist2", "mhist3", "mhist4", "phistyes")]
+X2 <- X[,c("selfempyes", "afamyes")]
+y <- HMDA$deny
+fit <- walsGLM(X1, X2, y, family = binomialWALS(), prior = weibull())
+summary(fit)
 
 }
 \references{
