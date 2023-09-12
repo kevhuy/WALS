@@ -34,7 +34,7 @@ walsGLMfitIterate(
 \item{X2}{Design matrix for auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
 
-\item{family}{Object of class \code{familyWALS}.}
+\item{family}{Object of class \link{familyWALS}.}
 
 \item{na.action}{Not implemented yet.}
 

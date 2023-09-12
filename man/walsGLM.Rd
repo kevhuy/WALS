@@ -64,7 +64,7 @@ walsGLM(x, ...)
 a symbolic description of the model to be fitted.
 The details of model specification are given under ‘Details’.}
 
-\item{family}{Object of class \code{familyWALS}.}
+\item{family}{Object of class \link{familyWALS}.}
 
 \item{data}{an optional data frame, list or environment
 (or object coercible by as.data.frame to a data frame) containing the

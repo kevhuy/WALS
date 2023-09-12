@@ -274,8 +274,8 @@ walsNB.default <- function(x, ...) {
 #' @param betaStart1 Starting values for coefficients of focus regressors X1.
 #' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
 #' @param rhoStart Starting value for log-dispersion parameter of NB2
-#' @param family Object of class \code{familyWALS}. Currently only supports
-#' \code{negativeBinomial()}.
+#' @param family Object of class \link{familyNBWALS}. Currently only supports
+#' \link{negbinWALS}.
 #' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
 #' or \link[WALS]{laplace}.
 #' @param method Specifies method used. Available methods are \code{"fullSVD"}
@@ -390,10 +390,9 @@ walsNB.default <- function(x, ...) {
 #' \item{n}{Number of observations.}
 #' \item{X1names}{Names of the focus regressors.}
 #' \item{X2names}{Names of the auxiliary regressors.}
-#' \item{familyStart}{\code{familyNBWALS}. The \link[stats]{family} object from
-#' \link[WALS]{negbinWALS} used for the estimation of the starting values.}
-#' \item{family}{\code{familyNBWALS}. The \link[stats]{family} object from
-#' \link[WALS]{negbinWALS} used later for predictions.}
+#' \item{familyStart}{\link{familyNBWALS}. The family object used for the
+#' estimation of the starting values.}
+#' \item{family}{\link{familyNBWALS}. The family object used later for predictions.}
 #' \item{fitted.link}{Linear link fitted to the data.}
 #' \item{fitted.values}{Estimated conditional mean for the data. Lives on the
 #' scale of the response.}

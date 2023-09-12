@@ -27,7 +27,7 @@ a constant column and can also be generated using model.matrix().}
 
 \item{betaStart2}{Starting values for coefficients of auxiliary regressors X2.}
 
-\item{family}{Object of class \code{familyWALS}.}
+\item{family}{Object of class \link{familyWALS}.}
 
 \item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
 or \link[WALS]{laplace}.}
@@ -39,7 +39,7 @@ A list containing all elements returned by \link[WALS]{walsFit},
 except for \code{residuals}, and additionally (some fields are replaced)
 \item{condition}{Condition number of the matrix
 \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
-\item{family}{Object of class \code{familyWALS}. The family used.}
+\item{family}{Object of class \link{familyWALS}. The family used.}
 \item{betaStart}{Starting values of the regression coefficients for the
 one-step ML estimators.}
 \item{fitted.link}{Linear link fitted to the data.}

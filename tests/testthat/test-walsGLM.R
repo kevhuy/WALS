@@ -47,6 +47,9 @@ test_that("Different class methods of walsGLM yield same results", {
   fitDefault <- walsGLM.default(fitFormula$x$focus, fitFormula$x$aux, fitFormula$y,
                                 family = binomialWALS(), prior = weibull())
 
+  # expect no error in familyWALS extraction.
+  expect_error(familyWALS(fitFormula), regexp = NA)
+
   expect_identical(coef(fitFormula), coef(fitMatrix), coef(fitDefault))
   expect_identical(vcov(fitFormula), vcov(fitMatrix), vcov(fitDefault))
 })

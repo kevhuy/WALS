@@ -18,7 +18,7 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' (or one that can be coerced to that class):
 #' a symbolic description of the model to be fitted.
 #' The details of model specification are given under ‘Details’.
-#' @param family Object of class \code{familyWALS}.
+#' @param family Object of class \link{familyWALS}.
 #' @param data an optional data frame, list or environment
 #' (or object coercible by as.data.frame to a data frame) containing the
 #' variables in the model. If not found in data, the variables are taken from
@@ -253,7 +253,7 @@ walsGLM.default <- function(x, ...) {
 #' @param y response as vector.
 #' @param betaStart1 Starting values for coefficients of focus regressors X1.
 #' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
-#' @param family Object of class \code{familyWALS}.
+#' @param family Object of class \link{familyWALS}.
 #' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
 #' or \link[WALS]{laplace}.
 #' @param ... Further arguments passed to \link[WALS]{walsFit}.
@@ -267,7 +267,7 @@ walsGLM.default <- function(x, ...) {
 #' except for \code{residuals}, and additionally (some fields are replaced)
 #' \item{condition}{Condition number of the matrix
 #' \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
-#' \item{family}{Object of class \code{familyWALS}. The family used.}
+#' \item{family}{Object of class \link{familyWALS}. The family used.}
 #' \item{betaStart}{Starting values of the regression coefficients for the
 #' one-step ML estimators.}
 #' \item{fitted.link}{Linear link fitted to the data.}
@@ -316,7 +316,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' (column full of 1's) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
-#' @param family Object of class \code{familyWALS}.
+#' @param family Object of class \link{familyWALS}.
 #' @param na.action Not implemented yet.
 #' @param weights Not implemented yet.
 #' @param offset Not implemented yet.
@@ -617,3 +617,6 @@ logLik.walsGLM <- function(object, ...) {
   y <- residuals(object, type = "response") + fitted(object)
   return(sum(object$family$density(y, object$fitted.link, log = TRUE)))
 }
+
+#' @export
+familyWALS.walsGLM <- function(object, ...) return(object$family)

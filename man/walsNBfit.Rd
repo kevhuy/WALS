@@ -38,8 +38,8 @@ a constant column and can also be generated using model.matrix().}
 
 \item{rhoStart}{Starting value for log-dispersion parameter of NB2}
 
-\item{family}{Object of class \code{familyWALS}. Currently only supports
-\code{negativeBinomial()}.}
+\item{family}{Object of class \link{familyNBWALS}. Currently only supports
+\link{negbinWALS}.}
 
 \item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
 or \link[WALS]{laplace}.}
@@ -116,10 +116,9 @@ Else \code{NULL}.}
 \item{n}{Number of observations.}
 \item{X1names}{Names of the focus regressors.}
 \item{X2names}{Names of the auxiliary regressors.}
-\item{familyStart}{\code{familyNBWALS}. The \link[stats]{family} object from
-\link[WALS]{negbinWALS} used for the estimation of the starting values.}
-\item{family}{\code{familyNBWALS}. The \link[stats]{family} object from
-\link[WALS]{negbinWALS} used later for predictions.}
+\item{familyStart}{\link{familyNBWALS}. The family object used for the
+estimation of the starting values.}
+\item{family}{\link{familyNBWALS}. The family object used later for predictions.}
 \item{fitted.link}{Linear link fitted to the data.}
 \item{fitted.values}{Estimated conditional mean for the data. Lives on the
 scale of the response.}
