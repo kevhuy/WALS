@@ -30,9 +30,9 @@
 #' \link{walsGLM} because the NB2 with variable dispersion parameter is not a GLM!**
 #'
 #' @returns An object of class \code{familyWALS} that inherits from
-#' \link[stats]{family} and contains all fields returned from the corresponding
-#' family function that it extends. Additionally, the following fields are
-#' available:
+#' \link[stats]{family}. This is a list that contains elements returned from the
+#' corresponding family function that it extends. Additionally, the following
+#' elements are available:
 #' \item{theta.eta}{function. Derivative of the canonical parameter \eqn{\theta}
 #' with respect to the linear link \eqn{\eta}, i.e. \eqn{d \theta / d \eta}.}
 #' \item{psi}{function. \eqn{\psi} defined on p. 3 of \insertCite{deluca2018glm}{WALS}.}
@@ -275,11 +275,11 @@ negbinFixedWALS <- function(scale, link) {
 #' @param scale dispersion parameter of NB2 to be used, always larger than 0.
 #'
 #' @returns \code{negbinWALS} creates an object of class \code{familyNBWALS} that
-#' inherits from \code{familyWALS} and \link[stats]{family}. It contains all
-#' fields returned from the corresponding family function that it extends and
-#' the fields described above for objects of class \code{familyWALS}.
-#' Additionally returns the following fields containing the functions
-#' required in \link{walsNB} and that are described in \insertCite{huynhwalsnb}{WALS}:
+#' inherits from \code{familyWALS} and \link[stats]{family}. This is a list that
+#' contains all elements returned from the corresponding family function that it
+#' extends and the elements described above for objects of class \code{familyWALS}.
+#' Additionally contains the following elements with functions required in
+#' \link{walsNB} that are described in \insertCite{huynhwalsnb}{WALS}:
 #' \item{q}{function. Computes \eqn{\bar{q}}.}
 #' \item{g}{function. Computes \eqn{\bar{g}}.}
 #' \item{transformY0}{function. Computes \eqn{\bar{y}_0}.}

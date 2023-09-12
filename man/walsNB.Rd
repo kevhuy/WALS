@@ -121,8 +121,9 @@ a constant column and can also be generated using model.matrix().}
 }
 \value{
 For \code{walsNB.formula}, it returns an object of class
-\code{walsNB} which inherits from \code{walsGLM} and \code{wals}. It contains
-all elements returned from \link[WALS]{walsNBfitIterate} and additionally
+\code{walsNB} which inherits from \code{walsGLM} and \code{wals}. This is a
+list that contains all elements returned from \link[WALS]{walsNBfitIterate}
+and additionally
 \item{cl}{Call of the function.}
 \item{formula}{\code{formula} used.}
 \item{terms}{List containing the model terms of the focus and auxiliary
@@ -138,8 +139,8 @@ for more details.
 
 For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
 which inherits from \code{walsNB}, \code{walsGLMmatrix}, \code{walsGLM} and
-\code{wals}. It contains all elements returned from \link[WALS]{walsNBfitIterate}
-and additionally the call in \code{cl}.
+\code{wals}. This is a list that contains all elements returned from
+\link[WALS]{walsNBfitIterate} and additionally the call in \code{cl}.
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method

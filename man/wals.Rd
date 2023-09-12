@@ -86,8 +86,8 @@ estimated. See \link[WALS]{walsFit} for more details.}
 }
 \value{
 For \code{wals.formula}, it returns an object of class
-\code{wals}. It contains all elements returned from \link[WALS]{walsFit}
-and additionally
+\code{wals}. This is a list that contains all elements returned from
+\link[WALS]{walsFit} and additionally
 \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 \item{x}{list. If \code{keepX} is true, then it is a list with elements
 \code{x1} and \code{x2} containing the design matrices of the focus and
@@ -107,10 +107,10 @@ focus and auxiliary regressors.}
 See returns of \link[WALS]{walsFit} for more details.
 
 For \code{wals.matrix}, it returns an object of class \code{walsMatrix},
-which inherits from \code{wals}. It contains all elements returned from
-\link[WALS]{walsFit} and additionally the response \code{y}, the list \code{x}
-with model matrices \code{x1} and \code{x2}, the call \code{cl}, \code{offset}
-and \code{weights}.
+which inherits from \code{wals}. This is a list that contains all elements
+returned from \link[WALS]{walsFit} and additionally the response \code{y},
+the list \code{x} with model matrices \code{x1} and \code{x2}, the call
+\code{cl}, \code{offset} and \code{weights}.
 }
 \description{
 Performs model averaging for linear regression models using the

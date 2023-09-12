@@ -119,7 +119,7 @@ a constant column and can also be generated using model.matrix().}
 }
 \value{
 For \code{walsGLM.formula}, it returns an object of class
-\code{walsGLM} which inherits from \code{walsGLM}. It contains
+\code{walsGLM} which inherits from \code{walsGLM}. This is a list that contains
 all elements returned from \link[WALS]{walsGLMfitIterate} and additionally
 \item{cl}{Call of the function.}
 \item{formula}{\code{formula} used.}
@@ -136,7 +136,7 @@ for more details.
 
 For \code{walsGLM.matrix}, it returns an object of class
 \code{walsGLMmatrix}, which inherits from \code{walsGLM}, \code{walsMatrix}
-and \code{wals}. It contains all elements returned from
+and \code{wals}. This is a list that contains all elements returned from
 \link[WALS]{walsGLMfitIterate} and additionally the call in \code{cl}.
 }
 \description{

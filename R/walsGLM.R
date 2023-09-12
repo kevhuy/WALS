@@ -63,7 +63,7 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' to insert them as 'linear terms' in the formula.
 #'
 #' @returns For \code{walsGLM.formula}, it returns an object of class
-#' \code{walsGLM} which inherits from \code{walsGLM}. It contains
+#' \code{walsGLM} which inherits from \code{walsGLM}. This is a list that contains
 #' all elements returned from \link[WALS]{walsGLMfitIterate} and additionally
 #' \item{cl}{Call of the function.}
 #' \item{formula}{\code{formula} used.}
@@ -182,7 +182,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #'
 #' @returns For \code{walsGLM.matrix}, it returns an object of class
 #' \code{walsGLMmatrix}, which inherits from \code{walsGLM}, \code{walsMatrix}
-#' and \code{wals}. It contains all elements returned from
+#' and \code{wals}. This is a list that contains all elements returned from
 #' \link[WALS]{walsGLMfitIterate} and additionally the call in \code{cl}.
 #'
 #' @examples

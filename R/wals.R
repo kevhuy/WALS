@@ -60,8 +60,8 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' to insert them as 'linear terms' in the formula.
 #'
 #' @returns For \code{wals.formula}, it returns an object of class
-#' \code{wals}. It contains all elements returned from \link[WALS]{walsFit}
-#' and additionally
+#' \code{wals}. This is a list that contains all elements returned from
+#' \link[WALS]{walsFit} and additionally
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 #' \item{x}{list. If \code{keepX} is true, then it is a list with elements
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
@@ -218,10 +218,10 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' @param y response vector.
 #'
 #' @returns For \code{wals.matrix}, it returns an object of class \code{walsMatrix},
-#' which inherits from \code{wals}. It contains all elements returned from
-#' \link[WALS]{walsFit} and additionally the response \code{y}, the list \code{x}
-#' with model matrices \code{x1} and \code{x2}, the call \code{cl}, \code{offset}
-#' and \code{weights}.
+#' which inherits from \code{wals}. This is a list that contains all elements
+#' returned from \link[WALS]{walsFit} and additionally the response \code{y},
+#' the list \code{x} with model matrices \code{x1} and \code{x2}, the call
+#' \code{cl}, \code{offset} and \code{weights}.
 #'
 #' @examples
 #' ## Example for wals.matrix()
