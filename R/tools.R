@@ -194,15 +194,15 @@ gammaToBeta <- function(posterior, y, Z1, Z2, Delta1, D2, sigma, Z1inv,
 #' Check singularity of SVDed matrix
 #'
 #' Checks whether matrix is singular based on singular values of SVD.
+#'
 #' @param singularValues Vector of singular values.
 #' @param tol Absolute tolerance, singular if \code{min(singularValues) < tol}
 #' @param rtol Relative tolerance, singular if
 #'        \code{min(singularValues) / max(singularValues) > rtol}
+#' @param digits The number significant digits to show in case a
+#' warning is triggered by singularity.
 #'
-#'
-checkSingularitySVD <- function(singularValues, tol, rtol,
-                             digits = 5) {
-
+checkSingularitySVD <- function(singularValues, tol, rtol, digits = 5) {
   if (min(singularValues) < tol) {
     warning(paste("minimum singular value of",
                   signif(min(singularValues), digits),
