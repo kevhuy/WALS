@@ -51,5 +51,5 @@ Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details.
 }
 \seealso{
 \link{wals}, \link{walsGLM}, \link{walsNB}, \link{computePosterior}, \link{ddweibull},
-\link{ddsubbotin}, \link{dlaplace}, \link{ddgengamma}.
+\link{dsubbotin}, \link{dlaplace}, \link{ddgengamma}.
 }

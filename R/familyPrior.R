@@ -25,7 +25,7 @@
 #' \insertAllCited{}
 #'
 #' @seealso [wals], [walsGLM], [walsNB], [computePosterior], [ddweibull],
-#' [ddsubbotin], [dlaplace], [ddgengamma].
+#' [dsubbotin], [dlaplace], [ddgengamma].
 #'
 #' @export
 familyPrior <- function(object, ...) UseMethod("familyPrior", object)
@@ -59,7 +59,7 @@ subbotin <- function(q = 0.799512530172489, b = 0.937673273794677) {
 
   # fix parameters of distribution
   dens <- function(x, log = FALSE) {
-    ddsubbotin(x, q = q, b = b, log = log)
+    dsubbotin(x, q = q, b = b, log = log)
   }
 
   out <- list(q = q, alpha = alpha, b = b, delta = delta, density = dens,
@@ -138,7 +138,7 @@ ddweibull <- function(x, q, b, log = FALSE) {
 #' @seealso [subbotin], [ddgengamma].
 #'
 #' @export
-ddsubbotin <- function(x, q, b, log = FALSE) {
+dsubbotin <- function(x, q, b, log = FALSE) {
   ddgengamma(x, q = q, alpha = 0.0, b = b, log = log)
 }
 
