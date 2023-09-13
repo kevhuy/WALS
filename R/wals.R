@@ -294,7 +294,7 @@ wals.default <- function(x, ...) {
 #' (column full of 1s) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
-#' @param y Count response as vector
+#' @param y Response as vector.
 #' @param sigma if NULL (default), then the variance of the error term is estimated,
 #' see p.136 of \insertCite{magnus2016wals;textual}{WALS}. If sigma is specified,
 #' then the unrestricted estimator is divided by sigma before performing the

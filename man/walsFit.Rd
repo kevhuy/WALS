@@ -26,7 +26,7 @@ walsFit(
 \item{X2}{Design matrix for auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
 
-\item{y}{Count response as vector}
+\item{y}{Response as vector.}
 
 \item{sigma}{if NULL (default), then the variance of the error term is estimated,
 see p.136 of \insertCite{magnus2016wals;textual}{WALS}. If sigma is specified,
