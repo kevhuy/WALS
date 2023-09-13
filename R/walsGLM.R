@@ -539,8 +539,7 @@ predict.walsGLM <- function(object, newdata,
 predict.walsGLMmatrix <- function(object, newX1, newX2, newY = NULL,
                                   type = c("response", "link", "variance", "prob",
                                            "density", "logDens"),
-                                  at = NULL,
-                                  na.action = na.pass, log = FALSE, ...) {
+                                  at = NULL, log = FALSE, ...) {
   # TODO: include offsets
   type <- match.arg(type)
 
@@ -551,8 +550,7 @@ predict.walsGLMmatrix <- function(object, newX1, newX2, newY = NULL,
   }
 
   if (missing(newX1) || missing(newX2)) {
-    return(predict.walsGLM(object, type = type, at = at, na.action = na.action,
-                           log = log, ...))
+    return(predict.walsGLM(object, type = type, at = at, log = log, ...))
   } else {
     link <- newX1 %*% object$beta1 + newX2 %*% object$beta2
     return(.predictGLM(object, link, newY, type, at, log))
