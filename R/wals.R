@@ -487,112 +487,59 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 
 
 ## Class methods ---------------------------------------------------------------
-
-#' @export
-print.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
-
-  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
-
-  cat("Focus coefficients: \n")
-  print.default(format(x$beta1, digits = digits), print.gap = 2,
-                quote = FALSE)
-
-  cat("\nAuxiliary coefficients: \n")
-  print.default(format(x$beta2, digits = digits), print.gap = 2,
-                quote = FALSE)
-
-  priorPars <- paste(names(x$prior$printPars), signif(x$prior$printPars, digits),
-                     sep = " = ", collapse = ", ")
-  cat(paste0("\nPrior: ", x$prior$prior, "(", priorPars, ")\n"))
-
-  invisible(x)
-}
-
-#' @export
-summary.wals <- function(object, ...) {
-  k1 <- object$k1
-  k2 <- object$k2
-  se <- sqrt(diag(object$vcovBeta))
-
-  object$focusCoefs <- cbind(object$coef[1:k1], se[1:k1])
-  object$auxCoefs <- cbind(object$coef[(k1 + 1):(k1 + k2)], se[(k1 + 1):(k1 + k2)])
-  colnames(object$focusCoefs) <- colnames(object$auxCoefs) <- c("Estimate", "Std. Error")
-
-  class(object) <- "summary.wals"
-  return(object)
-}
-
-#' @export
-print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
-  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
-      "", sep = "\n")
-  printCallCoefs(x, digits, ...)
-  printPriorNKappa(x, digits)
-  invisible(x)
-}
-
-#' @export
-coef.wals <- function(object, type = c("all", "focus", "aux"),
-                      transformed = FALSE, ...) {
-  type <- match.arg(type)
-
-  if (transformed) {
-    out <- switch(type,
-                  "all" = c(object$gamma1, object$gamma2),
-                  "focus" = object$gamma1,
-                  "aux" = object$gamma2)
-    return(out)
-  } else {
-    out <- switch(type,
-                  "all" = object$coef,
-                  "focus" = object$beta1,
-                  "aux" = object$beta2)
-    return(out)
-  }
-}
-
-#' @export
-vcov.wals <- function(object, type = c("all", "focus", "aux"),
-                      transformed = FALSE, ...) {
-  type <- match.arg(type)
-  k1 <- object$k1; k2 <- object$k2
-  if (transformed) {
-    out <- switch(type,
-                  "all" = object$vcovGamma,
-                  "focus" = object$vcovGamma[1:k1, 1:k1],
-                  "aux" = object$vcovGamma[(k1 + 1):(k1 + k2), (k1 + 1):(k1 + k2)])
-    return(out)
-  } else {
-    out <- switch(type,
-                  "all" = object$vcovBeta,
-                  "focus" = object$vcovBeta[1:k1, 1:k1],
-                  "aux" = object$vcovBeta[(k1 + 1):(k1 + k2), (k1 + 1):(k1 + k2)])
-    return(out)
-  }
-}
-
-#' @export
-nobs.wals <- function(object, ...) return(object$n)
-
-#' @export
-terms.wals <- function(x, type = c("focus", "aux"), ...) {
-  return(x$terms[[match.arg(type)]])
-}
-
-#' @export
-model.matrix.wals <- function(object, type = c("focus", "aux"), ...) {
-  type <- match.arg(type)
-  if (!is.null(object$x)) {
-    return(object$x[[type]])
-  } else if (!is.null(object$model)) {
-    out <- model.matrix(object$terms[[type]], object$model, contrasts = object$contrasts[[type]])
-
-    # HACK: remove intercept from auxiliary model matrix
-    if (type == "aux") out <- out[,-1]
-    return(out)
-  } else stop("not enough information in fitted model to return model.matrix")
-}
-
+#' Methods for wals and walsMatrix Objects
+#'
+#' Methods for extracting information from fitted model-averaging objects of
+#' classes \code{wals} and \code{walsMatrix}.
+#'
+#' @param object,x An object of class \code{wals} or \code{walsMatrix}.
+#' @param newdata Optionally, a data frame in which to look for variables with
+#' which to predict. If omitted, the original observations are used.
+#' @param na.action Function determining what should be done with missing values
+#' in \code{newdata}. The default is to predict \code{NA}.
+#' @param type Character specifying the part of the model that should be returned.
+#' For details see below.
+#' @param transformed Logical specifying whether the coefficients/covariance
+#' matrix of original regressors (\code{FALSE}, default) or the transformed
+#' regressors (\code{TRUE}) should be returned.
+#' @param ... Further arguments passed to methods.
+#'
+#'
+#' @details
+#' A set of standard extractor functions for fitted model objects is available
+#' for objects of class \code{wals} and \code{walsMatrix}, including methods to
+#' the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
+#' which print the model-averaged estimation of the coefficients along with some
+#' further information. As usual, the \code{summary} method returns an object of
+#' class \code{"summary.wals"} containing the relevant summary statistics which
+#' can then be printed using the associated \code{print} method.
+#' Inspired by \insertCite{deluca2011stata;textual}{WALS},the summary statistics
+#' also show \code{Kappa} which is an indicator for the numerical stability of
+#' the method, i.e. it shows the square root of the condition number of the
+#' matrix \eqn{\Xi = \Delta_{2} X_{2}^{\top} M_{1} X_{2} \Delta_{2}}.
+#' The summary further provides information on the prior used along with its
+#' parameters.
+#'
+#' For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}
+#' argument specifies which part of the coefficient vector/covariance matrix of
+#' the estimates should be returned. For \code{type = "all"}, they return the
+#' complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they
+#' return only the part corresponding to the focus and auxiliary regressors,
+#' respectively. Additionally, the user can choose whether to return the
+#' estimated coefficients/covariance matrix for the original regressors \eqn{X}
+#' (\eqn{\beta} coefficients) or of the transformed regressors \eqn{Z}
+#' (\eqn{\gamma} coefficients).
+#'
+#' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
+#' behave similarly to \code{coef.wals}, but they only allow \code{type = "focus"}
+#' and \code{type = "aux"}. They extract the corresponding component of the model.
+#'
+#' The \code{\link[stats]{residuals}} method computes raw residuals
+#' (observed - fitted).
+#'
+#' The \code{\link[WALS]{familyPrior}} method returns an object of class
+#' \code{familyPrior} that was used as prior in the Bayesian estimation step.
+#'
 #' @export
 predict.wals <- function(object, newdata, na.action = na.pass, ...) {
   # TODO: include offsets
@@ -605,6 +552,9 @@ predict.wals <- function(object, newdata, na.action = na.pass, ...) {
   }
 }
 
+#' @rdname predict.wals
+#' @param newX1 Focus regressors matrix to be used for the prediction.
+#' @param newX2 Auxiliary regressors matrix to be used for the prediction.
 #' @export
 predict.walsMatrix <- function(object, newX1, newX2, ...) {
   # TODO: include offsets
@@ -636,11 +586,129 @@ predict.walsMatrix <- function(object, newX1, newX2, ...) {
   return(drop(newX1 %*% object$beta1 + newX2 %*% object$beta2))
 }
 
+#' @rdname predict.wals
 #' @export
 fitted.wals <- function(object, ...) return(object$fitted.values)
 
+#' @rdname predict.wals
 #' @export
 residuals.wals <- function(object, ...) return(object$residuals)
 
+#' @rdname predict.wals
+#' @param digits The number of significant digits to show.
+#' @export
+print.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)), "", sep = "\n")
+
+  cat("Focus coefficients: \n")
+  print.default(format(x$beta1, digits = digits), print.gap = 2,
+                quote = FALSE)
+
+  cat("\nAuxiliary coefficients: \n")
+  print.default(format(x$beta2, digits = digits), print.gap = 2,
+                quote = FALSE)
+
+  priorPars <- paste(names(x$prior$printPars), signif(x$prior$printPars, digits),
+                     sep = " = ", collapse = ", ")
+  cat(paste0("\nPrior: ", x$prior$prior, "(", priorPars, ")\n"))
+
+  invisible(x)
+}
+
+#' @rdname predict.wals
+#' @export
+summary.wals <- function(object, ...) {
+  k1 <- object$k1
+  k2 <- object$k2
+  se <- sqrt(diag(object$vcovBeta))
+
+  object$focusCoefs <- cbind(object$coef[1:k1], se[1:k1])
+  object$auxCoefs <- cbind(object$coef[(k1 + 1):(k1 + k2)], se[(k1 + 1):(k1 + k2)])
+  colnames(object$focusCoefs) <- colnames(object$auxCoefs) <- c("Estimate", "Std. Error")
+
+  class(object) <- "summary.wals"
+  return(object)
+}
+
+#' @rdname predict.wals
+#' @param digits The number of significant digits to show.
+#' @export
+print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
+      "", sep = "\n")
+  printCallCoefs(x, digits, ...)
+  printPriorNKappa(x, digits)
+  invisible(x)
+}
+
+#' @rdname predict.wals
+#' @export
+coef.wals <- function(object, type = c("all", "focus", "aux"),
+                      transformed = FALSE, ...) {
+  type <- match.arg(type)
+
+  if (transformed) {
+    out <- switch(type,
+                  "all" = c(object$gamma1, object$gamma2),
+                  "focus" = object$gamma1,
+                  "aux" = object$gamma2)
+    return(out)
+  } else {
+    out <- switch(type,
+                  "all" = object$coef,
+                  "focus" = object$beta1,
+                  "aux" = object$beta2)
+    return(out)
+  }
+}
+
+#' @rdname predict.wals
+#' @export
+vcov.wals <- function(object, type = c("all", "focus", "aux"),
+                      transformed = FALSE, ...) {
+  type <- match.arg(type)
+  k1 <- object$k1; k2 <- object$k2
+  if (transformed) {
+    out <- switch(type,
+                  "all" = object$vcovGamma,
+                  "focus" = object$vcovGamma[1:k1, 1:k1],
+                  "aux" = object$vcovGamma[(k1 + 1):(k1 + k2), (k1 + 1):(k1 + k2)])
+    return(out)
+  } else {
+    out <- switch(type,
+                  "all" = object$vcovBeta,
+                  "focus" = object$vcovBeta[1:k1, 1:k1],
+                  "aux" = object$vcovBeta[(k1 + 1):(k1 + k2), (k1 + 1):(k1 + k2)])
+    return(out)
+  }
+}
+
+#' @rdname predict.wals
+#' @export
+nobs.wals <- function(object, ...) return(object$n)
+
+#' @rdname predict.wals
+#' @export
+terms.wals <- function(x, type = c("focus", "aux"), ...) {
+  return(x$terms[[match.arg(type)]])
+}
+
+#' @rdname predict.wals
+#' @export
+model.matrix.wals <- function(object, type = c("focus", "aux"), ...) {
+  type <- match.arg(type)
+  if (!is.null(object$x)) {
+    return(object$x[[type]])
+  } else if (!is.null(object$model)) {
+    out <- model.matrix(object$terms[[type]], object$model, contrasts = object$contrasts[[type]])
+
+    # HACK: remove intercept from auxiliary model matrix
+    if (type == "aux") out <- out[,-1]
+    return(out)
+  } else stop("not enough information in fitted model to return model.matrix")
+}
+
+#' @rdname familyPrior
 #' @export
 familyPrior.wals <- function(object, ...) return(object$prior)
