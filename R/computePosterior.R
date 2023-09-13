@@ -14,11 +14,11 @@
 #' numerical integration. Here we use the default \code{\link[stats]{integrate}} which
 #' combines Gauss-Kronrod with Wynn's Epsilon algorithm for extrapolation.
 #'
-#' @param object Object of class \code{familyPrior}, e.g. \code{\link[WALS]{weibull}},
+#' @param object Object of class \link[WALS]{familyPrior}, e.g. \code{\link[WALS]{weibull}},
 #' should contain all necessary parameters needed for the posterior.
-#' @param x Observed values, i.e. in WALS these are the regression coefficients
-#' of the transformed regressor Z2 standardized by the standard deviation
-#' \eqn{\gamma_{2u} / s}.
+#' @param x vector. Observed values, i.e. in WALS these are the regression
+#' coefficients of the transformed regressor Z2 standardized by the standard
+#' deviation: \eqn{\gamma_{2u} / s}.
 #' @param ... Further arguments passed to methods.
 #'
 #'
@@ -33,7 +33,6 @@
 #' \url{https://www.janmagnus.nl/items/WALS.pdf}
 #'
 computePosterior <- function(object, ...) UseMethod("computePosterior", object)
-
 
 #' @rdname computePosterior
 computePosterior.familyPrior <- function(object, x) {
