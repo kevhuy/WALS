@@ -14,11 +14,12 @@
 #' numerical integration. Here we use the default \code{\link[stats]{integrate}} which
 #' combines Gauss-Kronrod with Wynn's Epsilon algorithm for extrapolation.
 #'
+#' @param object Object of class \code{familyPrior}, e.g. \code{\link[WALS]{weibull}},
+#' should contain all necessary parameters needed for the posterior.
 #' @param x Observed values, i.e. in WALS these are the regression coefficients
 #' of the transformed regressor Z2 standardized by the standard deviation
 #' \eqn{\gamma_{2u} / s}.
-#' @param prior Object of class \code{familyPrior}, e.g. \code{\link[WALS]{weibull}},
-#' should contain all necessary parameters needed for the posterior.
+#' @param ... Further arguments passed to methods.
 #'
 #'
 #' @details
@@ -31,11 +32,11 @@
 #' @references Original MATLAB code on Jan Magnus' website.
 #' \url{https://www.janmagnus.nl/items/WALS.pdf}
 #'
-computePosterior <- function(x, ...) UseMethod("computePosterior", x)
+computePosterior <- function(object, ...) UseMethod("computePosterior", object)
 
 
 #' @rdname computePosterior
-computePosterior.default <- function(prior, x) {
+computePosterior.familyPrior <- function(object, x) {
   # Use numerical integration for Weibull and Subbotin priors.
 
   # preallocate
@@ -45,15 +46,15 @@ computePosterior.default <- function(prior, x) {
   # Numerical integration and posterior mean and var. computations
   for (i in 1:length(x)) {
     A0 <- integrate(A0f, lower = 0, upper = Inf, x = x[i],
-                    priorDensity = prior$density)
+                    priorDensity = object$density)
     if (A0$message != "OK") warning(paste0("Warning in integrate A0f: ", A0$message))
 
     A1 <- integrate(A1f, lower = 0, upper = Inf, x = x[i],
-                    priorDensity = prior$density)
+                    priorDensity = object$density)
     if (A1$message != "OK") warning(paste0("Warning in integrate A1f: ", A1$message))
 
     A2 <- integrate(Ajf, lower = 0, upper = Inf, x = x[i],
-                    priorDensity = prior$density, j = 2.0)
+                    priorDensity = object$density, j = 2.0)
     if (A2$message != "OK") warning(paste0("Warning in integrate A2f: ", A2$message))
 
     postMean[i] <- x[i] - A1$value/A0$value
@@ -74,22 +75,22 @@ computePosterior.default <- function(prior, x) {
 #' original code of Magnus and De Luca.
 #'
 #' @rdname computePosterior
-computePosterior.familyPrior_laplace <- function(prior, x) {
+computePosterior.familyPrior_laplace <- function(object, x) {
   signx <- sign(x)
   absx <- abs(x)
 
-  g0 <- pnorm(-absx - prior$b)
-  g1 <- pnorm(absx - prior$b)
-  g2 <- dnorm(absx - prior$b)
+  g0 <- pnorm(-absx - object$b)
+  g1 <- pnorm(absx - object$b)
+  g2 <- dnorm(absx - object$b)
   # psi0 <- g0 / g1
   psi1 <- g2 / g1
-  # psi2 <- exp(2.0 * prior$b * absx) * psi0
-  psi2 <- exp(2.0 * prior$b * absx + log(g0) - log(g1))
+  # psi2 <- exp(2.0 * object$b * absx) * psi0
+  psi2 <- exp(2.0 * object$b * absx + log(g0) - log(g1))
   hratio <- (1.0 - psi2) / (1.0 + psi2)
 
-  postMean <- signx * (absx - prior$b * hratio)
-  postVariance <- (1.0 + (prior$b^2.0) * (1.0 - (hratio^2.0))
-                   - prior$b * (1.0 + hratio) * psi1)
+  postMean <- signx * (absx - object$b * hratio)
+  postVariance <- (1.0 + (object$b^2.0) * (1.0 - (hratio^2.0))
+                   - object$b * (1.0 + hratio) * psi1)
 
   return(list(postMean = postMean, postVariance = postVariance))
 }

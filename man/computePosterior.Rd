@@ -2,23 +2,25 @@
 % Please edit documentation in R/computePosterior.R
 \name{computePosterior}
 \alias{computePosterior}
-\alias{computePosterior.default}
+\alias{computePosterior.familyPrior}
 \alias{computePosterior.familyPrior_laplace}
 \title{Compute posterior mean and variance of normal location problem}
 \usage{
-computePosterior(x, ...)
+computePosterior(object, ...)
 
-\method{computePosterior}{default}(prior, x)
+\method{computePosterior}{familyPrior}(object, x)
 
-\method{computePosterior}{familyPrior_laplace}(prior, x)
+\method{computePosterior}{familyPrior_laplace}(object, x)
 }
 \arguments{
+\item{object}{Object of class \code{familyPrior}, e.g. \code{\link[WALS]{weibull}},
+should contain all necessary parameters needed for the posterior.}
+
+\item{...}{Further arguments passed to methods.}
+
 \item{x}{Observed values, i.e. in WALS these are the regression coefficients
 of the transformed regressor Z2 standardized by the standard deviation
 \eqn{\gamma_{2u} / s}.}
-
-\item{prior}{Object of class \code{familyPrior}, e.g. \code{\link[WALS]{weibull}},
-should contain all necessary parameters needed for the posterior.}
 }
 \description{
 Computes the posterior mean and variance of the normal location problem with
