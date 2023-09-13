@@ -236,18 +236,11 @@ walsNB.default <- function(x, ...) {
 #'  ...
 #'  )
 #'
-#' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1s) and can be generated using model.matrix().
-#' @param X2 Design matrix for auxiliary regressors. Usually does not include
-#' a constant column and can also be generated using model.matrix().
+#' @inheritParams walsGLMfit
 #' @param y Count response as vector.
-#' @param betaStart1 Starting values for coefficients of focus regressors X1.
-#' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
 #' @param rhoStart Starting value for log-dispersion parameter of NB2
 #' @param family Object of class \link{familyNBWALS}. Currently only supports
 #' \link{negbinWALS}.
-#' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-#' or \link[WALS]{laplace}.
 #' @param method Specifies method used. Available methods are \code{"fullSVD"}
 #' (default) or \code{"original"}. See details.
 #' @param svdTol Tolerance for rank of matrix \eqn{\bar{Z}_{1}} and \eqn{\bar{Z}}.

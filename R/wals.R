@@ -300,7 +300,7 @@ wals.default <- function(x, ...) {
 #' then the unrestricted estimator is divided by sigma before performing the
 #' Bayesian posterior mean estimation.
 #' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-#' or \link[WALS]{laplace}. Not tested with other priors.
+#' or \link[WALS]{laplace}.
 #' @param method Specifies method used. Available methods are
 #' \code{"original"} (default) or \code{"svd"}.
 #' @param svdTol Tolerance for rank of matrix \eqn{\bar{Z}_{1}}
