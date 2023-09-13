@@ -8,14 +8,15 @@ transformX <- function(X, etaStart, psiBar) sqrt(as.vector(psiBar)) * X
 # muBar
 transformY <- function(y, X1bar, X2bar, beta1, beta2, etaStart, vBar, muBar,
                        psiBar) {
-
   # potentially y - muFun can explode, e.g. if muFun = exp()
   uBar <- (psiBar^(-0.5)) * vBar * (y - muBar)
 
   as.vector(X1bar %*% beta1  + X2bar %*% beta2 + uBar)
 }
+#-------------------------------------------------------------------------------
 
 #' Multiplies all rows of matrix X with vector y
+#' @noRd
 multAllRows <- function(X, y) {
   t(t(X) * y)
 }
@@ -49,11 +50,11 @@ multAllRows <- function(X, y) {
 #' in the sense that \eqn{\bar{M}_{1} \bar{Z}_{2}} is semiorthogonal since
 #' \deqn{\bar{Z}_{2}^{\top} \bar{M}_1 \bar{Z}_{2} =
 #' (\bar{Z}_{2}^{\top} \bar{M}_1) (\bar{M}_{1} \bar{Z}_{2}) = I_{k_2},}
-#' where \eqn{M_1} is an idempotent matrix.
+#' where \eqn{\bar{M}_1} is an idempotent matrix.
 #'
 #' For WALS in the NB2 regression model, \eqn{\bar{M}_{1} \bar{Z}_{2}} is not
-#' semiorthogonal anymore due to the rank-1 perturbance in \eqn{\bar{M}_1} which
-#' causes \eqn{M}_1 to not be idempotent anymore, see
+#' semiorthogonal anymore due to the rank-1 perturbation in \eqn{\bar{M}_1} which
+#' causes \eqn{\bar{M}_1} to not be idempotent anymore, see
 #' the section "Transformed model" in \insertCite{huynhwalsnb;textual}{WALS}.
 #'
 #' The transformation is the same as for WALS in the linear
