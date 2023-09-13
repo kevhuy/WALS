@@ -490,7 +490,9 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' Methods for wals and walsMatrix Objects
 #'
 #' Methods for extracting information from fitted model-averaging objects of
-#' classes \code{wals} and \code{walsMatrix}.
+#' classes \code{wals} and \code{walsMatrix}. \code{walsMatrix} objects inherit
+#' from \code{wals}, so the methods for \code{wals} also work for objects of
+#' class \code{walsMatrix}.
 #'
 #' @param object,x An object of class \code{wals} or \code{walsMatrix}.
 #' @param newdata Optionally, a data frame in which to look for variables with

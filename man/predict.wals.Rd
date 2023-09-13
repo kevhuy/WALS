@@ -65,7 +65,9 @@ regressors (\code{TRUE}) should be returned.}
 }
 \description{
 Methods for extracting information from fitted model-averaging objects of
-classes \code{wals} and \code{walsMatrix}.
+classes \code{wals} and \code{walsMatrix}. \code{walsMatrix} objects inherit
+from \code{wals}, so the methods for \code{wals} also work for objects of
+class \code{walsMatrix}.
 }
 \details{
 A set of standard extractor functions for fitted model objects is available
