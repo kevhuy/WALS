@@ -195,7 +195,8 @@ walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
                            verbose, ...)
 
   out$call <- cl
-  class(out) <- c("walsNBmatrix", "walsNB", "walsGLMmatrix", "walsGLM", "wals")
+  class(out) <- c("walsNBmatrix", "walsNB", "walsGLMmatrix", "walsGLM",
+                  "walsMatrix", "wals")
   return(out)
 }
 
