@@ -5,19 +5,19 @@
 \title{Fitter function for Weighted Average Least Squares estimation}
 \usage{
 walsFit(
- X1,
- X2,
- y,
- sigma = NULL,
- prior = weibull(),
- method = "original",
- svdTol = .Machine$double.eps,
- svdRtol = 1e-6,
- keepUn = FALSE,
- eigenSVD = TRUE,
- prescale = TRUE,
- ...
- )
+  X1,
+  X2,
+  y,
+  sigma = NULL,
+  prior = weibull(),
+  method = "original",
+  svdTol = .Machine$double.eps,
+  svdRtol = 1e-06,
+  keepUn = FALSE,
+  eigenSVD = TRUE,
+  prescale = TRUE,
+  ...
+)
 }
 \arguments{
 \item{X1}{Design matrix for focus regressors. Usually includes a constant

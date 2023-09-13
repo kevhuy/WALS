@@ -5,23 +5,23 @@
 \title{Fitter function for Weighted Average Least Squares estimation of NB2 regression model}
 \usage{
 walsNBfit(
- X1,
- X2,
- y,
- betaStart1,
- betaStart2,
- rhoStart,
- family,
- prior,
- method = c("fullSVD", "original"),
- svdTol = .Machine$double.eps,
- svdRtol = 1e-6,
- keepUn = FALSE,
- keepR = FALSE,
- eigenSVD = TRUE,
- postmult = TRUE,
- ...
- )
+  X1,
+  X2,
+  y,
+  betaStart1,
+  betaStart2,
+  rhoStart,
+  family,
+  prior,
+  method = c("fullSVD", "original"),
+  svdTol = .Machine$double.eps,
+  svdRtol = 1e-06,
+  keepUn = FALSE,
+  keepR = FALSE,
+  eigenSVD = TRUE,
+  postmult = TRUE,
+  ...
+)
 }
 \arguments{
 \item{X1}{Design matrix for focus regressors. Usually includes a constant

@@ -274,22 +274,6 @@ wals.default <- function(x, ...) {
 #'
 #' Workhorse function behind \link{wals} and \link{walsGLM}.
 #'
-#' @usage
-#' walsFit(
-#'  X1,
-#'  X2,
-#'  y,
-#'  sigma = NULL,
-#'  prior = weibull(),
-#'  method = "original",
-#'  svdTol = .Machine$double.eps,
-#'  svdRtol = 1e-6,
-#'  keepUn = FALSE,
-#'  eigenSVD = TRUE,
-#'  prescale = TRUE,
-#'  ...
-#'  )
-#'
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
 #' (column full of 1s) and can be generated using model.matrix().
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include

@@ -4,15 +4,7 @@
 \alias{walsGLMfit}
 \title{Fitter function for Weighted Average Least Squares estimation of GLMs}
 \usage{
-walsGLMfit(
- X1,
- X2,
- y,
- betaStart1,
- betaStart2,
- family,
- prior = weibull(),
- ...)
+walsGLMfit(X1, X2, y, betaStart1, betaStart2, family, prior = weibull(), ...)
 }
 \arguments{
 \item{X1}{Design matrix for focus regressors. Usually includes a constant

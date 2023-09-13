@@ -217,25 +217,6 @@ walsNB.default <- function(x, ...) {
 #' Workhorse function behind \link{walsNB} and used internally in
 #' \link{walsNBfitIterate}.
 #'
-#' @usage walsNBfit(
-#'  X1,
-#'  X2,
-#'  y,
-#'  betaStart1,
-#'  betaStart2,
-#'  rhoStart,
-#'  family,
-#'  prior,
-#'  method = c("fullSVD", "original"),
-#'  svdTol = .Machine$double.eps,
-#'  svdRtol = 1e-6,
-#'  keepUn = FALSE,
-#'  keepR = FALSE,
-#'  eigenSVD = TRUE,
-#'  postmult = TRUE,
-#'  ...
-#'  )
-#'
 #' @inheritParams walsGLMfit
 #' @param y Count response as vector.
 #' @param rhoStart Starting value for log-dispersion parameter of NB2

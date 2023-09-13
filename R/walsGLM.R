@@ -205,16 +205,6 @@ walsGLM.default <- function(x, ...) {
 #' Workhorse function behind \link[WALS]{walsGLM} and used internally in
 #' \link[WALS]{walsGLMfitIterate}.
 #'
-#' @usage walsGLMfit(
-#'  X1,
-#'  X2,
-#'  y,
-#'  betaStart1,
-#'  betaStart2,
-#'  family,
-#'  prior = weibull(),
-#'  ...)
-#'
 #' @inheritParams walsFit
 #' @param betaStart1 Starting values for coefficients of focus regressors X1.
 #' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
