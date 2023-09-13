@@ -12,6 +12,9 @@
 #' @param ... Further arguments passed to methods.
 #'
 #' @details
+#' \code{familyPrior} is a generic function that extracts the family used in
+#' \code{wals} objects.
+#'
 #' The double (reflected) Weibull \link{weibull}, Subbotin \link{subbotin} and
 #' Laplace distributions (\link{laplace}) are all special cases of the reflected
 #' generalized gamma distribution (\link{ddgengamma}). The Laplace distribution
