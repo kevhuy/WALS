@@ -386,13 +386,14 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
 
 # Class methods ----------------------------------------------------------------
-#' Methods for walsGLM and walsGLMmatrix Objects
+#' Methods for walsGLM, walsGLMmatrix, walsNB and walsNBmatrix Objects
 #'
 #' Methods for extracting information from fitted model-averaging objects of
-#' classes \code{walsGLM} and \code{walsGLMmatrix}. \code{walsGLMmatrix} objects
-#' inherit from \code{walsGLM}, so the methods for \code{walsGLM} also work for
-#' objects of class \code{walsGLMmatrix}.
+#' classes \code{walsGLM}, \code{walsGLMmatrix}, \code{walsNB} and
+#' \code{walsNBmatrix}.
 #'
+#' @param object,x An object of class \code{walsGLM}, \code{walsGLMmatrix},
+#' \code{walsNB} or \code{walsNBmatrix}.
 #' @inheritParams predict.wals
 #' @param type Character specifying the type of prediction, residual or model
 #' part to be returned. For details see below.
@@ -405,14 +406,27 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' \code{type = "density"}.
 #'
 #' @details
+#' As the \code{"-matrix"} classes \code{walsGLMmatrix} and \code{walsNBmatrix}
+#' inherit from the "non-matrix" classes, i.e. \code{walsGLM} and \code{walsNB},
+#' respectively, the following text will treat them as equivalent because
+#' they inherit all methods but \code{predict} from their "non-matrix" versions.
+#' Thus, when \code{walsGLM} or \code{walsNB} are mentioned, we also refer to
+#' their \code{"-matrix"} versions, except when explicitly stated. Moreover,
+#' note that \code{walsNB} and \code{walsNBmatrix} inherit most methods from
+#' \code{walsGLM} and \code{walsGLMmatrix}.
+#'
 #' A set of standard extractor functions for fitted model objects is available
-#' for objects of class \code{walsGLM} and \code{walsGLMmatrix}, including methods to
+#' for objects of class \code{walsGLM} and \code{walsNB}, including methods to
 #' the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
 #' which print the model-averaged estimation of the coefficients along with some
-#' further information. As usual, the \code{summary} method returns an object of
-#' class \code{"summary.walsGLM"} containing the relevant summary statistics which
-#' can then be printed using the associated \code{print} method.
-#' Inspired by \insertCite{deluca2011stata;textual}{WALS},the summary statistics
+#' further information.
+#'
+#' The \code{summary} methods returns an object of
+#' class \code{"summary.walsGLM"} for objects of class \code{walsGLM} and an
+#' object of class \code{"summary.walsNB"} for objects of class \code{walsNB}.
+#' They contain the relevant summary statistics which can then be printed using
+#' the associated \code{print} methods.
+#' Inspired by \insertCite{deluca2011stata;textual}{WALS}, the summary statistics
 #' also show \code{Kappa} which is an indicator for the numerical stability of
 #' the method, i.e. it shows the square root of the condition number of the
 #' matrix \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1}
@@ -422,11 +436,11 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' A \code{\link[stats]{logLik}} method is provided that returns the log-likelihood
 #' given the family used and the model-averaged estimates of the coefficients.
 #'
-#' \code{walsGLM} and \code{walsGLMmatrix} inherit from \code{wals} and
-#' \code{walsMatrix}, respectively. See \link[WALS]{predict.wals} for more
-#' methods.
+#' \code{walsGLM} inherits from \code{wals}, while \code{walsNB} inherits from
+#' both, \code{walsGLM} and \code{wals}. Thus, see \link[WALS]{predict.wals} for
+#' more methods.
 #'
-#' # Details on the use of the argument type
+#' ## Details on the use of the argument type
 #' For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
 #' \code{type} argument specifies the type of prediction or residual to return.
 #'
@@ -435,7 +449,8 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' * \code{type = "link"}: predicted linear link
 #' * \code{type = "variance"}: predicted variance
 #' * \code{type = "prob"}: Only available if a family of class \code{familyWALScount}
-#' was used for fitting. Returns the probability at counts specified by \code{at}.
+#' was used for fitting or for objects of class \code{walsNB} or \code{walsNBmatrix}.
+#' Returns the probability at counts specified by \code{at}.
 #' * \code{type = "density"}: predicted density
 #' * \code{type = "logDens"}: for convenience, returns predicted log-density.
 #' Equivalent to setting \code{type = "density"} and \code{log = TRUE}.
@@ -449,7 +464,9 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' square root of variance function)
 #' * \code{type = "response"}: raw residuals (observed - fitted)
 #'
-#' For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}
+#' \code{\link[stats]{coef}} and \code{\link[stats]{vcov}} are inherited from
+#' \code{wals} (see \link[WALS]{predict.wals} for more), except for objects of
+#' class \code{walsNB} (see \link[WALS]{vcov.walsNB}). The \code{type}
 #' argument specifies which part of the coefficient vector/covariance matrix of
 #' the estimates should be returned. For \code{type = "all"}, they return the
 #' complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they
@@ -460,13 +477,13 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' (\eqn{\gamma} coefficients).
 #'
 #' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
-#' behave similarly to \code{coef}, but they only allow \code{type = "focus"}
-#' and \code{type = "aux"}. They extract the corresponding component of the model.
+#' are also inherited from \code{wals}. They only allow \code{type = "focus"}
+#' and \code{type = "aux"} and extract the corresponding component of the model.
 #'
 #' @references
 #' \insertAllCited{}
 #'
-#' @seealso [walsGLM], [predict.wals]
+#' @seealso [walsGLM], [walsNB], [predict.wals].
 #'
 #' @export
 predict.walsGLM <- function(object, newdata,

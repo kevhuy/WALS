@@ -504,6 +504,7 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' @param transformed Logical specifying whether the coefficients/covariance
 #' matrix of original regressors (\code{FALSE}, default) or the transformed
 #' regressors (\code{TRUE}) should be returned.
+#' @param digits The number of significant digits to display.
 #' @param ... Further arguments passed to methods.
 #'
 #'
@@ -603,7 +604,6 @@ fitted.wals <- function(object, ...) return(object$fitted.values)
 residuals.wals <- function(object, ...) return(object$residuals)
 
 #' @rdname predict.wals
-#' @param digits The number of significant digits to show.
 #' @export
 print.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
 
@@ -640,7 +640,6 @@ summary.wals <- function(object, ...) {
 }
 
 #' @rdname predict.wals
-#' @param digits The number of significant digits to show.
 #' @export
 print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),

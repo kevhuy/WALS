@@ -760,6 +760,7 @@ vcov.walsNB <- function(object, ...) {
   stop("No method for objects of class ", sQuote(class(object)[1]), " implemented.")
 }
 
+#' @rdname predict.walsGLM
 #' @export
 summary.walsNB <- function(object, ...) {
   object <- summary.wals(object, ...)
@@ -772,6 +773,7 @@ summary.walsNB <- function(object, ...) {
   return(object)
 }
 
+#' @rdname predict.walsGLM
 #' @export
 print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),

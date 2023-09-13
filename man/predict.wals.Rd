@@ -54,7 +54,7 @@ in \code{newdata}. The default is to predict \code{NA}.}
 
 \item{newX2}{Auxiliary regressors matrix to be used for the prediction.}
 
-\item{digits}{The number of significant digits to show.}
+\item{digits}{The number of significant digits to display.}
 
 \item{type}{Character specifying the part of the model that should be returned.
 For details see below.}
