@@ -386,64 +386,88 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
 
 # Class methods ----------------------------------------------------------------
-
-#' @export
-print.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
-  print.wals(x, digits, ...)
-  cat(paste0("\nResidual Deviance: ", signif(x$deviance, digits), "\n"))
-  invisible(x)
-}
-
-#' @export
-summary.walsGLM <- function(object, ...) {
-  object <- summary.wals(object, ...)
-
-  # inspired by summary.glm() in stats
-  if (!is.na(object$family$dispersion)) {
-    object$dispersion <- object$family$dispersion
-  } else object$dispersion <- NA
-
-
-  class(object) <- "summary.walsGLM"
-  return(object)
-}
-
-#' @export
-print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
-  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
-      "", sep = "\n")
-
-  printCallCoefs(x, digits, ...)
-
-  cat(paste0("\nStarting values for estimation: \n"))
-  print.default(format(x$betaStart, digits = digits), print.gap = 2, quote = FALSE)
-
-  # inspired by print.summary.glm() from stats
-  if (!is.na(x$dispersion)) {
-    cat(paste0("\n(Dispersion parameter for ", x$family$family,
-        " family taken to be ", format(x$dispersion),")\n"))
-  } else {
-    cat("\n(", x$family$family, " family used)\n")
-  }
-
-  cat(paste0("\nResidual deviance: ", signif(x$deviance, max(5L, digits + 1L)),
-             "\n"))
-
-  printPriorNKappa(x, digits)
-
-  if (!is.null(x$it)) {
-    if (!is.null(x$converged)) {
-      convStatus <- if (x$converged) "converged " else "did not converge "
-      cat(paste0("\nFitting algorithm ", convStatus, "in ", x$it, " iterations.\n"))
-    } else if (is.null(x$converged)) {
-      # manually ran nIt iterations of fitting algo without checking for conv.
-      cat(paste0("\nFitting algorithm run for ", x$it, " iterations.\n"))
-    }
-  }
-
-  invisible(x)
-}
-
+#' Methods for walsGLM and walsGLMmatrix Objects
+#'
+#' Methods for extracting information from fitted model-averaging objects of
+#' classes \code{walsGLM} and \code{walsGLMmatrix}. \code{walsGLMmatrix} objects
+#' inherit from \code{walsGLM}, so the methods for \code{walsGLM} also work for
+#' objects of class \code{walsGLMmatrix}.
+#'
+#' @inheritParams predict.wals
+#' @param type Character specifying the type of prediction, residual or model
+#' part to be returned. For details see below.
+#' @param at  Optional. Only available if a family of class \code{familyWALScount}
+#' was used for fitting. If \code{type = "prob"}, a numeric vector at which
+#' the probabilities are evaluated. By default \code{0:max(y)} is used
+#' where \code{y} is the original observed response.
+#' @param log Logical. If \code{TRUE}, then returns the log-density. If
+#' \code{FALSE} (default), then returns density. Only relevant if
+#' \code{type = "density"}.
+#'
+#' @details
+#' A set of standard extractor functions for fitted model objects is available
+#' for objects of class \code{walsGLM} and \code{walsGLMmatrix}, including methods to
+#' the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
+#' which print the model-averaged estimation of the coefficients along with some
+#' further information. As usual, the \code{summary} method returns an object of
+#' class \code{"summary.walsGLM"} containing the relevant summary statistics which
+#' can then be printed using the associated \code{print} method.
+#' Inspired by \insertCite{deluca2011stata;textual}{WALS},the summary statistics
+#' also show \code{Kappa} which is an indicator for the numerical stability of
+#' the method, i.e. it shows the square root of the condition number of the
+#' matrix \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1}
+#' \bar{X}_{2} \bar{\Delta}_{2}}. The summary further shows the deviance and
+#' provides information on the prior and family used.
+#'
+#' A \code{\link[stats]{logLik}} method is provided that returns the log-likelihood
+#' given the family used and the model-averaged estimates of the coefficients.
+#'
+#' \code{walsGLM} and \code{walsGLMmatrix} inherit from \code{wals} and
+#' \code{walsMatrix}, respectively. See \link[WALS]{predict.wals} for more
+#' methods.
+#'
+#' # Details on the use of the argument type
+#' For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
+#' \code{type} argument specifies the type of prediction or residual to return.
+#'
+#' Different return types for \code{\link[stats]{predict}}:
+#' * \code{type = "response"}: predicted mean
+#' * \code{type = "link"}: predicted linear link
+#' * \code{type = "variance"}: predicted variance
+#' * \code{type = "prob"}: Only available if a family of class \code{familyWALScount}
+#' was used for fitting. Returns the probability at counts specified by \code{at}.
+#' * \code{type = "density"}: predicted density
+#' * \code{type = "logDens"}: for convenience, returns predicted log-density.
+#' Equivalent to setting \code{type = "density"} and \code{log = TRUE}.
+#' If \code{type = "prob"}, \code{type = "density"} or \code{type = "logDens"},
+#' then \code{newdata} must contain the response or \code{newY} must be
+#' specified depending on the class of the object.
+#'
+#' Different return types for \code{\link[stats]{residuals}}:
+#' * \code{type = "deviance"}: deviance residuals
+#' * \code{type = "pearson"}: Pearson residuals (raw residuals scaled by
+#' square root of variance function)
+#' * \code{type = "response"}: raw residuals (observed - fitted)
+#'
+#' For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}
+#' argument specifies which part of the coefficient vector/covariance matrix of
+#' the estimates should be returned. For \code{type = "all"}, they return the
+#' complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they
+#' return only the part corresponding to the focus and auxiliary regressors,
+#' respectively. Additionally, the user can choose whether to return the
+#' estimated coefficients/covariance matrix for the original regressors \eqn{X}
+#' (\eqn{\beta} coefficients) or of the transformed regressors \eqn{Z}
+#' (\eqn{\gamma} coefficients).
+#'
+#' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
+#' behave similarly to \code{coef}, but they only allow \code{type = "focus"}
+#' and \code{type = "aux"}. They extract the corresponding component of the model.
+#'
+#' @references
+#' \insertAllCited{}
+#'
+#' @seealso [walsGLM], [predict.wals]
+#'
 #' @export
 predict.walsGLM <- function(object, newdata,
                             type = c("response", "link", "variance", "prob",
@@ -480,6 +504,9 @@ predict.walsGLM <- function(object, newdata,
   return(.predictGLM(object, link, y, type, at, log))
 }
 
+#' @rdname predict.walsGLM
+#' @param newY Response vector to be used in predictions. Only relevant when
+#' \code{type = "prob"}, \code{type = "density"} or \code{type = "logDens"}.
 #' @export
 predict.walsGLMmatrix <- function(object, newX1, newX2, newY = NULL,
                                   type = c("response", "link", "variance", "prob",
@@ -534,6 +561,7 @@ predict.walsGLMmatrix <- function(object, newX1, newX2, newY = NULL,
          })
 }
 
+#' @rdname predict.walsGLM
 #' @export
 residuals.walsGLM <- function(object, type = c("deviance", "pearson", "response"),
                               ...) {
@@ -554,6 +582,67 @@ residuals.walsGLM <- function(object, type = c("deviance", "pearson", "response"
   )
 }
 
+#' @rdname predict.walsGLM
+#' @export
+print.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  print.wals(x, digits, ...)
+  cat(paste0("\nResidual Deviance: ", signif(x$deviance, digits), "\n"))
+  invisible(x)
+}
+
+#' @rdname predict.walsGLM
+#' @export
+summary.walsGLM <- function(object, ...) {
+  object <- summary.wals(object, ...)
+
+  # inspired by summary.glm() in stats
+  if (!is.na(object$family$dispersion)) {
+    object$dispersion <- object$family$dispersion
+  } else object$dispersion <- NA
+
+
+  class(object) <- "summary.walsGLM"
+  return(object)
+}
+
+#' @rdname predict.walsGLM
+#' @export
+print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
+  cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
+      "", sep = "\n")
+
+  printCallCoefs(x, digits, ...)
+
+  cat(paste0("\nStarting values for estimation: \n"))
+  print.default(format(x$betaStart, digits = digits), print.gap = 2, quote = FALSE)
+
+  # inspired by print.summary.glm() from stats
+  if (!is.na(x$dispersion)) {
+    cat(paste0("\n(Dispersion parameter for ", x$family$family,
+        " family taken to be ", format(x$dispersion),")\n"))
+  } else {
+    cat("\n(", x$family$family, " family used)\n")
+  }
+
+  cat(paste0("\nResidual deviance: ", signif(x$deviance, max(5L, digits + 1L)),
+             "\n"))
+
+  printPriorNKappa(x, digits)
+
+  if (!is.null(x$it)) {
+    if (!is.null(x$converged)) {
+      convStatus <- if (x$converged) "converged " else "did not converge "
+      cat(paste0("\nFitting algorithm ", convStatus, "in ", x$it, " iterations.\n"))
+    } else if (is.null(x$converged)) {
+      # manually ran nIt iterations of fitting algo without checking for conv.
+      cat(paste0("\nFitting algorithm run for ", x$it, " iterations.\n"))
+    }
+  }
+
+  invisible(x)
+}
+
+#' @rdname predict.walsGLM
 #' @export
 logLik.walsGLM <- function(object, ...) {
   if (!missing(...)) warning("extra arguments discarded")
@@ -561,5 +650,6 @@ logLik.walsGLM <- function(object, ...) {
   return(sum(object$family$density(y, object$fitted.link, log = TRUE)))
 }
 
+#' @rdname predict.walsGLM
 #' @export
 familyWALS.walsGLM <- function(object, ...) return(object$family)
