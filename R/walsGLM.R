@@ -160,7 +160,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #' (column full of 1s) and can be generated using model.matrix().
 #' @param x2 Design matrix for auxiliary regressors. Usually does not include
 #' a constant column and can also be generated using model.matrix().
-#' @param y Count response as vector
+#' @param y Response as vector.
 #'
 #' @returns For \code{walsGLM.matrix}, it returns an object of class
 #' \code{walsGLMmatrix}, which inherits from \code{walsGLM}, \code{walsMatrix}

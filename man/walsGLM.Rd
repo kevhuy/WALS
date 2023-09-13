@@ -116,7 +116,7 @@ replication purposes.}
 \item{x2}{Design matrix for auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
 
-\item{y}{Count response as vector}
+\item{y}{Response as vector.}
 }
 \value{
 For \code{walsGLM.formula}, it returns an object of class
