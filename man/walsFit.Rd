@@ -81,13 +81,13 @@ tranformed regressors.}
 \item{sigma}{Estimated or prespecified standard deviation of the error term.}
 \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
 \item{method}{Stores \code{method} used from the arguments.}
-\item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+\item{betaUn1}{If \code{keepUn = TRUE}, contains the unrestricted
 estimators of the coefficients of the focus regressors.}
-\item{betaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+\item{betaUn2}{If \code{keepUn = TRUE}, contains the unrestricted
 estimators of the coefficients of the auxiliary regressors.}
-\item{gammaUn1}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+\item{gammaUn1}{If \code{keepUn = TRUE}, contains the unrestricted
 estimators of the coefficients of the transformed focus regressors.}
-\item{gammaUn2}{If \code{keepUn = TRUE}, contains the unrestricted one-step ML
+\item{gammaUn2}{If \code{keepUn = TRUE}, contains the unrestricted
 estimators of the coefficients of the transformed auxiliary regressors.}
 \item{fitted.values}{Estimated conditional means of the data.}
 \item{residuals}{Residuals, i.e. response - fitted mean.}
