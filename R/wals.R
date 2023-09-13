@@ -522,6 +522,13 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' The summary further provides information on the prior used along with its
 #' parameters.
 #'
+#' The \code{\link[stats]{residuals}} method computes raw residuals
+#' (observed - fitted).
+#'
+#' The \code{\link[WALS]{familyPrior}} method returns an object of class
+#' \code{familyPrior} that was used as prior in the Bayesian estimation step.
+#'
+#' # Details on the use of the argument type
 #' For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}
 #' argument specifies which part of the coefficient vector/covariance matrix of
 #' the estimates should be returned. For \code{type = "all"}, they return the
@@ -533,14 +540,13 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' (\eqn{\gamma} coefficients).
 #'
 #' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
-#' behave similarly to \code{coef.wals}, but they only allow \code{type = "focus"}
+#' behave similarly to \code{coef}, but they only allow \code{type = "focus"}
 #' and \code{type = "aux"}. They extract the corresponding component of the model.
 #'
-#' The \code{\link[stats]{residuals}} method computes raw residuals
-#' (observed - fitted).
+#' @references
+#' \insertAllCited{}
 #'
-#' The \code{\link[WALS]{familyPrior}} method returns an object of class
-#' \code{familyPrior} that was used as prior in the Bayesian estimation step.
+#' @seealso [wals]
 #'
 #' @export
 predict.wals <- function(object, newdata, na.action = na.pass, ...) {
