@@ -156,11 +156,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #' x2 (auxiliary) and response vector y.
 #' @rdname walsGLM
 #'
-#' @param x Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1s) and can be generated using model.matrix().
-#' @param x2 Design matrix for auxiliary regressors. Usually does not include
-#' a constant column and can also be generated using model.matrix().
-#' @param y Response as vector.
+#' @inheritParams wals.matrix
 #'
 #' @returns For \code{walsGLM.matrix}, it returns an object of class
 #' \code{walsGLMmatrix}, which inherits from \code{walsGLM}, \code{walsMatrix}

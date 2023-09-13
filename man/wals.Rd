@@ -42,7 +42,8 @@ wals(x, ...)
 \method{wals}{default}(x, ...)
 }
 \arguments{
-\item{x}{matrix of focus regressors.}
+\item{x}{Design matrix of focus regressors. Usually includes a constant
+(column full of 1s) and can be generated using model.matrix().}
 
 \item{...}{Arguments for workhorse \link[WALS]{walsFit}.}
 
@@ -81,9 +82,10 @@ the return.}
 \item{sigma}{if NULL (default), then the variance of the error term is
 estimated. See \link[WALS]{walsFit} for more details.}
 
-\item{x2}{matrix of auxiliary regressors.}
+\item{x2}{Design matrix of auxiliary regressors. Usually does not include
+a constant column and can also be generated using model.matrix().}
 
-\item{y}{response vector.}
+\item{y}{Response as vector.}
 }
 \value{
 For \code{wals.formula}, it returns an object of class

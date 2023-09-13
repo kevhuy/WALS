@@ -55,7 +55,7 @@ walsNB(x, ...)
 \method{walsNB}{default}(x, ...)
 }
 \arguments{
-\item{x}{Design matrix for focus regressors. Usually includes a constant
+\item{x}{Design matrix of focus regressors. Usually includes a constant
 (column full of 1s) and can be generated using model.matrix().}
 
 \item{...}{Arguments for workhorse \link[WALS]{walsNBfit}.}
@@ -115,10 +115,10 @@ replication purposes.}
 \item{verbose}{If verbose = TRUE, then it prints the iteration process of
 internal function \link[WALS]{walsNBfitIterate} (only relevant if iterate = TRUE).}
 
-\item{x2}{Design matrix for auxiliary regressors. Usually does not include
+\item{x2}{Design matrix of auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
 
-\item{y}{Count response as vector}
+\item{y}{Count response as vector.}
 }
 \value{
 For \code{walsNB.formula}, it returns an object of class

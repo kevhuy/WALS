@@ -155,11 +155,8 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' x2 (auxiliary) and response vector y.
 #' @rdname walsNB
 #'
-#' @param x Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1s) and can be generated using model.matrix().
-#' @param x2 Design matrix for auxiliary regressors. Usually does not include
-#' a constant column and can also be generated using model.matrix().
-#' @param y Count response as vector
+#' @inheritParams wals.matrix
+#' @param y Count response as vector.
 #'
 #' @returns For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
 #' which inherits from \code{walsNB}, \code{walsGLMmatrix}, \code{walsGLM} and

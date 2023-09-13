@@ -214,9 +214,11 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' x2 (auxiliary) and response vector y.
 #' @rdname wals
 #'
-#' @param x matrix of focus regressors.
-#' @param x2 matrix of auxiliary regressors.
-#' @param y response vector.
+#' @param x Design matrix of focus regressors. Usually includes a constant
+#' (column full of 1s) and can be generated using model.matrix().
+#' @param x2 Design matrix of auxiliary regressors. Usually does not include
+#' a constant column and can also be generated using model.matrix().
+#' @param y Response as vector.
 #'
 #' @returns For \code{wals.matrix}, it returns an object of class \code{walsMatrix},
 #' which inherits from \code{wals}. This is a list that contains all elements
