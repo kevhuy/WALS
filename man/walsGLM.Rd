@@ -93,17 +93,18 @@ the return.}
 \item{keepY}{if \code{TRUE} (default), then the response is stored in
 the return.}
 
-\item{keepX}{if \code{TRUE}, then the model matrix is stored in the return.
+\item{keepX}{if \code{TRUE}, then the model matrices are stored in the return.
 the return.}
 
 \item{iterate}{if TRUE then the WALS algorithm is iterated using the previous
-estimates as starting values}
+estimates as starting values.}
 
 \item{tol}{Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-between the previous beta and current beta falls below tol, then the algorithm stops.}
+between the previous beta and current beta falls below tol, then
+the algorithm stops.}
 
-\item{maxIt}{Only used it iterate = TRUE and nIt = NULL. Aborts iterative fitting
-when number of iterations exceed maxIt}
+\item{maxIt}{Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
+when number of iterations exceed maxIt.}
 
 \item{nIt}{Only used if iterate = TRUE. If this is specified, then tol is ignored
 and the algorithm iterates nIt times. This option should not be used unless

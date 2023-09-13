@@ -600,31 +600,14 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' See description of \link{walsNB}.
 #'
 #' @param y Count response as vector.
-#' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1s) and can be generated using model.matrix().
-#' @param X2 Design matrix for auxiliary regressors. Usually does not include
-#' a constant column and can also be generated using model.matrix().
+#' @inheritParams walsGLMfitIterate
 #' @param link specifies the link function, currently only "log" is supported.
-#' @param na.action Not implemented yet.
-#' @param weights Not implemented yet.
-#' @param offset Not implemented yet.
-#' @param prior Object of class \code{familyPrior}, e.g. \link[WALS]{weibull}.
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
 #' see \link[WALS]{controlNB}.
-#' @param keepY If \code{TRUE}, then output keeps response.
-#' @param keepX If \code{TRUE}, then output keeps the design matrices.
-#' @param iterate if TRUE then the WALS algorithm is iterated using the previous
-#' estimates as starting values.
 #' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
 #' between the previous beta and current beta falls below tol and the absolute
 #' difference between the previous and current rho falls below tol, then
 #' the algorithm stops.
-#' @param maxIt Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
-#' when number of iterations exceed maxIt.
-#' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
-#' and the algorithm iterates nIt times.
-#' @param verbose If verbose = TRUE, then it prints the iteration process
-#' (only relevant if we iterate = TRUE).
 #' @param ... Arguments to be passed to the workhorse function walsNBfit.
 #'
 #' @returns A list containing all elements returned from \link[WALS]{walsNBfit}

@@ -42,7 +42,8 @@ a constant column and can also be generated using model.matrix().}
 
 \item{offset}{Not implemented yet.}
 
-\item{prior}{Object of class \code{familyPrior}, e.g. \link[WALS]{weibull}.}
+\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
+or \link[WALS]{laplace}.}
 
 \item{controlGLMfit}{Controls estimation of starting values for one-step ML,
 passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.}
@@ -55,8 +56,7 @@ passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.}
 estimates as starting values.}
 
 \item{tol}{Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-between the previous beta and current beta falls below tol and the absolute
-difference between the previous and current rho falls below tol, then
+between the previous beta and current beta falls below tol, then
 the algorithm stops.}
 
 \item{maxIt}{Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting

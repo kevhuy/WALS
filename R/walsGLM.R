@@ -18,20 +18,11 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' @param family Object of class \link{familyWALS}.
 #' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
 #' or \link[WALS]{laplace}.
-#' @param controlGLMfit Controls estimation of starting values for one-step ML,
-#' passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.
-#' @param iterate if TRUE then the WALS algorithm is iterated using the previous
-#' estimates as starting values
-#' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-#' between the previous beta and current beta falls below tol, then the algorithm stops.
-#' @param maxIt Only used it iterate = TRUE and nIt = NULL. Aborts iterative fitting
-#' when number of iterations exceed maxIt
+#' @inheritParams walsGLMfitIterate
 #' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
 #' and the algorithm iterates nIt times. This option should not be used unless
 #' the user has a specific reason to run the algorithm nIt times, e.g. for
 #' replication purposes.
-#' @param verbose If verbose = TRUE, then it prints the iteration process
-#' (only relevant if iterate = TRUE).
 #' @param ... Arguments for workhorse \link[WALS]{walsGLMfit}.
 #'
 #' @details
@@ -283,16 +274,10 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #'
 #' See description of \link[WALS]{walsGLM}.
 #'
-#' @param y Response as vector.
-#' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1s) and can be generated using model.matrix().
-#' @param X2 Design matrix for auxiliary regressors. Usually does not include
-#' a constant column and can also be generated using model.matrix().
-#' @param family Object of class \link{familyWALS}.
+#' @inheritParams walsGLMfit
 #' @param na.action Not implemented yet.
 #' @param weights Not implemented yet.
 #' @param offset Not implemented yet.
-#' @param prior Object of class \code{familyPrior}, e.g. \link[WALS]{weibull}.
 #' @param controlGLMfit Controls estimation of starting values for one-step ML,
 #' passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.
 #' @param keepY If \code{TRUE}, then output keeps response.
@@ -300,8 +285,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' @param iterate if TRUE then the WALS algorithm is iterated using the previous
 #' estimates as starting values.
 #' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-#' between the previous beta and current beta falls below tol and the absolute
-#' difference between the previous and current rho falls below tol, then
+#' between the previous beta and current beta falls below tol, then
 #' the algorithm stops.
 #' @param maxIt Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
 #' when number of iterations exceed maxIt.

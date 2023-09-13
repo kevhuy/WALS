@@ -42,7 +42,8 @@ a constant column and can also be generated using model.matrix().}
 
 \item{offset}{Not implemented yet.}
 
-\item{prior}{Object of class \code{familyPrior}, e.g. \link[WALS]{weibull}.}
+\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
+or \link[WALS]{laplace}.}
 
 \item{controlInitNB}{Controls estimation of starting values for one-step ML,
 see \link[WALS]{controlNB}.}
@@ -66,7 +67,7 @@ when number of iterations exceed maxIt.}
 and the algorithm iterates nIt times.}
 
 \item{verbose}{If verbose = TRUE, then it prints the iteration process
-(only relevant if we iterate = TRUE).}
+(only relevant if iterate = TRUE).}
 
 \item{...}{Arguments to be passed to the workhorse function walsNBfit.}
 }

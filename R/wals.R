@@ -44,7 +44,7 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' the return.
 #' @param keepY if \code{TRUE} (default), then the response is stored in
 #' the return.
-#' @param keepX if \code{TRUE}, then the model matrix is stored in the return.
+#' @param keepX if \code{TRUE}, then the model matrices are stored in the return.
 #' the return.
 #' @param sigma if NULL (default), then the variance of the error term is
 #' estimated. See \link[WALS]{walsFit} for more details.
