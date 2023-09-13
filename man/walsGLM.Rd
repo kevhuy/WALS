@@ -69,7 +69,8 @@ The details of model specification are given under ‘Details’.}
 \item{data}{an optional data frame, list or environment
 (or object coercible by as.data.frame to a data frame) containing the
 variables in the model. If not found in data, the variables are taken from
-environment(formula), typically the environment from which walsNB is called.}
+environment(formula), typically the environment which the function is called
+from.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}

@@ -68,7 +68,8 @@ The details of model specification are given under ‘Details’.}
 \item{data}{an optional data frame, list or environment
 (or object coercible by as.data.frame to a data frame) containing the
 variables in the model. If not found in data, the variables are taken from
-environment(formula), typically the environment from which walsNB is called.}
+environment(formula), typically the environment which the function is called
+from.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}
@@ -81,8 +82,8 @@ used in the fitting process.}
 
 \item{link}{specifies the link function, currently only "log" is supported.}
 
-\item{prior}{Object of class \code{familyPrior}. For example \link{weibull}
-or \link{laplace}.}
+\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
+or \link[WALS]{laplace}.}
 
 \item{controlInitNB}{Controls estimation of starting values for one-step ML,
 see \link[WALS]{controlNB}.}

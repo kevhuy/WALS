@@ -12,41 +12,13 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' \code{walsNB.formula} uses formulas to specify the design matrix.
 #' @rdname walsNB
 #'
-#' @param formula an object of class "\link{Formula}"
-#' (or one that can be coerced to that class):
-#' a symbolic description of the model to be fitted.
-#' The details of model specification are given under ‘Details’.
-#' @param data an optional data frame, list or environment
-#' (or object coercible by as.data.frame to a data frame) containing the
-#' variables in the model. If not found in data, the variables are taken from
-#' environment(formula), typically the environment from which walsNB is called.
-#' @param subset an optional vector specifying a subset of observations to be
-#' used in the fitting process.
-#' @param weights **not implemented yet.**
-#' @param offset **not implemented yet.**
-#' @param na.action **not implemented yet.**
+#' @inheritParams walsGLM.formula
 #' @param link specifies the link function, currently only "log" is supported.
-#' @param prior Object of class \code{familyPrior}. For example \link{weibull}
-#' or \link{laplace}.
-#' @param model if \code{TRUE} (default), then the model.frame is stored in
-#' the return.
-#' @param keepY if \code{TRUE} (default), then the response is stored in
-#' the return.
-#' @param keepX if \code{TRUE}, then the model matrix is stored in the return.
-#' the return.
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
 #' see \link[WALS]{controlNB}.
-#' @param iterate if TRUE then the WALS algorithm is iterated using the previous
-#' estimates as starting values
 #' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
 #' between the previous beta and current beta falls below tol and the absolute difference between
 #' the previous and current rho falls below tol, then the algorithm stops.
-#' @param maxIt Only used it iterate = TRUE and nIt = NULL. Aborts iterative fitting
-#' when number of iterations exceed maxIt
-#' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
-#' and the algorithm iterates nIt times. This option should not be used unless
-#' the user has a specific reason to run the algorithm nIt times, e.g. for
-#' replication purposes.
 #' @param verbose If verbose = TRUE, then it prints the iteration process of
 #' internal function \link[WALS]{walsNBfitIterate} (only relevant if iterate = TRUE).
 #' @param ... Arguments for workhorse \link[WALS]{walsNBfit}.

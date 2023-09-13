@@ -14,30 +14,12 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' \code{walsGLM.formula} uses formulas to specify the design matrix.
 #' @rdname walsGLM
 #'
-#' @param formula an object of class "\link{Formula}"
-#' (or one that can be coerced to that class):
-#' a symbolic description of the model to be fitted.
-#' The details of model specification are given under ‘Details’.
+#' @inheritParams wals.formula
 #' @param family Object of class \link{familyWALS}.
-#' @param data an optional data frame, list or environment
-#' (or object coercible by as.data.frame to a data frame) containing the
-#' variables in the model. If not found in data, the variables are taken from
-#' environment(formula), typically the environment from which walsNB is called.
-#' @param subset an optional vector specifying a subset of observations to be
-#' used in the fitting process.
-#' @param na.action **not implemented yet.**
-#' @param weights **not implemented yet.**
-#' @param offset **not implemented yet.**
 #' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
 #' or \link[WALS]{laplace}.
 #' @param controlGLMfit Controls estimation of starting values for one-step ML,
 #' passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.
-#' @param model if \code{TRUE} (default), then the model.frame is stored in
-#' the return.
-#' @param keepY if \code{TRUE} (default), then the response is stored in
-#' the return.
-#' @param keepX if \code{TRUE}, then the model matrix is stored in the return.
-#' the return.
 #' @param iterate if TRUE then the WALS algorithm is iterated using the previous
 #' estimates as starting values
 #' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
@@ -497,7 +479,6 @@ print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), .
 
   invisible(x)
 }
-
 
 #' @export
 predict.walsGLM <- function(object, newdata,
