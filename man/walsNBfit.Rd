@@ -41,8 +41,8 @@ a constant column and can also be generated using model.matrix().}
 \item{family}{Object of class \link{familyNBWALS}. Currently only supports
 \link{negbinWALS}.}
 
-\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-or \link[WALS]{laplace}.}
+\item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
+\code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{method}{Specifies method used. Available methods are \code{"fullSVD"}
 (default) or \code{"original"}. See details.}

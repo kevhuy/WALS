@@ -45,10 +45,10 @@ wals(x, ...)
 \item{x}{Design matrix of focus regressors. Usually includes a constant
 (column full of 1s) and can be generated using model.matrix().}
 
-\item{...}{Arguments for workhorse \link[WALS]{walsFit}.}
+\item{...}{Arguments for workhorse \code{\link[WALS]{walsFit}}.}
 
-\item{formula}{an object of class "\link{Formula}"
-(or one that can be coerced to that class):
+\item{formula}{an object of class \code{"\link[Formula]{Formula}"}
+(or one that can be coerced to that class, e.g. \code{"\link[stats]{formula}"}):
 a symbolic description of the model to be fitted.
 The details of model specification are given under ‘Details’.}
 
@@ -67,8 +67,8 @@ used in the fitting process.}
 
 \item{offset}{\strong{not implemented yet.}}
 
-\item{prior}{Object of class \code{familyPrior}. For example \link{weibull}
-or \link{laplace}.}
+\item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
+\code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{model}{if \code{TRUE} (default), then the model.frame is stored in
 the return.}
@@ -80,7 +80,7 @@ the return.}
 the return.}
 
 \item{sigma}{if NULL (default), then the variance of the error term is
-estimated. See \link[WALS]{walsFit} for more details.}
+estimated. See \code{\link[WALS]{walsFit}} for more details.}
 
 \item{x2}{Design matrix of auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
@@ -89,8 +89,8 @@ a constant column and can also be generated using model.matrix().}
 }
 \value{
 For \code{wals.formula}, it returns an object of class
-\code{wals}. This is a list that contains all elements returned from
-\link[WALS]{walsFit} and additionally
+\code{"wals"}. This is a list that contains all elements returned from
+\code{\link[WALS]{walsFit}} and additionally
 \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 \item{x}{list. If \code{keepX} is true, then it is a list with elements
 \code{x1} and \code{x2} containing the design matrices of the focus and
@@ -107,11 +107,11 @@ regressors separately, as well as for the full model.}
 focus and auxiliary regressors.}
 \item{model}{If \code{model = TRUE}, contains the model frame.}
 
-See returns of \link[WALS]{walsFit} for more details.
+See returns of \code{\link[WALS]{walsFit}} for more details.
 
-For \code{wals.matrix}, it returns an object of class \code{walsMatrix},
-which inherits from \code{wals}. This is a list that contains all elements
-returned from \link[WALS]{walsFit} and additionally the response \code{y},
+For \code{wals.matrix}, it returns an object of class \code{"walsMatrix"},
+which inherits from \code{"wals"}. This is a list that contains all elements
+returned from \code{\link[WALS]{walsFit}} and additionally the response \code{y},
 the list \code{x} with model matrices \code{x1} and \code{x2}, the call
 \code{cl}, \code{offset} and \code{weights}.
 }

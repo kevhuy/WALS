@@ -60,8 +60,8 @@ walsNB(x, ...)
 
 \item{...}{Arguments for workhorse \link[WALS]{walsNBfit}.}
 
-\item{formula}{an object of class "\link{Formula}"
-(or one that can be coerced to that class):
+\item{formula}{an object of class \code{"\link[Formula]{Formula}"}
+(or one that can be coerced to that class, e.g. \code{"\link[stats]{formula}"}):
 a symbolic description of the model to be fitted.
 The details of model specification are given under ‘Details’.}
 

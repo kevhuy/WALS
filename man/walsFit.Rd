@@ -33,8 +33,8 @@ see p.136 of \insertCite{magnus2016wals;textual}{WALS}. If sigma is specified,
 then the unrestricted estimator is divided by sigma before performing the
 Bayesian posterior mean estimation.}
 
-\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-or \link[WALS]{laplace}.}
+\item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
+\code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{method}{Specifies method used. Available methods are
 \code{"original"} (default) or \code{"svd"}.}
@@ -52,9 +52,10 @@ otherwise reports a rank deficiency.}
 \item{keepUn}{If \code{TRUE}, keeps the estimators of the unrestricted model,
 i.e. \eqn{\tilde{\gamma}_{u}}.}
 
-\item{eigenSVD}{If \code{TRUE}, then \code{semiorthogonalize()} uses \code{svd()}
-to compute the eigendecomposition of \eqn{\bar{\Xi}} instead of \code{eigen()}.
-In this case, the tolerances of \code{svdTol} and \code{svdRtol} are used to
+\item{eigenSVD}{If \code{TRUE}, then \code{\link[WALS]{semiorthogonalize}}
+uses \code{\link[base]{svd}} to compute the eigendecomposition of
+\eqn{\bar{\Xi}} instead of \code{\link[base]{eigen}}. In this case, the
+tolerances of \code{svdTol} and \code{svdRtol} are used to
 determine whether \eqn{\bar{\Xi}} is of full rank (need it for \eqn{\bar{\Xi}^{-1/2}}).}
 
 \item{prescale}{If \code{TRUE} (default), prescales the regressors X1 and X2 with
@@ -64,7 +65,7 @@ See \insertCite{deluca2011stata;textual}{WALS} for more details.
 \strong{WARNING: It is not recommended to set \code{prescale = FALSE}.}
 The option \code{prescale = FALSE} only exists for historical reasons.}
 
-\item{...}{Arguments for internal function \link[WALS]{computePosterior}.}
+\item{...}{Arguments for internal function \code{\link[WALS]{computePosterior}}.}
 }
 \value{
 A list containing
@@ -100,11 +101,11 @@ estimators of the coefficients of the transformed auxiliary regressors.}
 \eqn{\Xi = \Delta_{2} X_{2}^{\top} M_{1} X_{2} \Delta_{2}}.}
 }
 \description{
-Workhorse function behind \link{wals} and \link{walsGLM}.
+Workhorse function behind \code{\link[WALS]{wals}} and \code{\link[WALS]{walsGLM}}.
 }
 \references{
 \insertAllCited{}
 }
 \seealso{
-\link{wals}.
+\link{wals}, \link{walsGLM}.
 }

@@ -40,7 +40,7 @@
 \method{model.matrix}{wals}(object, type = c("focus", "aux"), ...)
 }
 \arguments{
-\item{object, x}{An object of class \code{wals} or \code{walsMatrix}.}
+\item{object, x}{An object of class \code{"wals"} or \code{"walsMatrix"}.}
 
 \item{newdata}{Optionally, a data frame in which to look for variables with
 which to predict. If omitted, the original observations are used.}
@@ -65,13 +65,13 @@ regressors (\code{TRUE}) should be returned.}
 }
 \description{
 Methods for extracting information from fitted model-averaging objects of
-classes \code{wals} and \code{walsMatrix}. \code{walsMatrix} objects inherit
-from \code{wals}, so the methods for \code{wals} also work for objects of
-class \code{walsMatrix}.
+classes \code{"wals"} and \code{"walsMatrix"}. \code{"walsMatrix"} objects
+inherit from \code{"wals"}, so the methods for \code{"wals"} also work for
+objects of class \code{"walsMatrix"}.
 }
 \details{
 A set of standard extractor functions for fitted model objects is available
-for objects of class \code{wals} and \code{walsMatrix}, including methods to
+for objects of class \code{"wals"} and \code{"walsMatrix"}, including methods to
 the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
 which print the model-averaged estimation of the coefficients along with some
 further information. As usual, the \code{summary} method returns an object of
@@ -88,7 +88,7 @@ The \code{\link[stats]{residuals}} method computes raw residuals
 (observed - fitted).
 
 The \code{\link[WALS]{familyPrior}} method returns an object of class
-\code{familyPrior} that was used as prior in the Bayesian estimation step.
+\code{"familyPrior"} that was used as prior in the Bayesian estimation step.
 }
 \section{Details on the use of the argument type}{
 For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}

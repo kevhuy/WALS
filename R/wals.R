@@ -24,8 +24,8 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' \code{wals.formula} uses formulas to specify the design matrix.
 #' @rdname wals
 #'
-#' @param formula an object of class "\link{Formula}"
-#' (or one that can be coerced to that class):
+#' @param formula an object of class \code{"\link[Formula]{Formula}"}
+#' (or one that can be coerced to that class, e.g. \code{"\link[stats]{formula}"}):
 #' a symbolic description of the model to be fitted.
 #' The details of model specification are given under ‘Details’.
 #' @param data an optional data frame, list or environment
@@ -38,8 +38,8 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' @param weights **not implemented yet.**
 #' @param offset **not implemented yet.**
 #' @param na.action **not implemented yet.**
-#' @param prior Object of class \code{familyPrior}. For example \link{weibull}
-#' or \link{laplace}.
+#' @param prior Object of class \code{"\link[WALS]{familyPrior}"}. For example
+#' \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.
 #' @param model if \code{TRUE} (default), then the model.frame is stored in
 #' the return.
 #' @param keepY if \code{TRUE} (default), then the response is stored in
@@ -47,8 +47,8 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' @param keepX if \code{TRUE}, then the model matrices are stored in the return.
 #' the return.
 #' @param sigma if NULL (default), then the variance of the error term is
-#' estimated. See \link[WALS]{walsFit} for more details.
-#' @param ... Arguments for workhorse \link[WALS]{walsFit}.
+#' estimated. See \code{\link[WALS]{walsFit}} for more details.
+#' @param ... Arguments for workhorse \code{\link[WALS]{walsFit}}.
 #'
 #' @details
 #' Formulas should always contain two parts, i.e. they should be of the form
@@ -61,8 +61,8 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' to insert them as 'linear terms' in the formula.
 #'
 #' @returns For \code{wals.formula}, it returns an object of class
-#' \code{wals}. This is a list that contains all elements returned from
-#' \link[WALS]{walsFit} and additionally
+#' \code{"wals"}. This is a list that contains all elements returned from
+#' \code{\link[WALS]{walsFit}} and additionally
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 #' \item{x}{list. If \code{keepX} is true, then it is a list with elements
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
@@ -79,7 +79,7 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' focus and auxiliary regressors.}
 #' \item{model}{If \code{model = TRUE}, contains the model frame.}
 #'
-#' See returns of \link[WALS]{walsFit} for more details.
+#' See returns of \code{\link[WALS]{walsFit}} for more details.
 #'
 #' @examples
 #' ## Replicate table on p. 534 of De Luca & Magnus (2011)
@@ -220,9 +220,9 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' a constant column and can also be generated using model.matrix().
 #' @param y Response as vector.
 #'
-#' @returns For \code{wals.matrix}, it returns an object of class \code{walsMatrix},
-#' which inherits from \code{wals}. This is a list that contains all elements
-#' returned from \link[WALS]{walsFit} and additionally the response \code{y},
+#' @returns For \code{wals.matrix}, it returns an object of class \code{"walsMatrix"},
+#' which inherits from \code{"wals"}. This is a list that contains all elements
+#' returned from \code{\link[WALS]{walsFit}} and additionally the response \code{y},
 #' the list \code{x} with model matrices \code{x1} and \code{x2}, the call
 #' \code{cl}, \code{offset} and \code{weights}.
 #'
@@ -272,7 +272,7 @@ wals.default <- function(x, ...) {
 
 #' Fitter function for Weighted Average Least Squares estimation
 #'
-#' Workhorse function behind \link{wals} and \link{walsGLM}.
+#' Workhorse function behind \code{\link[WALS]{wals}} and \code{\link[WALS]{walsGLM}}.
 #'
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
 #' (column full of 1s) and can be generated using model.matrix().
@@ -283,8 +283,8 @@ wals.default <- function(x, ...) {
 #' see p.136 of \insertCite{magnus2016wals;textual}{WALS}. If sigma is specified,
 #' then the unrestricted estimator is divided by sigma before performing the
 #' Bayesian posterior mean estimation.
-#' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-#' or \link[WALS]{laplace}.
+#' @param prior Object of class \code{"\link[WALS]{familyPrior}"}. For example
+#' \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.
 #' @param method Specifies method used. Available methods are
 #' \code{"original"} (default) or \code{"svd"}.
 #' @param svdTol Tolerance for rank of matrix \eqn{\bar{Z}_{1}}
@@ -297,9 +297,10 @@ wals.default <- function(x, ...) {
 #' otherwise reports a rank deficiency.
 #' @param keepUn If \code{TRUE}, keeps the estimators of the unrestricted model,
 #' i.e. \eqn{\tilde{\gamma}_{u}}.
-#' @param eigenSVD If \code{TRUE}, then \code{semiorthogonalize()} uses \code{svd()}
-#' to compute the eigendecomposition of \eqn{\bar{\Xi}} instead of \code{eigen()}.
-#' In this case, the tolerances of \code{svdTol} and \code{svdRtol} are used to
+#' @param eigenSVD If \code{TRUE}, then \code{\link[WALS]{semiorthogonalize}}
+#' uses \code{\link[base]{svd}} to compute the eigendecomposition of
+#' \eqn{\bar{\Xi}} instead of \code{\link[base]{eigen}}. In this case, the
+#' tolerances of \code{svdTol} and \code{svdRtol} are used to
 #' determine whether \eqn{\bar{\Xi}} is of full rank (need it for \eqn{\bar{\Xi}^{-1/2}}).
 #' @param prescale If \code{TRUE} (default), prescales the regressors X1 and X2 with
 #' \eqn{\Delta_1} and \eqn{\Delta_2}, respectively, to improve numerical stability
@@ -307,7 +308,7 @@ wals.default <- function(x, ...) {
 #' See \insertCite{deluca2011stata;textual}{WALS} for more details.
 #' \strong{WARNING: It is not recommended to set \code{prescale = FALSE}.}
 #' The option \code{prescale = FALSE} only exists for historical reasons.
-#' @param ... Arguments for internal function \link[WALS]{computePosterior}.
+#' @param ... Arguments for internal function \code{\link[WALS]{computePosterior}}.
 #'
 #'
 #' @returns A list containing
@@ -342,7 +343,7 @@ wals.default <- function(x, ...) {
 #' \item{condition}{Condition number of the matrix
 #' \eqn{\Xi = \Delta_{2} X_{2}^{\top} M_{1} X_{2} \Delta_{2}}.}
 #'
-#' @seealso [wals].
+#' @seealso [wals], [walsGLM].
 #'
 #' @references
 #' \insertAllCited{}
@@ -490,11 +491,11 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' Methods for wals and walsMatrix Objects
 #'
 #' Methods for extracting information from fitted model-averaging objects of
-#' classes \code{wals} and \code{walsMatrix}. \code{walsMatrix} objects inherit
-#' from \code{wals}, so the methods for \code{wals} also work for objects of
-#' class \code{walsMatrix}.
+#' classes \code{"wals"} and \code{"walsMatrix"}. \code{"walsMatrix"} objects
+#' inherit from \code{"wals"}, so the methods for \code{"wals"} also work for
+#' objects of class \code{"walsMatrix"}.
 #'
-#' @param object,x An object of class \code{wals} or \code{walsMatrix}.
+#' @param object,x An object of class \code{"wals"} or \code{"walsMatrix"}.
 #' @param newdata Optionally, a data frame in which to look for variables with
 #' which to predict. If omitted, the original observations are used.
 #' @param na.action Function determining what should be done with missing values
@@ -510,7 +511,7 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #'
 #' @details
 #' A set of standard extractor functions for fitted model objects is available
-#' for objects of class \code{wals} and \code{walsMatrix}, including methods to
+#' for objects of class \code{"wals"} and \code{"walsMatrix"}, including methods to
 #' the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
 #' which print the model-averaged estimation of the coefficients along with some
 #' further information. As usual, the \code{summary} method returns an object of
@@ -527,7 +528,7 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' (observed - fitted).
 #'
 #' The \code{\link[WALS]{familyPrior}} method returns an object of class
-#' \code{familyPrior} that was used as prior in the Bayesian estimation step.
+#' \code{"familyPrior"} that was used as prior in the Bayesian estimation step.
 #'
 #' # Details on the use of the argument type
 #' For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}
