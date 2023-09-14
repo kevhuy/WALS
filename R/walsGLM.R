@@ -257,7 +257,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
   X2names <- colnames(X2)
   Xnames <- c(X1names, X2names)
 
-  etaStart <- X1 %*% betaStart1 + X2 %*% betaStart2
+  etaStart <- drop(X1 %*% betaStart1 + X2 %*% betaStart2)
   X1start <- family$transformX(X1, etaStart, y)
   X2start <- family$transformX(X2, etaStart, y)
   yStart <- family$transformY(y, X1start, X2start, betaStart1, betaStart2, etaStart)

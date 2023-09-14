@@ -376,7 +376,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
   Xnames <- c(X1names, X2names)
 
   # transform X and y
-  etaStart <- X1 %*% betaStart1 + X2 %*% betaStart2
+  etaStart <- drop(X1 %*% betaStart1 + X2 %*% betaStart2)
   X1start <- family$transformX(X1, etaStart, y)
   X2start <- family$transformX(X2, etaStart, y)
   y0Start <- family$transformY0(y, X1start, X2start, betaStart1, betaStart2,
@@ -393,7 +393,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
   Z1start <- multAllRows(X1start, Delta1)
 
   # generate useful vectors
-  qStart <- as.vector(family$q(etaStart, y))
+  qStart <- family$q(etaStart, y)
   gStart <- family$g()
   epsilonStart <- family$epsilon(etaStart, y)
   psiStart <- family$psi(etaStart, y)
