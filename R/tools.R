@@ -29,7 +29,8 @@ multAllRows <- function(X, y) {
 #'
 #' Uses the matrix Z2s (called \eqn{\bar{\Xi}} in eq. (9) of
 #' \insertCite{deluca2018glm;textual}{WALS}) to transform \eqn{\bar{X}_2} to
-#' \eqn{\bar{Z}_2}.
+#' \eqn{\bar{Z}_2}, i.e. to perform \eqn{\bar{Z}_2 = \eqn{\bar{X}_2} \bar{\Delta}_2 \bar{\Xi}^{-1/2}}.
+#' For WALS in the linear regression model, the variables do not have a "bar".
 #'
 #' @param Z2s Matrix from which we take negative square root for
 #' \eqn{X2 * Delta2 * Z2s^(1/2)}.
@@ -44,7 +45,6 @@ multAllRows <- function(X, y) {
 #' \eqn{Z2s^{-1/2} = H \Lambda^{-1/2} H^{\top}}, where \eqn{H} contains
 #' the eigenvectors of Z2s in its columns and \eqn{\Lambda} the corresponding
 #' eigenvalues. If \code{FALSE} it uses \eqn{Z2s^{-1/2} = H \Lambda^{-1/2}}.
-#'
 #'
 #' @section On the "semiorthogonal-type" transformation:
 #' For WALS GLM (and WALS in the linear regression model),
@@ -96,11 +96,8 @@ multAllRows <- function(X, y) {
 #' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
 #' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
 #'
-#'
-#'
 #' @references
 #' \insertAllCited{}
-#'
 #'
 semiorthogonalize <- function(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE) {
   # For walsNB, this transformation of X2 is not a semiorthogonal transformation
@@ -147,8 +144,43 @@ semiorthogonalize <- function(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE) {
 
 #' Transform gammas back to betas
 #'
-#' Transforms posterior means (gammas) and variances of transformed Z2
-#' back to regression coefficients (betas) of original regressors X1 and X2.
+#' Transforms posterior means \eqn{\hat{\gamma}_2} and variances corresponding
+#' to transformed auxiliary regressors \eqn{Z_2} back to regression coefficients
+#' \eqn{\hat{\beta}} of original regressors \eqn{X_1} and \eqn{X_2}.
+#'
+#' @param posterior Object returned from \code{\link[WALS]{computePosterior}}.
+#' @param y Response \eqn{y}.
+#' @param Z1 Transformed focus regressors \eqn{Z_1}.
+#' @param Z2 Transformed auxiliary regressors \eqn{Z_1}.
+#' @param Delta1 \eqn{\Delta_1} or \eqn{\bar{\Delta}_1}.
+#' @param D2 From \code{\link[WALS]{semiorthogonalize}}, if \code{postmult = FALSE}
+#' was used, then D2 = \eqn{\Delta_2 T \Lambda^{-1/2}}, where \eqn{T} are the
+#' eigenvectors of \eqn{\Xi} and \eqn{\Lambda} the diagonal matrix containing
+#' the corresponding eigenvalues. If \code{postmult = TRUE} was used, then
+#' D2 = \eqn{\Delta_2 T \Lambda^{-1/2} T' = \Delta_2 \Xi^{-1/2}}.
+#' @param sigma Prespecified or estimated standard error of the error term.
+#' @param Z1inv \eqn{(Z_{1}' Z_{1})^{-1}}.
+#' @param method Character. \eqn{\hat{\gamma}_1} is obtained from a linear
+#' regression of \eqn{Z_1} on pseudo-responses \eqn{y - Z_2 \hat{\gamma}_2}.
+#' If \code{method = original}, then we use \code{\link[stats]{lm.fit}} to perform
+#' the linear regression, if \code{method = "svd"}, then reuse the SVD of
+#' \eqn{Z_1} in \code{svdZ1} to perform the regression.
+#' @param svdZ1 Optional, only needed if \code{method = "svd"}. SVD of \eqn{Z_1}
+#' computed using \code{\link[base]{svd}}.
+#'
+#' @details
+#' The same transformations also work for GLMs, where we replace \eqn{X_1},
+#' \eqn{X_2}, \eqn{Z_1} and \eqn{Z_2} with \eqn{\bar{X}_1}, \eqn{\bar{X}_2},
+#' \eqn{\bar{Z}_1} and \eqn{\bar{Z}_2}, respectively. Generally, we need to
+#' replace all variables with their corresponding "bar" version. Further,
+#' for GLMs \code{sigma} is always 1.
+#'
+#' See \insertCite{magnus2016wals;textual}{WALS}, \insertCite{deluca2018glm;textual}{WALS}
+#' and \insertCite{huynhwals;textual}{WALS} for the definitions of the variables.
+#'
+#' @references
+#' \insertAllCited{}
+#'
 gammaToBeta <- function(posterior, y, Z1, Z2, Delta1, D2, sigma, Z1inv,
                         method = "original", svdZ1) {
 
@@ -172,8 +204,6 @@ gammaToBeta <- function(posterior, y, Z1, Z2, Delta1, D2, sigma, Z1inv,
 
   beta1 <- Delta1*gamma1
   beta2 <- as.vector(D2 %*% gamma2)
-
-
 
   # Step 7: WALS precision
   Q <- Z1inv %*% crossprod(Z1, Z2)
