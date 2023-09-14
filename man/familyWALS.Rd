@@ -2,6 +2,7 @@
 % Please edit documentation in R/familyWALS.R
 \name{familyWALS}
 \alias{familyWALS}
+\alias{familyWALScount}
 \alias{poissonWALS}
 \alias{binomialWALS}
 \alias{negbinFixedWALS}

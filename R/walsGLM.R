@@ -13,15 +13,13 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' @rdname walsGLM
 #'
 #' @inheritParams wals.formula
-#' @param family Object of class \link{familyWALS}.
-#' @param prior Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-#' or \link[WALS]{laplace}.
+#' @param family Object of class \code{"\link[WALS]{familyWALS}"}.
 #' @inheritParams walsGLMfitIterate
 #' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
 #' and the algorithm iterates nIt times. This option should not be used unless
 #' the user has a specific reason to run the algorithm nIt times, e.g. for
 #' replication purposes.
-#' @param ... Arguments for workhorse \link[WALS]{walsGLMfit}.
+#' @param ... Arguments for workhorse \code{\link[WALS]{walsGLMfit}}.
 #'
 #' @details
 #' Formulas should always contain two parts, i.e. they should be of the form
@@ -34,8 +32,9 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' to insert them as 'linear terms' in the formula.
 #'
 #' @returns For \code{walsGLM.formula}, it returns an object of class
-#' \code{walsGLM} which inherits from \code{walsGLM}. This is a list that contains
-#' all elements returned from \link[WALS]{walsGLMfitIterate} and additionally
+#' \code{"walsGLM"} which inherits from \code{"\link[WALS]{wals}"}. This is a l
+#' ist that contains all elements returned from \code{\link[WALS]{walsGLMfitIterate}}
+#' and additionally
 #' \item{cl}{Call of the function.}
 #' \item{formula}{\code{formula} used.}
 #' \item{terms}{List containing the model terms of the focus and auxiliary
@@ -46,7 +45,7 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' focus and auxiliary regressors.}
 #' \item{model}{If \code{model = TRUE}, contains the model frame.}
 #'
-#' See returns of \link[WALS]{walsGLMfit} and \link[WALS]{walsGLMfitIterate}
+#' See returns of \code{\link[WALS]{walsGLMfit}} and \code{\link[WALS]{walsGLMfitIterate}}
 #' for more details.
 #'
 #' @examples
@@ -148,9 +147,9 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #' @inheritParams wals.matrix
 #'
 #' @returns For \code{walsGLM.matrix}, it returns an object of class
-#' \code{walsGLMmatrix}, which inherits from \code{walsGLM}, \code{walsMatrix}
-#' and \code{wals}. This is a list that contains all elements returned from
-#' \link[WALS]{walsGLMfitIterate} and additionally the call in \code{cl}.
+#' \code{"walsGLMmatrix"}, which inherits from \code{"walsGLM"}, \code{"walsMatrix"}
+#' and \code{"wals"}. This is a list that contains all elements returned from
+#' \code{\link[WALS]{walsGLMfitIterate}} and additionally the call in \code{cl}.
 #'
 #' @examples
 #' ## Example for walsGLM.matrix()
@@ -200,25 +199,25 @@ walsGLM.default <- function(x, ...) {
 
 #' Fitter function for Weighted Average Least Squares estimation of GLMs
 #'
-#' Workhorse function behind \link[WALS]{walsGLM} and used internally in
-#' \link[WALS]{walsGLMfitIterate}.
+#' Workhorse function behind \code{\link[WALS]{walsGLM}} and used internally in
+#' \code{\link[WALS]{walsGLMfitIterate}}.
 #'
 #' @inheritParams walsFit
 #' @param betaStart1 Starting values for coefficients of focus regressors X1.
 #' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
-#' @param family Object of class \link{familyWALS}.
-#' @param ... Further arguments passed to \link[WALS]{walsFit}.
+#' @param family Object of class \code{"\link[WALS]{familyWALS}"}.
+#' @param ... Further arguments passed to \code{\link[WALS]{walsFit}}.
 #'
 #' @details
-#' Uses \link[WALS]{walsFit} under the hood after transforming the regressors
+#' Uses \code{\link[WALS]{walsFit}} under the hood after transforming the regressors
 #' \code{X1} and \code{X2} and the response \code{y}. For more details, see
 #' \insertCite{huynhwals}{WALS} and \insertCite{deluca2018glm;textual}{WALS}.
 #'
-#' @returns A list containing all elements returned by \link[WALS]{walsFit},
+#' @returns A list containing all elements returned by \code{\link[WALS]{walsFit}},
 #' except for \code{residuals}, and additionally (some fields are replaced)
 #' \item{condition}{Condition number of the matrix
 #' \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
-#' \item{family}{Object of class \link{familyWALS}. The family used.}
+#' \item{family}{Object of class \code{\link[WALS]{familyWALS}}. The family used.}
 #' \item{betaStart}{Starting values of the regression coefficients for the
 #' one-step ML estimators.}
 #' \item{fitted.link}{Linear link fitted to the data.}
@@ -260,14 +259,15 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' Iteratively fitting walsGLM, internal function for walsGLM.formula and
 #' walsGLM.matrix.
 #'
-#' See description of \link[WALS]{walsGLM}.
+#' Wrapper around \code{\link[WALS]{walsGLMfit}} that allows iteratively
+#' (re-)fitting \code{\link[WALS]{walsGLM}} models.
 #'
 #' @inheritParams walsGLMfit
 #' @param na.action Not implemented yet.
 #' @param weights Not implemented yet.
 #' @param offset Not implemented yet.
 #' @param controlGLMfit Controls estimation of starting values for one-step ML,
-#' passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.
+#' passed to \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.
 #' @param keepY If \code{TRUE}, then output keeps response.
 #' @param keepX If \code{TRUE}, then output keeps the design matrices.
 #' @param iterate if TRUE then the WALS algorithm is iterated using the previous
@@ -283,7 +283,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' (only relevant if iterate = TRUE).
 #' @param ... Arguments to be passed to the workhorse function walsGLMfit.
 #'
-#' @returns A list containing all elements returned from \link[WALS]{walsGLMfit}
+#' @returns A list containing all elements returned from \code{\link[WALS]{walsGLMfit}}
 #' and additionally the following elements:
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 #' \item{x}{list. If \code{keepX} is true, then it is a list with elements
@@ -387,15 +387,15 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' Methods for walsGLM, walsGLMmatrix, walsNB and walsNBmatrix Objects
 #'
 #' Methods for extracting information from fitted model-averaging objects of
-#' classes \code{walsGLM}, \code{walsGLMmatrix}, \code{walsNB} and
-#' \code{walsNBmatrix}.
+#' classes \code{"walsGLM"}, \code{"walsGLMmatrix"}, \code{"walsNB"} and
+#' \code{"walsNBmatrix"}.
 #'
-#' @param object,x An object of class \code{walsGLM}, \code{walsGLMmatrix},
-#' \code{walsNB} or \code{walsNBmatrix}.
+#' @param object,x An object of class \code{"walsGLM"}, \code{"walsGLMmatrix"},
+#' \code{"walsNB"} or \code{"walsNBmatrix"}.
 #' @inheritParams predict.wals
 #' @param type Character specifying the type of prediction, residual or model
 #' part to be returned. For details see below.
-#' @param at  Optional. Only available if a family of class \code{familyWALScount}
+#' @param at  Optional. Only available if a family of class \code{"\link[WALS]{familyWALScount}"}
 #' was used for fitting. If \code{type = "prob"}, a numeric vector at which
 #' the probabilities are evaluated. By default \code{0:max(y)} is used
 #' where \code{y} is the original observed response.
@@ -404,24 +404,24 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' \code{type = "density"}.
 #'
 #' @details
-#' As the \code{"-matrix"} classes \code{walsGLMmatrix} and \code{walsNBmatrix}
-#' inherit from the "non-matrix" classes, i.e. \code{walsGLM} and \code{walsNB},
+#' As the \code{"-matrix"} classes \code{"walsGLMmatrix"} and \code{"walsNBmatrix"}
+#' inherit from the "non-matrix" classes, i.e. \code{"walsGLM"} and \code{"walsNB"},
 #' respectively, the following text will treat them as equivalent because
 #' they inherit all methods but \code{predict} from their "non-matrix" versions.
-#' Thus, when \code{walsGLM} or \code{walsNB} are mentioned, we also refer to
+#' Thus, when \code{"walsGLM"} or \code{"walsNB"} are mentioned, we also refer to
 #' their \code{"-matrix"} versions, except when explicitly stated. Moreover,
-#' note that \code{walsNB} and \code{walsNBmatrix} inherit most methods from
-#' \code{walsGLM} and \code{walsGLMmatrix}.
+#' note that \code{"walsNB"} and \code{"walsNBmatrix"} inherit most methods from
+#' \code{"walsGLM"} and \code{"walsGLMmatrix"}.
 #'
 #' A set of standard extractor functions for fitted model objects is available
-#' for objects of class \code{walsGLM} and \code{walsNB}, including methods to
+#' for objects of class \code{"walsGLM"} and \code{"walsNB"}, including methods to
 #' the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
 #' which print the model-averaged estimation of the coefficients along with some
 #' further information.
 #'
 #' The \code{summary} methods returns an object of
-#' class \code{"summary.walsGLM"} for objects of class \code{walsGLM} and an
-#' object of class \code{"summary.walsNB"} for objects of class \code{walsNB}.
+#' class \code{"summary.walsGLM"} for objects of class \code{"walsGLM"} and an
+#' object of class \code{"summary.walsNB"} for objects of class \code{"walsNB"}.
 #' They contain the relevant summary statistics which can then be printed using
 #' the associated \code{print} methods.
 #' Inspired by \insertCite{deluca2011stata;textual}{WALS}, the summary statistics
@@ -434,9 +434,9 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' A \code{\link[stats]{logLik}} method is provided that returns the log-likelihood
 #' given the family used and the model-averaged estimates of the coefficients.
 #'
-#' \code{walsGLM} inherits from \code{wals}, while \code{walsNB} inherits from
-#' both, \code{walsGLM} and \code{wals}. Thus, see \link[WALS]{predict.wals} for
-#' more methods.
+#' \code{"walsGLM"} inherits from \code{"wals"}, while \code{"walsNB"} inherits from
+#' both, \code{"walsGLM"} and \code{"wals"}. Thus, see \code{\link[WALS]{predict.wals}}
+#' for more methods.
 #'
 #' ## Details on the use of the argument type
 #' For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
@@ -446,8 +446,8 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' * \code{type = "response"}: predicted mean
 #' * \code{type = "link"}: predicted linear link
 #' * \code{type = "variance"}: predicted variance
-#' * \code{type = "prob"}: Only available if a family of class \code{familyWALScount}
-#' was used for fitting or for objects of class \code{walsNB} or \code{walsNBmatrix}.
+#' * \code{type = "prob"}: Only available if a family of class \code{"\link[WALS]{familyWALScount}"}
+#' was used for fitting or for objects of class \code{"walsNB"} or \code{"walsNBmatrix"}.
 #' Returns the probability at counts specified by \code{at}.
 #' * \code{type = "density"}: predicted density
 #' * \code{type = "logDens"}: for convenience, returns predicted log-density.
@@ -463,8 +463,8 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' * \code{type = "response"}: raw residuals (observed - fitted)
 #'
 #' \code{\link[stats]{coef}} and \code{\link[stats]{vcov}} are inherited from
-#' \code{wals} (see \link[WALS]{predict.wals} for more), except for objects of
-#' class \code{walsNB} (see \link[WALS]{vcov.walsNB}). The \code{type}
+#' \code{wals} (see \code{\link[WALS]{predict.wals}} for more), except for objects of
+#' class \code{"walsNB"} (see \code{\link[WALS]{vcov.walsNB}}). The \code{type}
 #' argument specifies which part of the coefficient vector/covariance matrix of
 #' the estimates should be returned. For \code{type = "all"}, they return the
 #' complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they

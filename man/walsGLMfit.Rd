@@ -19,19 +19,19 @@ a constant column and can also be generated using model.matrix().}
 
 \item{betaStart2}{Starting values for coefficients of auxiliary regressors X2.}
 
-\item{family}{Object of class \link{familyWALS}.}
+\item{family}{Object of class \code{"\link[WALS]{familyWALS}"}.}
 
 \item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
-\item{...}{Further arguments passed to \link[WALS]{walsFit}.}
+\item{...}{Further arguments passed to \code{\link[WALS]{walsFit}}.}
 }
 \value{
-A list containing all elements returned by \link[WALS]{walsFit},
+A list containing all elements returned by \code{\link[WALS]{walsFit}},
 except for \code{residuals}, and additionally (some fields are replaced)
 \item{condition}{Condition number of the matrix
 \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
-\item{family}{Object of class \link{familyWALS}. The family used.}
+\item{family}{Object of class \code{\link[WALS]{familyWALS}}. The family used.}
 \item{betaStart}{Starting values of the regression coefficients for the
 one-step ML estimators.}
 \item{fitted.link}{Linear link fitted to the data.}
@@ -39,11 +39,11 @@ one-step ML estimators.}
 scale of the response.}
 }
 \description{
-Workhorse function behind \link[WALS]{walsGLM} and used internally in
-\link[WALS]{walsGLMfitIterate}.
+Workhorse function behind \code{\link[WALS]{walsGLM}} and used internally in
+\code{\link[WALS]{walsGLMfitIterate}}.
 }
 \details{
-Uses \link[WALS]{walsFit} under the hood after transforming the regressors
+Uses \code{\link[WALS]{walsFit}} under the hood after transforming the regressors
 \code{X1} and \code{X2} and the response \code{y}. For more details, see
 \insertCite{huynhwals}{WALS} and \insertCite{deluca2018glm;textual}{WALS}.
 }

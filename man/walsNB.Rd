@@ -82,8 +82,8 @@ used in the fitting process.}
 
 \item{link}{specifies the link function, currently only "log" is supported.}
 
-\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-or \link[WALS]{laplace}.}
+\item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
+\code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{controlInitNB}{Controls estimation of starting values for one-step ML,
 see \link[WALS]{controlNB}.}

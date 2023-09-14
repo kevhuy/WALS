@@ -51,8 +51,8 @@
 \method{print}{summary.walsNB}(x, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
-\item{object, x}{An object of class \code{walsGLM}, \code{walsGLMmatrix},
-\code{walsNB} or \code{walsNBmatrix}.}
+\item{object, x}{An object of class \code{"walsGLM"}, \code{"walsGLMmatrix"},
+\code{"walsNB"} or \code{"walsNBmatrix"}.}
 
 \item{newdata}{Optionally, a data frame in which to look for variables with
 which to predict. If omitted, the original observations are used.}
@@ -60,7 +60,7 @@ which to predict. If omitted, the original observations are used.}
 \item{type}{Character specifying the type of prediction, residual or model
 part to be returned. For details see below.}
 
-\item{at}{Optional. Only available if a family of class \code{familyWALScount}
+\item{at}{Optional. Only available if a family of class \code{"\link[WALS]{familyWALScount}"}
 was used for fitting. If \code{type = "prob"}, a numeric vector at which
 the probabilities are evaluated. By default \code{0:max(y)} is used
 where \code{y} is the original observed response.}
@@ -85,28 +85,28 @@ in \code{newdata}. The default is to predict \code{NA}.}
 }
 \description{
 Methods for extracting information from fitted model-averaging objects of
-classes \code{walsGLM}, \code{walsGLMmatrix}, \code{walsNB} and
-\code{walsNBmatrix}.
+classes \code{"walsGLM"}, \code{"walsGLMmatrix"}, \code{"walsNB"} and
+\code{"walsNBmatrix"}.
 }
 \details{
-As the \code{"-matrix"} classes \code{walsGLMmatrix} and \code{walsNBmatrix}
-inherit from the "non-matrix" classes, i.e. \code{walsGLM} and \code{walsNB},
+As the \code{"-matrix"} classes \code{"walsGLMmatrix"} and \code{"walsNBmatrix"}
+inherit from the "non-matrix" classes, i.e. \code{"walsGLM"} and \code{"walsNB"},
 respectively, the following text will treat them as equivalent because
 they inherit all methods but \code{predict} from their "non-matrix" versions.
-Thus, when \code{walsGLM} or \code{walsNB} are mentioned, we also refer to
+Thus, when \code{"walsGLM"} or \code{"walsNB"} are mentioned, we also refer to
 their \code{"-matrix"} versions, except when explicitly stated. Moreover,
-note that \code{walsNB} and \code{walsNBmatrix} inherit most methods from
-\code{walsGLM} and \code{walsGLMmatrix}.
+note that \code{"walsNB"} and \code{"walsNBmatrix"} inherit most methods from
+\code{"walsGLM"} and \code{"walsGLMmatrix"}.
 
 A set of standard extractor functions for fitted model objects is available
-for objects of class \code{walsGLM} and \code{walsNB}, including methods to
+for objects of class \code{"walsGLM"} and \code{"walsNB"}, including methods to
 the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
 which print the model-averaged estimation of the coefficients along with some
 further information.
 
 The \code{summary} methods returns an object of
-class \code{"summary.walsGLM"} for objects of class \code{walsGLM} and an
-object of class \code{"summary.walsNB"} for objects of class \code{walsNB}.
+class \code{"summary.walsGLM"} for objects of class \code{"walsGLM"} and an
+object of class \code{"summary.walsNB"} for objects of class \code{"walsNB"}.
 They contain the relevant summary statistics which can then be printed using
 the associated \code{print} methods.
 Inspired by \insertCite{deluca2011stata;textual}{WALS}, the summary statistics
@@ -119,9 +119,9 @@ provides information on the prior and family used.
 A \code{\link[stats]{logLik}} method is provided that returns the log-likelihood
 given the family used and the model-averaged estimates of the coefficients.
 
-\code{walsGLM} inherits from \code{wals}, while \code{walsNB} inherits from
-both, \code{walsGLM} and \code{wals}. Thus, see \link[WALS]{predict.wals} for
-more methods.
+\code{"walsGLM"} inherits from \code{"wals"}, while \code{"walsNB"} inherits from
+both, \code{"walsGLM"} and \code{"wals"}. Thus, see \code{\link[WALS]{predict.wals}}
+for more methods.
 \subsection{Details on the use of the argument type}{
 
 For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
@@ -132,8 +132,8 @@ Different return types for \code{\link[stats]{predict}}:
 \item \code{type = "response"}: predicted mean
 \item \code{type = "link"}: predicted linear link
 \item \code{type = "variance"}: predicted variance
-\item \code{type = "prob"}: Only available if a family of class \code{familyWALScount}
-was used for fitting or for objects of class \code{walsNB} or \code{walsNBmatrix}.
+\item \code{type = "prob"}: Only available if a family of class \code{"\link[WALS]{familyWALScount}"}
+was used for fitting or for objects of class \code{"walsNB"} or \code{"walsNBmatrix"}.
 Returns the probability at counts specified by \code{at}.
 \item \code{type = "density"}: predicted density
 \item \code{type = "logDens"}: for convenience, returns predicted log-density.
@@ -152,8 +152,8 @@ square root of variance function)
 }
 
 \code{\link[stats]{coef}} and \code{\link[stats]{vcov}} are inherited from
-\code{wals} (see \link[WALS]{predict.wals} for more), except for objects of
-class \code{walsNB} (see \link[WALS]{vcov.walsNB}). The \code{type}
+\code{wals} (see \code{\link[WALS]{predict.wals}} for more), except for objects of
+class \code{"walsNB"} (see \code{\link[WALS]{vcov.walsNB}}). The \code{type}
 argument specifies which part of the coefficient vector/covariance matrix of
 the estimates should be returned. For \code{type = "all"}, they return the
 complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they

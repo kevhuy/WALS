@@ -34,7 +34,7 @@ walsGLMfitIterate(
 \item{X2}{Design matrix for auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
 
-\item{family}{Object of class \link{familyWALS}.}
+\item{family}{Object of class \code{"\link[WALS]{familyWALS}"}.}
 
 \item{na.action}{Not implemented yet.}
 
@@ -46,7 +46,7 @@ a constant column and can also be generated using model.matrix().}
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{controlGLMfit}{Controls estimation of starting values for one-step ML,
-passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.}
+passed to \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.}
 
 \item{keepY}{If \code{TRUE}, then output keeps response.}
 
@@ -71,7 +71,7 @@ and the algorithm iterates nIt times.}
 \item{...}{Arguments to be passed to the workhorse function walsGLMfit.}
 }
 \value{
-A list containing all elements returned from \link[WALS]{walsGLMfit}
+A list containing all elements returned from \code{\link[WALS]{walsGLMfit}}
 and additionally the following elements:
 \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 \item{x}{list. If \code{keepX} is true, then it is a list with elements
@@ -88,7 +88,8 @@ if \code{iterate = FALSE}.}
 \item{residuals}{Raw residuals, i.e. response - fitted mean.}
 }
 \description{
-See description of \link[WALS]{walsGLM}.
+Wrapper around \code{\link[WALS]{walsGLMfit}} that allows iteratively
+(re-)fitting \code{\link[WALS]{walsGLM}} models.
 }
 \seealso{
 \link{walsGLM}, \link{walsGLMfit}.

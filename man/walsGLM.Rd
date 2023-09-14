@@ -57,14 +57,14 @@ walsGLM(x, ...)
 \item{x}{Design matrix of focus regressors. Usually includes a constant
 (column full of 1s) and can be generated using model.matrix().}
 
-\item{...}{Arguments for workhorse \link[WALS]{walsGLMfit}.}
+\item{...}{Arguments for workhorse \code{\link[WALS]{walsGLMfit}}.}
 
 \item{formula}{an object of class \code{"\link[Formula]{Formula}"}
 (or one that can be coerced to that class, e.g. \code{"\link[stats]{formula}"}):
 a symbolic description of the model to be fitted.
 The details of model specification are given under ‘Details’.}
 
-\item{family}{Object of class \link{familyWALS}.}
+\item{family}{Object of class \code{"\link[WALS]{familyWALS}"}.}
 
 \item{data}{an optional data frame, list or environment
 (or object coercible by as.data.frame to a data frame) containing the
@@ -81,11 +81,11 @@ used in the fitting process.}
 
 \item{offset}{\strong{not implemented yet.}}
 
-\item{prior}{Object of class \code{familyPrior}. For example \link[WALS]{weibull}
-or \link[WALS]{laplace}.}
+\item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
+\code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{controlGLMfit}{Controls estimation of starting values for one-step ML,
-passed to \link[stats]{glm.fit}. See also \link[stats]{glm.control}.}
+passed to \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.}
 
 \item{model}{if \code{TRUE} (default), then the model.frame is stored in
 the return.}
@@ -121,8 +121,9 @@ a constant column and can also be generated using model.matrix().}
 }
 \value{
 For \code{walsGLM.formula}, it returns an object of class
-\code{walsGLM} which inherits from \code{walsGLM}. This is a list that contains
-all elements returned from \link[WALS]{walsGLMfitIterate} and additionally
+\code{"walsGLM"} which inherits from \code{"\link[WALS]{wals}"}. This is a l
+ist that contains all elements returned from \code{\link[WALS]{walsGLMfitIterate}}
+and additionally
 \item{cl}{Call of the function.}
 \item{formula}{\code{formula} used.}
 \item{terms}{List containing the model terms of the focus and auxiliary
@@ -133,13 +134,13 @@ regressors separately, as well as for the full model.}
 focus and auxiliary regressors.}
 \item{model}{If \code{model = TRUE}, contains the model frame.}
 
-See returns of \link[WALS]{walsGLMfit} and \link[WALS]{walsGLMfitIterate}
+See returns of \code{\link[WALS]{walsGLMfit}} and \code{\link[WALS]{walsGLMfitIterate}}
 for more details.
 
 For \code{walsGLM.matrix}, it returns an object of class
-\code{walsGLMmatrix}, which inherits from \code{walsGLM}, \code{walsMatrix}
-and \code{wals}. This is a list that contains all elements returned from
-\link[WALS]{walsGLMfitIterate} and additionally the call in \code{cl}.
+\code{"walsGLMmatrix"}, which inherits from \code{"walsGLM"}, \code{"walsMatrix"}
+and \code{"wals"}. This is a list that contains all elements returned from
+\code{\link[WALS]{walsGLMfitIterate}} and additionally the call in \code{cl}.
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method

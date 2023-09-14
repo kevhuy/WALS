@@ -50,6 +50,7 @@
 #' \insertAllCited{}
 #'
 #' @seealso [family].
+#' @aliases familyWALScount
 #' @export
 familyWALS <- function(object, ...) UseMethod("familyWALS", object)
 
