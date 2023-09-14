@@ -599,8 +599,8 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
 #' auxiliary regressors, respectively.}
 #' \item{initialFit}{List containing information (e.g. convergence) on the
-#' estimation of the starting values for \link[WALS]{walsNBfit}.
-#' See return of \link[WALS]{fitNB2} for more information.}
+#' estimation of the starting values for \code{\link[WALS]{walsNBfit}}.
+#' See return of \code{\link[WALS]{fitNB2}} for more information.}
 #' \item{weights}{returns the argument \code{weights}.}
 #' \item{offset}{returns the argument \code{offset}.}
 #' \item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
@@ -641,23 +641,23 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
                 control = controlInitNB)
 
   if (nb2$convergence == 1) {
-    warning("Iteration limit reached in initial NB2 fit of full model.")
+    warning("Iteration limit reached in initial NB2 fit of full model.\n")
   } else if (nb2$convergence == 10) {
-    warning("Degeneracy in Nelder-Mead simplex in initial NB2 fit of full model.")
+    warning("Degeneracy in Nelder-Mead simplex in initial NB2 fit of full model.\n")
   } else if (nb2$convergence == 51) {
     warning("Warning in L-BFGS-B in initial NB2 fit of full model.
-            See initial fit for more details.")
+            See initial fit for more details.\n")
   } else if (nb2$convergence == 52) {
-    message("Error in L-BFGS-B in initial NB2 fit of full model.
-        See initial fit for more details. \n")
-    out <- list(initialFit = nb2)
-    return(out)
+    stop("Error in L-BFGS-B in initial NB2 fit of full model. ",
+         "No model fitted. Try changing the options in controlInitNB. ",
+         "See ?controlNB() and ?glm.nb().")
   } else if (nb2$convergence == 99) {
-    message("Convergence issue in IWLS algo in glm.nb for initial NB2 fit of full model.
-            See initial fit for more details.")
+    stop("Convergence issue in IWLS algo in glm.nb for initial NB2 fit of full model. ",
+         "No model fitted. Try changing the options in controlInitNB. ",
+         "See ?controlNB() and ?glm.nb().")
   } else if (nb2$convergence != 0) {
-    warning("Unknown non-zero exit for optim in initial NB2 fit of full model.
-            See initial fit for more details.")
+    warning("Unknown non-zero exit for optim in initial NB2 fit of full model. ",
+            "See initial fit for more details.\n")
   }
 
   betaStart <- if (controlInitNB$restricted) {

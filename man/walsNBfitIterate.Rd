@@ -79,8 +79,8 @@ and additionally the following elements:
 \code{x1} and \code{x2} containing the design matrices of the focus and
 auxiliary regressors, respectively.}
 \item{initialFit}{List containing information (e.g. convergence) on the
-estimation of the starting values for \link[WALS]{walsNBfit}.
-See return of \link[WALS]{fitNB2} for more information.}
+estimation of the starting values for \code{\link[WALS]{walsNBfit}}.
+See return of \code{\link[WALS]{fitNB2}} for more information.}
 \item{weights}{returns the argument \code{weights}.}
 \item{offset}{returns the argument \code{offset}.}
 \item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
