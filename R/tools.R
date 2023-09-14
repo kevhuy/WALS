@@ -3,6 +3,8 @@
 # Transformations for one-step estimator of GLMs (DeLuca et al. 2018, Eq. 5)----
 
 # Xbar
+# Does nothing with etaStart, just passes it. The argument etaStart is included
+# so that it has the same arguments as negbinWALS()$transformX.
 transformX <- function(X, etaStart, psiBar) sqrt(as.vector(psiBar)) * X
 
 # muBar

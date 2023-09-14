@@ -310,6 +310,9 @@ negbinWALS <- function(scale, link) {
     out$g <- function() return(scale)
 
     out$transformX <- function(X, eta, y) { # transform X to Xbar
+      # the first term in front of X is sqrt(psi). Explicitly compute it
+      # instead of using out$psi so we can pull sqrt() into exp() and avoid
+      # squaring the denominator.
       return(as.numeric( (exp(0.5*(eta + alpha)) * sqrt(y + scale)) /
         (exp(eta) + scale) ) * X)
     }
