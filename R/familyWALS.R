@@ -72,7 +72,7 @@ poissonWALS <- function(link = "log") {
     # Canonical link
 
     # d theta/ d eta as function of linear link eta
-    fam$theta.eta <- function(etaStart) 1.0
+    fam$theta.eta <- function(etaStart) rep(1.0, length.out = length(etaStart))
     fam$psi <- function(etaStart) fam$variance(fam$linkinv(etaStart))
 
     # could insert specialized versions of transformX and transformY here
@@ -116,7 +116,7 @@ binomialWALS <- function(link = "logit") {
   if (fam$link == "logit") {
     # Canonical link
 
-    fam$theta.eta <- function(etaStart) 1.0
+    fam$theta.eta <- function(etaStart) rep(1.0, length.out = length(etaStart))
     fam$psi <- function(etaStart) fam$variance(fam$linkinv(etaStart))
 
   } else stop(sprintf("%s link not implemented yet", fam$link))
