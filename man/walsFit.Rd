@@ -103,6 +103,16 @@ estimators of the coefficients of the transformed auxiliary regressors.}
 \description{
 Workhorse function behind \code{\link[WALS]{wals}} and \code{\link[WALS]{walsGLM}}.
 }
+\examples{
+X <- model.matrix(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth
+                  + law + tropics + avelf + confucian, data = GrowthMPP)
+X1 <- X[, c("(Intercept)", "lgdp60", "equipinv", "school60", "life60", "popgrowth")]
+X2 <- X[, c("law", "tropics", "avelf", "confucian")]
+y <- GrowthMPP$gdpgrowth
+
+walsFit(X1, X2, y, prior = weibull(), method = "svd")
+
+}
 \references{
 \insertAllCited{}
 }
