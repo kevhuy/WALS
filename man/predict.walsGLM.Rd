@@ -168,6 +168,32 @@ are also inherited from \code{wals}. They only allow \code{type = "focus"}
 and \code{type = "aux"} and extract the corresponding component of the model.
 }
 }
+\examples{
+## Example for walsGLM objects
+data("HMDA", package = "AER")
+fitBinomial <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
+                        selfemp + afam, family = binomialWALS(), data = HMDA,
+                       prior = weibull())
+summary(fitBinomial)
+vcov(fitBinomial, type = "focus")
+logLik(fitBinomial)
+predict(fitBinomial, newdata = HMDA[1:10,], type = "response")
+familyWALS(fitBinomial)
+
+## Example for walsNB objects
+data("NMES1988", package = "AER")
+
+fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
+           adl + region + gender + married + income + school + afam + employed)
+fitNB <- walsNB(fWals, data = NMES1988, link = "log", prior = weibull(),
+                method = "fullSVD")
+summary(fitNB)
+coef(fitNB, type = "aux")
+residuals(fitNB, type = "pearson")
+predict(fitNB, newdata = NMES1988[1:10,], type = "prob")
+terms(fitNB, type = "aux")
+
+}
 \references{
 \insertAllCited{}
 }

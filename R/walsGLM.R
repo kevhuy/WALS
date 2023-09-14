@@ -3,10 +3,8 @@
 #' Fits an NB2 regression model using the Weighted-Average Least Squares method
 #' described in \insertCite{deluca2018glm;textual}{WALS}.
 #'
-#'
 #' @references
 #' \insertAllCited{}
-#'
 #'
 #' @export
 walsGLM <- function(x, ...) UseMethod("walsGLM", x)
@@ -484,6 +482,31 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' \insertAllCited{}
 #'
 #' @seealso [walsGLM], [walsNB], [predict.wals].
+#'
+#' @examples
+#' ## Example for walsGLM objects
+#' data("HMDA", package = "AER")
+#' fitBinomial <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
+#'                         selfemp + afam, family = binomialWALS(), data = HMDA,
+#'                        prior = weibull())
+#' summary(fitBinomial)
+#' vcov(fitBinomial, type = "focus")
+#' logLik(fitBinomial)
+#' predict(fitBinomial, newdata = HMDA[1:10,], type = "response")
+#' familyWALS(fitBinomial)
+#'
+#' ## Example for walsNB objects
+#' data("NMES1988", package = "AER")
+#'
+#' fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
+#'            adl + region + gender + married + income + school + afam + employed)
+#' fitNB <- walsNB(fWals, data = NMES1988, link = "log", prior = weibull(),
+#'                 method = "fullSVD")
+#' summary(fitNB)
+#' coef(fitNB, type = "aux")
+#' residuals(fitNB, type = "pearson")
+#' predict(fitNB, newdata = NMES1988[1:10,], type = "prob")
+#' terms(fitNB, type = "aux")
 #'
 #' @export
 predict.walsGLM <- function(object, newdata,
