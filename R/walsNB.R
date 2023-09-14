@@ -827,7 +827,7 @@ print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ..
 #' @param initThetaMASS If TRUE, then initial \eqn{\log{\theta}} of
 #' \link[WALS]{fitNB2} is estimated using \link[MASS]{theta.ml}
 #' (ML-estimation over 1 variable) based on regression coefficients from
-#' Poisson regression. If \code{FALSE}, then initial \eqn{\log{theta}} = 0 is used.
+#' Poisson regression. If \code{FALSE}, then initial \eqn{\log{\theta}} = 0 is used.
 #' @param initMASS If TRUE (default), then initial fit in \link[WALS]{fitNB2} is estimated via
 #' \link[MASS]{glm.nb} and \code{initThetaMASS} is ignored.
 #' @param restricted If TRUE, then initial fit in \link[WALS]{fitNB2} only considers the
