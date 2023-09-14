@@ -94,6 +94,19 @@ if \code{iterate = FALSE}.}
 Wrapper around \code{\link[WALS]{walsGLMfit}} that allows iteratively
 (re-)fitting \code{\link[WALS]{walsGLM}} models.
 }
+\examples{
+data("HMDA", package = "AER")
+X <- model.matrix(deny ~ pirat + hirat + lvrat + chist + mhist + phist + selfemp + afam,
+                  data = HMDA)
+X1 <- X[,c("(Intercept)", "pirat", "hirat", "lvrat", "chist2", "chist3",
+        "chist4", "chist5", "chist6", "mhist2", "mhist3", "mhist4", "phistyes")]
+X2 <- X[,c("selfempyes", "afamyes")]
+y <- HMDA$deny
+
+str(walsGLMfitIterate(y, X1, X2, family = binomialWALS(), prior = weibull(),
+                      iterate = TRUE))
+
+}
 \seealso{
 \link{walsGLM}, \link{walsGLMfit}.
 }
