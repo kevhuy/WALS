@@ -309,6 +309,9 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' \item{x}{list. If \code{keepX} is true, then it is a list with elements
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
 #' auxiliary regressors, respectively.}
+#' \item{initialFit}{List containing information (e.g. convergence) on the
+#' estimation of the starting values for \code{\link[WALS]{walsGLMfit}}.
+#' See \code{\link[stats]{glm.fit}} for more information.}
 #' \item{weights}{returns the argument \code{weights}.}
 #' \item{offset}{returns the argument \code{offset}.}
 #' \item{converged}{Logical. Only relevant if \code{iterate = TRUE}. Equals
@@ -336,8 +339,15 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   if (any(colnames(X1) %in% colnames(X2))) stop("X1 and X2 contain the same variables")
 
   # generate starting values
-  betaStart <- glm.fit(cbind(X1, X2), y, family = family,
-                       control = controlGLMfit)$coefficients
+  initialFit <- glm.fit(cbind(X1, X2), y, family = family, control = controlGLMfit)
+
+  if (!initialFit$converged) {
+    warning("Convergence issue in IWLS algo in glm.fit for initial fit of full model. ",
+            "See initial fit for more details.")
+
+  }
+
+  betaStart <- initialFit$coefficients
   betaStart1 <- betaStart[1L:k1]
   betaStart2 <- betaStart[(k1 + 1L):(k1 + k2)]
 
@@ -368,11 +378,11 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
     betaCurrent <- out$coef
     it <- it + 1
 
-    if (verbose) cat(paste("\r finished iteration", it))
+    if (verbose) cat(paste("\rfinished iteration", it))
 
     if (is.null(nIt) && (norm(betaOld - betaCurrent, type = "2") < tol)) {
       converged <- TRUE
-      cat("\n algorithm converged")
+      cat("\nalgorithm converged\n")
       break
     }
 
@@ -380,7 +390,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
   if (!is.null(nIt)) {
     converged <- NULL
-  } else if (!converged) cat("\n algorithm failed to converge")
+  } else if (!converged) cat("\nalgorithm failed to converge\n")
 
   # replace starting values with original starting values
   out$betaStart <- betaStart
@@ -388,6 +398,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   # add more elements
   if (keepY) out$y <- family$initializeY(y) # e.g. convert logical to 0s and 1s.
   if (keepX) out$x <- list(focus = X1, aux = X2)
+  out$initialFit <- initialFit
   out$weights <- weights
   out$offset <- offset
   out$converged <- converged
