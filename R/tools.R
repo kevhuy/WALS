@@ -4,8 +4,8 @@
 
 # Xbar
 # Does nothing with etaStart, just passes it. The argument etaStart is included
-# so that it has the same arguments as negbinWALS()$transformX and
-# negbinFixedWALS()$transformX (see in familyWALS.R).
+# so that it has the same arguments as negbinFixedWALS()$transformX
+# (see in familyWALS.R).
 transformX <- function(X, etaStart, psiBar) sqrt(as.vector(psiBar)) * X
 
 # muBar

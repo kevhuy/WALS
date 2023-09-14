@@ -216,6 +216,7 @@ negativeBinomial <- function(theta, link = "log") {
 #' @rdname familyWALS
 #' @export
 negbinFixedWALS <- function(scale, link) {
+  alpha <- log(scale)
   fam <- negativeBinomial(theta = scale, link = link)
 
   fam$initializeY <- function(y) {
@@ -229,6 +230,7 @@ negbinFixedWALS <- function(scale, link) {
 
     # d theta/ d eta as function of linear link eta
     fam$theta.eta <- function(etaStart) 1.0
+
     fam$psi <- function(etaStart) scale * (exp(-etaStart) / ((exp(-etaStart) - 1)^2))
 
     ## alternatively (maybe more numerically stable)
@@ -248,13 +250,19 @@ negbinFixedWALS <- function(scale, link) {
 
     # d theta / d eta as function of linear link eta and y
     fam$theta.eta <- function(eta) scale / (exp(eta) + scale)
+
     fam$psi <- function(eta, y) {
-      return(exp( eta + log(scale) + ( log(y + scale) - 2.0*log(exp(eta) + scale) ) ))
+      return(exp( eta + alpha + ( log(y + scale) - 2.0*log(exp(eta) + scale) ) ))
     }
 
-    fam$transformX <- function(X, eta, y) {
-      return(as.vector(  exp(0.5*eta) * sqrt(scale * (scale + y))/(exp(eta) + scale)) * X)
+    fam$transformX <- function(X, eta, y) { # transform X to Xbar
+      # the first term in front of X is sqrt(psi). Explicitly compute it
+      # instead of using out$psi so we can pull sqrt() into exp() and avoid
+      # squaring the denominator.
+      return(as.numeric( (exp(0.5*(eta + alpha)) * sqrt(y + scale)) /
+                           (exp(eta) + scale) ) * X)
     }
+
     fam$transformY <- function(y, X1bar, X2bar, beta1, beta2, etaStart) {
       y <- fam$initializeY(y)
       return( X1bar %*% beta1 + X2bar %*% beta2
@@ -309,14 +317,6 @@ negbinWALS <- function(scale, link) {
 
     out$g <- function() return(scale)
 
-    out$transformX <- function(X, eta, y) { # transform X to Xbar
-      # the first term in front of X is sqrt(psi). Explicitly compute it
-      # instead of using out$psi so we can pull sqrt() into exp() and avoid
-      # squaring the denominator.
-      return(as.numeric( (exp(0.5*(eta + alpha)) * sqrt(y + scale)) /
-        (exp(eta) + scale) ) * X)
-    }
-
     out$transformY0 <- function(y, X1bar, X2bar, beta1, beta2, eta) {
       y <- out$initializeY(y)
       mu <- exp(eta)
@@ -358,10 +358,6 @@ negbinWALS <- function(scale, link) {
       mu <- exp(eta)
       return(sum((mu - y)/(mu + scale)) - (sum(log(mu + scale)) - n*alpha) +
         (sum(digamma(y + scale)) - n * digamma(scale)))
-    }
-
-    out$psi <- function(eta, y) {
-      return(exp( eta + alpha + ( log(y + scale) - 2.0*log(exp(eta) + scale) ) ))
     }
 
     out$computeAlpha <- function(gamma1, gamma2, Z1, Z2, y, eta, q) {
