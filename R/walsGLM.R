@@ -230,6 +230,26 @@ walsGLM.default <- function(x, ...) {
 #' @references
 #' \insertAllCited{}
 #'
+#' @examples
+#' data("HMDA", package = "AER")
+#' X <- model.matrix(deny ~ pirat + hirat + lvrat + chist + mhist + phist + selfemp + afam,
+#'                   data = HMDA)
+#' X1 <- X[,c("(Intercept)", "pirat", "hirat", "lvrat", "chist2", "chist3",
+#'         "chist4", "chist5", "chist6", "mhist2", "mhist3", "mhist4", "phistyes")]
+#' X2 <- X[,c("selfempyes", "afamyes")]
+#' y <- HMDA$deny
+#'
+#' # starting values from glm.fit()
+#' betaStart <- glm.fit(X, y, family = binomialWALS())$coefficients
+#' k1 <- ncol(X1)
+#' k2 <- ncol(X2)
+#'
+#' str(walsGLMfit(X1, X2, y,
+#'                betaStart1 = betaStart[1:k1],
+#'                betaStart2 = betaStart[(k1 + 1):(k1 + k2)],
+#'                family = binomialWALS(), prior = weibull()))
+#'
+#'
 #' @export
 walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
                        family, prior = weibull(), ...) {
