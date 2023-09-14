@@ -229,7 +229,7 @@ negbinFixedWALS <- function(scale, link) {
     # Canonical link
 
     # d theta/ d eta as function of linear link eta
-    fam$theta.eta <- function(etaStart) 1.0
+    fam$theta.eta <- function(etaStart) rep(1.0, length.out = length(etaStart))
 
     fam$psi <- function(etaStart) scale * (exp(-etaStart) / ((exp(-etaStart) - 1)^2))
 
