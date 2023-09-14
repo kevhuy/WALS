@@ -641,20 +641,26 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
                 control = controlInitNB)
 
   if (nb2$convergence == 1) {
-    warning("Iteration limit reached in initial NB2 fit of full model.\n")
+    warning("Iteration limit reached in initial NB2 fit of full model. ",
+            "Try raising maxIt in controlOptim or try using ",
+            "controlInitNB = controlNB(initMASS = TRUE). ",
+            "See component $initialFit for more details.\n")
   } else if (nb2$convergence == 10) {
-    warning("Degeneracy in Nelder-Mead simplex in initial NB2 fit of full model.\n")
+    warning("Degeneracy in Nelder-Mead simplex in initial NB2 fit of full model. ",
+            "Try using controlInitNB = controlNB(initMASS = TRUE) ",
+            "See component $initialFit for more details.\n")
   } else if (nb2$convergence == 51) {
-    warning("Warning in L-BFGS-B in initial NB2 fit of full model.
-            See initial fit for more details.\n")
+    warning("Warning in L-BFGS-B in initial NB2 fit of full model. ",
+            "Try using controlNB(initMASS = TRUE) ",
+            "See component $initialFit$message for more details.\n")
   } else if (nb2$convergence == 52) {
     stop("Error in L-BFGS-B in initial NB2 fit of full model. ",
-         "No model fitted. Try changing the options in controlInitNB. ",
-         "See ?controlNB() and ?glm.nb().")
+         "No model fitted.", paste0("Error message: ", nb2$message),
+         " Try using controlInitNB = controlNB(initMASS = TRUE). \n")
   } else if (nb2$convergence == 99) {
-    stop("Convergence issue in IWLS algo in glm.nb for initial NB2 fit of full model. ",
-         "No model fitted. Try changing the options in controlInitNB. ",
-         "See ?controlNB() and ?glm.nb().")
+    stop("Convergence issue in IWLS algo in glm.nb() for initial NB2 fit of full model. ",
+         "No model fitted. Try using controlInitNB = controlNB(initMASS = TRUE). ",
+         "See ?controlNB() and ?glm.nb() for more info.\n")
   } else if (nb2$convergence != 0) {
     warning("Unknown non-zero exit for optim in initial NB2 fit of full model. ",
             "See initial fit for more details.\n")
