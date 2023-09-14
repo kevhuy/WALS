@@ -94,6 +94,24 @@ if \code{iterate = FALSE}.}
 \description{
 See description of \link{walsNB}.
 }
+\examples{
+data("NMES1988", package = "AER")
+NMES1988 <- na.omit(NMES1988)
+form <- (visits ~ health + chronic + age + insurance + adl + region + gender
+         + married + income + school + employed)
+X <- model.matrix(form, data = NMES1988)
+focus <- c("(Intercept)", "healthpoor", "healthexcellent", "chronic", "age",
+        "insuranceyes")
+aux <- c("adllimited", "regionnortheast", "regionmidwest", "regionwest",
+         "gendermale", "marriedyes", "income", "school", "employedyes")
+X1 <- X[, focus]
+X2 <- X[, aux]
+y <- NMES1988$visits
+
+str(walsNBfitIterate(y, X1, X2, prior = weibull(), link = "log",
+                     method = "fullSVD", iterate = TRUE))
+
+}
 \seealso{
 \link{walsNB}, \link{walsNBfit}.
 }

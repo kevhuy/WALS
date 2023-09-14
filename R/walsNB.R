@@ -347,6 +347,31 @@ walsNB.default <- function(x, ...) {
 #' @references
 #' \insertAllCited{}
 #'
+#' @examples
+#' data("NMES1988", package = "AER")
+#' NMES1988 <- na.omit(NMES1988)
+#' form <- (visits ~ health + chronic + age + insurance + adl + region + gender
+#'          + married + income + school + employed)
+#' X <- model.matrix(form, data = NMES1988)
+#' focus <- c("(Intercept)", "healthpoor", "healthexcellent", "chronic", "age",
+#'         "insuranceyes")
+#' aux <- c("adllimited", "regionnortheast", "regionmidwest", "regionwest",
+#'          "gendermale", "marriedyes", "income", "school", "employedyes")
+#' X1 <- X[, focus]
+#' X2 <- X[, aux]
+#' y <- NMES1988$visits
+#'
+#' # starting values from glm.nb() from MASS
+#' startFit <- MASS::glm.nb(y ~ X[,-1])
+#' betaStart <- coef(startFit)
+#' rhoStart <- startFit$theta
+#' k1 <- ncol(X1)
+#' k2 <- ncol(X2)
+#'
+#' str(walsNBfit(X1, X2, y, rhoStart, family = negbinWALS(scale = rhoStart, link = "log"),
+#'               betaStart1 = betaStart[1:k1],
+#'               betaStart2 = betaStart[(k1 + 1):(k1 + k2)],
+#'               prior = weibull(), method = "fullSVD"))
 #'
 #' @export
 walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
@@ -612,6 +637,23 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' \item{residuals}{Raw residuals, i.e. response - fitted mean.}
 #'
 #' @seealso [walsNB], [walsNBfit].
+#'
+#' @examples
+#' data("NMES1988", package = "AER")
+#' NMES1988 <- na.omit(NMES1988)
+#' form <- (visits ~ health + chronic + age + insurance + adl + region + gender
+#'          + married + income + school + employed)
+#' X <- model.matrix(form, data = NMES1988)
+#' focus <- c("(Intercept)", "healthpoor", "healthexcellent", "chronic", "age",
+#'         "insuranceyes")
+#' aux <- c("adllimited", "regionnortheast", "regionmidwest", "regionwest",
+#'          "gendermale", "marriedyes", "income", "school", "employedyes")
+#' X1 <- X[, focus]
+#' X2 <- X[, aux]
+#' y <- NMES1988$visits
+#'
+#' str(walsNBfitIterate(y, X1, X2, prior = weibull(), link = "log",
+#'                      method = "fullSVD", iterate = TRUE))
 #'
 #' @export
 walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,

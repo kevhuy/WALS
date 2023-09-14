@@ -175,6 +175,33 @@ All variables in the code that are contain "start" in their name feature the
 starting values for the one-step ML estimation of submodels. See section
 "One-step ML estimator" of \insertCite{huynhwalsnb}{WALS} for details.
 }
+\examples{
+data("NMES1988", package = "AER")
+NMES1988 <- na.omit(NMES1988)
+form <- (visits ~ health + chronic + age + insurance + adl + region + gender
+         + married + income + school + employed)
+X <- model.matrix(form, data = NMES1988)
+focus <- c("(Intercept)", "healthpoor", "healthexcellent", "chronic", "age",
+        "insuranceyes")
+aux <- c("adllimited", "regionnortheast", "regionmidwest", "regionwest",
+         "gendermale", "marriedyes", "income", "school", "employedyes")
+X1 <- X[, focus]
+X2 <- X[, aux]
+y <- NMES1988$visits
+
+# starting values from glm.nb() from MASS
+startFit <- MASS::glm.nb(y ~ X[,-1])
+betaStart <- coef(startFit)
+rhoStart <- startFit$theta
+k1 <- ncol(X1)
+k2 <- ncol(X2)
+
+str(walsNBfit(X1, X2, y, rhoStart, family = negbinWALS(scale = rhoStart, link = "log"),
+              betaStart1 = betaStart[1:k1],
+              betaStart2 = betaStart[(k1 + 1):(k1 + k2)],
+              prior = weibull(), method = "fullSVD"))
+
+}
 \references{
 \insertAllCited{}
 }
