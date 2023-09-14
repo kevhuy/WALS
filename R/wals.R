@@ -549,6 +549,24 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #'
 #' @seealso [wals]
 #'
+#' @examples
+#' ## Example for wals objects
+#' fitGrowth <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+#'                 law + tropics + avelf + confucian, data = GrowthMPP,
+#'                 prior = laplace())
+#' summary(fitGrowth)
+#' fitted(fitGrowth)
+#' vcov(fitGrowth, type = "aux")
+#' familyPrior(fitGrowth)
+#' nobs(fitGrowth)
+#'
+#' ## Example for walsMatrix objects
+#' X1 <- model.matrix(fitGrowth, type = "focus")
+#' X2 <- model.matrix(fitGrowth, type = "aux")
+#' y <- GrowthMPP$gdpgrowth
+#' fitGrowthMatrix <- wals(X1, X2, y, prior = laplace())
+#' coef(fitGrowthMatrix)
+#'
 #' @export
 predict.wals <- function(object, newdata, na.action = na.pass, ...) {
   # TODO: include offsets

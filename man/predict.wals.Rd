@@ -106,6 +106,25 @@ behave similarly to \code{coef}, but they only allow \code{type = "focus"}
 and \code{type = "aux"}. They extract the corresponding component of the model.
 }
 
+\examples{
+## Example for wals objects
+fitGrowth <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+                law + tropics + avelf + confucian, data = GrowthMPP,
+                prior = laplace())
+summary(fitGrowth)
+fitted(fitGrowth)
+vcov(fitGrowth, type = "aux")
+familyPrior(fitGrowth)
+nobs(fitGrowth)
+
+## Example for walsMatrix objects
+X1 <- model.matrix(fitGrowth, type = "focus")
+X2 <- model.matrix(fitGrowth, type = "aux")
+y <- GrowthMPP$gdpgrowth
+fitGrowthMatrix <- wals(X1, X2, y, prior = laplace())
+coef(fitGrowthMatrix)
+
+}
 \references{
 \insertAllCited{}
 }
