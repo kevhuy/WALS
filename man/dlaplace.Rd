@@ -2,7 +2,7 @@
 % Please edit documentation in R/familyPrior.R
 \name{dlaplace}
 \alias{dlaplace}
-\title{Laplace density}
+\title{Internal function: Laplace density}
 \usage{
 dlaplace(x, b, log = FALSE)
 }

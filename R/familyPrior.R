@@ -134,7 +134,7 @@ print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) 
 
 ## Densities of distributions --------------------------------------------------
 
-#' Double (reflected) weibull density
+#' Internal function: double (reflected) Weibull density
 #'
 #' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
@@ -150,13 +150,12 @@ print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) 
 #'
 #' @seealso [weibull], [ddgengamma].
 #'
-#' @export
 ddweibull <- function(x, q, b, log = FALSE) {
   ddgengamma(x, q = q, alpha = 1 - q, b = b, log = log)
 }
 
 
-#' Subbotin density
+#' Internal function: Subbotin density
 #'
 #' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
@@ -170,13 +169,12 @@ ddweibull <- function(x, q, b, log = FALSE) {
 #'
 #' @seealso [subbotin], [ddgengamma].
 #'
-#' @export
 dsubbotin <- function(x, q, b, log = FALSE) {
   ddgengamma(x, q = q, alpha = 0.0, b = b, log = log)
 }
 
 
-#' Laplace density
+#' Internal function: Laplace density
 #'
 #' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
@@ -190,7 +188,6 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 #'
 #' @seealso [laplace], [ddgengamma].
 #'
-#' @export
 dlaplace <- function(x, b, log = FALSE) {
   ddgengamma(x, q = 1.0, alpha = 0.0, b = b, log = log)
 }
@@ -200,7 +197,7 @@ dlaplace <- function(x, b, log = FALSE) {
 # because that's what double generalized gamma is but with restrictions on
 # its parameters. gnorm packages provides it.
 
-#' Double generalized gamma density
+#' Internal function: double generalized gamma density
 #'
 #' Wrapper around \code{\link[VGAM]{dgengamma.stacy}} of \link[VGAM]{VGAM} to
 #' use the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
@@ -227,7 +224,6 @@ dlaplace <- function(x, b, log = FALSE) {
 #' @references
 #' \insertAllCited{}
 #'
-#' @export
 ddgengamma <- function(x, q, alpha, b, log = FALSE) {
   d <- q
   scale <- b^(-(1/d))

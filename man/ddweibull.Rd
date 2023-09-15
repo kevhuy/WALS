@@ -2,7 +2,7 @@
 % Please edit documentation in R/familyPrior.R
 \name{ddweibull}
 \alias{ddweibull}
-\title{Double (reflected) weibull density}
+\title{Internal function: double (reflected) Weibull density}
 \usage{
 ddweibull(x, q, b, log = FALSE)
 }

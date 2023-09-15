@@ -2,7 +2,7 @@
 % Please edit documentation in R/familyPrior.R
 \name{dsubbotin}
 \alias{dsubbotin}
-\title{Subbotin density}
+\title{Internal function: Subbotin density}
 \usage{
 dsubbotin(x, q, b, log = FALSE)
 }

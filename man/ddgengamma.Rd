@@ -2,7 +2,7 @@
 % Please edit documentation in R/familyPrior.R
 \name{ddgengamma}
 \alias{ddgengamma}
-\title{Double generalized gamma density}
+\title{Internal function: double generalized gamma density}
 \usage{
 ddgengamma(x, q, alpha, b, log = FALSE)
 }
