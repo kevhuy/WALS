@@ -29,7 +29,7 @@ multAllRows <- function(X, y) {
 #'
 #' Uses the matrix Z2s (called \eqn{\bar{\Xi}} in eq. (9) of
 #' \insertCite{deluca2018glm;textual}{WALS}) to transform \eqn{\bar{X}_2} to
-#' \eqn{\bar{Z}_2}, i.e. to perform \eqn{\bar{Z}_2 = \eqn{\bar{X}_2} \bar{\Delta}_2 \bar{\Xi}^{-1/2}}.
+#' \eqn{\bar{Z}_2}, i.e. to perform \eqn{\bar{Z}_2 = \bar{X}_2 \bar{\Delta}_2 \bar{\Xi}^{-1/2}}.
 #' For WALS in the linear regression model, the variables do not have a "bar".
 #'
 #' @param Z2s Matrix from which we take negative square root for
