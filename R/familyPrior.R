@@ -5,9 +5,11 @@
 #' estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
 #'
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
+#' Parameter of reflected generalized gamma distribution
+#' (\code{\link[WALS]{ddgengamma}}).
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
+#' Parameter of reflected generalized gamma distribution
+#' (\code{\link[WALS]{ddgengamma}}).
 #' @param object Object of of class \code{familyPrior}.
 #' @param ... Further arguments passed to methods.
 #'
@@ -15,10 +17,12 @@
 #' \code{familyPrior} is a generic function that extracts the family used in
 #' \code{wals} objects.
 #'
-#' The double (reflected) Weibull \link{weibull}, Subbotin \link{subbotin} and
-#' Laplace distributions (\link{laplace}) are all special cases of the reflected
-#' generalized gamma distribution (\link{ddgengamma}). The Laplace distribution
-#' is also a special case of the double Weibull and of the Subbotin distribution.
+#' The double (reflected) Weibull (\code{\link[WALS]{ddweibull}}), Subbotin
+#' (\code{\link[WALS]{dsubbotin}}) and Laplace distributions
+#' (\code{\link[WALS]{dlaplace}}) are all special cases of the reflected
+#' generalized gamma distribution (\code{\link[WALS]{ddgengamma}}). The Laplace
+#' distribution is also a special case of the double Weibull and of the
+#' Subbotin distribution.
 #'
 #' The default values for the parameters \code{q} and \code{b} are minimax regret
 #' solutions for the corresponding priors. The double (reflected) Weibull and
@@ -129,13 +133,10 @@ print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) 
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @param x vector of quantiles.
-#' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
-#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
+#' @inheritParams familyPrior
 #' @param log logical; if TRUE, probabilities p are given as log(p).
 #'
-#' @returns Gives the density.
+#' @returns Gives the (log-)density.
 #'
 #' @references
 #' \insertAllCited{}
@@ -153,12 +154,7 @@ ddweibull <- function(x, q, b, log = FALSE) {
 #' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
-#' @param x vector of quantiles.
-#' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
-#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
-#' @param log logical; if TRUE, probabilities p are given as log(p).
+#' @inheritParams ddweibull
 #'
 #' @returns Gives the (log-)density.
 #'
@@ -178,10 +174,7 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 #' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
-#' @param x vector of quantiles.
-#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution (\link{ddgengamma}).
-#' @param log logical; if TRUE, probabilities p are given as log(p).
+#' @inheritParams ddweibull
 #'
 #' @returns Gives the (log-)density.
 #'
@@ -202,8 +195,8 @@ dlaplace <- function(x, b, log = FALSE) {
 
 #' Double generalized gamma density
 #'
-#' Wrapper around dgengamma.stacy() of VGAM to use the parametrization on pp. 131
-#' of \insertCite{magnus2016wals;textual}{WALS}.
+#' Wrapper around \code{\link[VGAM]{dgengamma.stacy}} of \link[VGAM]{VGAM} to
+#' use the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @param x vector of quantiles.
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
@@ -216,10 +209,10 @@ dlaplace <- function(x, b, log = FALSE) {
 #'
 #' @details
 #' The density function is
-#' \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)} |x|^{-\alpha} \exp(-c |x|^{q})}.
+#' \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)} |x|^{-\alpha} \exp(-c |x|^{q}).}
 #'
-#' The function uses \link[VGAM]{dgengamma.stacy} internally from \link[VGAM]{VGAM}
-#' that uses the parametrization in table 12.13, p.369 of
+#' The function uses \code{\link[VGAM]{dgengamma.stacy}} internally from
+#' \link[VGAM]{VGAM} that uses the parametrization in table 12.13, p.369 of
 #' \insertCite{yee2015vgam;textual}{WALS}.
 #'
 #' @returns Gives the (log-)density.

@@ -25,10 +25,12 @@ laplace(b = log(2))
 \item{...}{Further arguments passed to methods.}
 
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
+Parameter of reflected generalized gamma distribution
+(\code{\link[WALS]{ddgengamma}}).}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution (\link{ddgengamma}).}
+Parameter of reflected generalized gamma distribution
+(\code{\link[WALS]{ddgengamma}}).}
 }
 \value{
 An object of class \code{familyPrior}. This is a list with the
@@ -57,10 +59,12 @@ estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
 \code{familyPrior} is a generic function that extracts the family used in
 \code{wals} objects.
 
-The double (reflected) Weibull \link{weibull}, Subbotin \link{subbotin} and
-Laplace distributions (\link{laplace}) are all special cases of the reflected
-generalized gamma distribution (\link{ddgengamma}). The Laplace distribution
-is also a special case of the double Weibull and of the Subbotin distribution.
+The double (reflected) Weibull (\code{\link[WALS]{ddweibull}}), Subbotin
+(\code{\link[WALS]{dsubbotin}}) and Laplace distributions
+(\code{\link[WALS]{dlaplace}}) are all special cases of the reflected
+generalized gamma distribution (\code{\link[WALS]{ddgengamma}}). The Laplace
+distribution is also a special case of the double Weibull and of the
+Subbotin distribution.
 
 The default values for the parameters \code{q} and \code{b} are minimax regret
 solutions for the corresponding priors. The double (reflected) Weibull and
