@@ -47,6 +47,13 @@
 #' @seealso [wals], [walsGLM], [walsNB], [computePosterior], [ddweibull],
 #' [dsubbotin], [dlaplace], [ddgengamma].
 #'
+#' @examples
+#' ## Use in wals():
+#' fit <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+#'             law + tropics + avelf + confucian, data = GrowthMPP,
+#'             prior = weibull(q = 0.8, b = log(1.8)))
+#' summary(fit)
+#'
 #' @export
 familyPrior <- function(object, ...) UseMethod("familyPrior", object)
 

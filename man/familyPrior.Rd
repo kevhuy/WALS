@@ -72,6 +72,14 @@ Subbotin prior are both neutral and robust. In contrast, the Laplace prior
 is only neutral but not robust. See section 9 "Enter Bayes: Neutrality and
 Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details.
 }
+\examples{
+## Use in wals():
+fit <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |
+            law + tropics + avelf + confucian, data = GrowthMPP,
+            prior = weibull(q = 0.8, b = log(1.8)))
+summary(fit)
+
+}
 \references{
 \insertAllCited{}
 }
