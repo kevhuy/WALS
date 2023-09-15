@@ -437,10 +437,12 @@ computeGammaUn <- function(U, V, singularVals,Z2, Z2start, Z2tq, Z1y0s, Z2y0s,
 #' by using SVD on entire transformed design matrix \eqn{\bar{Z}}.
 #' The matrix \eqn{\bar{Z}} should have full column rank.
 #'
-#'
-#' @param U Left singular vectors of \eqn{\bar{Z}} from \link[base]{svd}.
-#' @param V Right singular vectors of \eqn{\bar{Z}} from \link[base]{svd}.
-#' @param singularVals Singular values of \eqn{\bar{Z}} from \link[base]{svd}.
+#' @param U Left singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
+#' from \code{\link[base]{svd}}.
+#' @param V Right singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
+#' from \code{\link[base]{svd}}.
+#' @param singularVals Singular values of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
+#' from \code{\link[base]{svd}}.
 #' @param ellStart Vector \eqn{\bar{\ell}} see details.
 #' @param gStart Derivative of dispersion parameter \eqn{\rho} of NB2 with
 #' respect to \eqn{\alpha = \log(\rho)} evaluated at starting values of
@@ -457,7 +459,6 @@ computeGammaUn <- function(U, V, singularVals,Z2, Z2start, Z2tq, Z1y0s, Z2y0s,
 #' @param psiStart Diagonal matrix \eqn{\bar{\Psi}}, see section
 #' "One-step ML estimator" of \insertCite{huynhwalsnb;textual}{WALS} for definition.
 #'
-#'
 #' @details
 #' See section "Simplification for computing \eqn{\tilde{\gamma}_{u}}"
 #' in the appendix of \insertCite{huynhwals;textual}{WALS} for details of the
@@ -467,7 +468,7 @@ computeGammaUn <- function(U, V, singularVals,Z2, Z2start, Z2tq, Z1y0s, Z2y0s,
 #' one-step ML estimation of submodels. See section "One-step ML estimator" of
 #' \insertCite{huynhwalsnb;textual}{WALS} for details.
 #'
-#' Uses \link[WALS]{svdLSplus} under-the-hood.
+#' Uses \code{\link[WALS]{svdLSplus}} under-the-hood.
 #'
 #' @references
 #' \insertAllCited{}
@@ -498,26 +499,10 @@ computeGammaUnSVD <- function(U, V, singularVals, ellStart, gStart, epsilonStart
 #' See details.
 #' @param Z2 Another transformed design matrix of auxiliary regressors \eqn{Z_2}.
 #' See details.
-#' @param U Left singular vectors of \eqn{\bar{Z}_1} from \link[base]{svd}.
-#' @param V Right singular vectors of \eqn{\bar{Z}_1} from \link[base]{svd}.
-#' @param singularVals Singular values of \eqn{\bar{Z}_1} from \link[base]{svd}.
-#' @param ellStart Vector \eqn{\bar{\ell}} see details.
-#' @param gStart Derivative of dispersion parameter \eqn{\rho} of NB2 with
-#' respect to \eqn{\alpha = \log(\rho)} evaluated at starting values of
-#' one-step ML. \code{gStart} is a scalar.
-#' See section "ML estimation" of  \insertCite{huynhwalsnb;textual}{WALS}.
-#' @param epsilonStart Scalar \eqn{\bar{\epsilon}}, see section
-#' "One-step ML estimator" of \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param qStart Vector \eqn{\bar{q}}, see section "One-step ML estimator" of
-#' \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param y0Start Vector \eqn{\bar{y}_0}, see section "One-step ML estimator" of
-#' \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param tStart Scalar \eqn{\bar{t}}, see section "One-step ML estimator" of
-#' \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param psiStart Diagonal matrix \eqn{\bar{\Psi}}, see section
-#' "One-step ML estimator" of \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#'
-#'
+#' @param U Left singular vectors of \eqn{\bar{Z}_1} from \code{\link[base]{svd}}.
+#' @param V Right singular vectors of \eqn{\bar{Z}_1} from \code{\link[base]{svd}}.
+#' @param singularVals Singular values of \eqn{\bar{Z}_1} from \code{\link[base]{svd}}.
+#' @inheritParams computeGammaUnSVD
 #'
 #' @details
 #' See section "Simplification for computing \eqn{\hat{\gamma}_{1}}"
@@ -527,7 +512,6 @@ computeGammaUnSVD <- function(U, V, singularVals, ellStart, gStart, epsilonStart
 #' All parameters that contain "start" feature the starting values for the
 #' one-step ML estimation of submodels. See section "One-step ML estimator" of
 #' \insertCite{huynhwalsnb;textual}{WALS} for details.
-#'
 #'
 #' The argument \code{Z2start} is defined as
 #' (see section "Transformed model" in \insertCite{huynhwalsnb;textual}{WALS})
@@ -542,9 +526,7 @@ computeGammaUnSVD <- function(U, V, singularVals, ellStart, gStart, epsilonStart
 #' Z_{2} := X_{2} \bar{\Delta}_{2} \bar{\Xi}^{-1/2}.
 #' }
 #'
-#'
-#'
-#'Uses \link[WALS]{svdLSplus} under-the-hood.
+#' Uses \code{\link[WALS]{svdLSplus}} under-the-hood.
 #'
 #' @references
 #' \insertAllCited{}
@@ -575,26 +557,7 @@ computeGamma1 <- function(gamma2, Z2start, Z2, U, V, singularVals, ellStart, gSt
 #' in walsNB by using SVD on transformed design matrix of the focus regressors
 #' \eqn{\bar{Z}_1}. The matrix \eqn{\bar{Z_1}} should have full column rank.
 #'
-#'
-#' @param U Left singular vectors of \eqn{\bar{Z}_1} from \link[base]{svd}.
-#' @param V Right singular vectors of \eqn{\bar{Z}_1} from \link[base]{svd}.
-#' @param singularVals Singular values of \eqn{\bar{Z}_1} from \link[base]{svd}.
-#' @param ellStart Vector \eqn{\bar{\ell}} see details.
-#' @param gStart Derivative of dispersion parameter \eqn{\rho} of NB2 with
-#' respect to \eqn{\alpha = \log(\rho)} evaluated at starting values of
-#' one-step ML. \code{gStart} is a scalar.
-#' See section "ML estimation" of  \insertCite{huynhwalsnb;textual}{WALS}.
-#' @param epsilonStart Scalar \eqn{\bar{\epsilon}}, see section
-#' "One-step ML estimator" of \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param qStart Vector \eqn{\bar{q}}, see section "One-step ML estimator" of
-#' \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param y0Start Vector \eqn{\bar{y}_0}, see section "One-step ML estimator" of
-#' \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param tStart Scalar \eqn{\bar{t}}, see section "One-step ML estimator" of
-#' \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#' @param psiStart Diagonal matrix \eqn{\bar{\Psi}}, see section
-#' "One-step ML estimator" of \insertCite{huynhwalsnb;textual}{WALS} for definition.
-#'
+#' @inheritParams computeGamma1
 #'
 #' @details
 #' See section "Simplification for computing \eqn{\tilde{\gamma}_{1r}}"
@@ -605,8 +568,7 @@ computeGamma1 <- function(gamma2, Z2start, Z2, U, V, singularVals, ellStart, gSt
 #' one-step ML estimation of submodels. See section "One-step ML estimator" of
 #' \insertCite{huynhwalsnb;textual}{WALS} for details.
 #'
-#'
-#' Uses \link[WALS]{svdLSplus} under-the-hood.
+#' Uses \code{\link[WALS]{svdLSplus}} under-the-hood.
 #'
 #' @references
 #' \insertAllCited{}

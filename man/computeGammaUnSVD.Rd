@@ -19,11 +19,14 @@ computeGammaUnSVD(
 )
 }
 \arguments{
-\item{U}{Left singular vectors of \eqn{\bar{Z}} from \link[base]{svd}.}
+\item{U}{Left singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
+from \code{\link[base]{svd}}.}
 
-\item{V}{Right singular vectors of \eqn{\bar{Z}} from \link[base]{svd}.}
+\item{V}{Right singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
+from \code{\link[base]{svd}}.}
 
-\item{singularVals}{Singular values of \eqn{\bar{Z}} from \link[base]{svd}.}
+\item{singularVals}{Singular values of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
+from \code{\link[base]{svd}}.}
 
 \item{ellStart}{Vector \eqn{\bar{\ell}} see details.}
 
@@ -62,7 +65,7 @@ All parameters that contain "start" feature the starting values for the
 one-step ML estimation of submodels. See section "One-step ML estimator" of
 \insertCite{huynhwalsnb;textual}{WALS} for details.
 
-Uses \link[WALS]{svdLSplus} under-the-hood.
+Uses \code{\link[WALS]{svdLSplus}} under-the-hood.
 }
 \references{
 \insertAllCited{}

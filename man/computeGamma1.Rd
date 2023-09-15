@@ -30,11 +30,11 @@ See details.}
 \item{Z2}{Another transformed design matrix of auxiliary regressors \eqn{Z_2}.
 See details.}
 
-\item{U}{Left singular vectors of \eqn{\bar{Z}_1} from \link[base]{svd}.}
+\item{U}{Left singular vectors of \eqn{\bar{Z}_1} from \code{\link[base]{svd}}.}
 
-\item{V}{Right singular vectors of \eqn{\bar{Z}_1} from \link[base]{svd}.}
+\item{V}{Right singular vectors of \eqn{\bar{Z}_1} from \code{\link[base]{svd}}.}
 
-\item{singularVals}{Singular values of \eqn{\bar{Z}_1} from \link[base]{svd}.}
+\item{singularVals}{Singular values of \eqn{\bar{Z}_1} from \code{\link[base]{svd}}.}
 
 \item{ellStart}{Vector \eqn{\bar{\ell}} see details.}
 
@@ -87,7 +87,7 @@ and \code{Z2} is defined as
 Z_{2} := X_{2} \bar{\Delta}_{2} \bar{\Xi}^{-1/2}.
 }
 
-Uses \link[WALS]{svdLSplus} under-the-hood.
+Uses \code{\link[WALS]{svdLSplus}} under-the-hood.
 }
 \references{
 \insertAllCited{}
