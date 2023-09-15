@@ -162,8 +162,6 @@ binomialWALS <- function(link = "logit") {
 #' \insertRef{mass2002}{WALS}
 #'
 #' @seealso [family], [familyWALS], [negbinWALS], [negbinFixedWALS].
-#'
-#' @export
 negativeBinomial <- function(theta, link = "log") {
   if (link == "canonical") {
     # implementing functions required in glm.fit
