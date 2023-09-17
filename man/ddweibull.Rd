@@ -23,8 +23,8 @@ Parameter of reflected generalized gamma distribution
 Gives the (log-)density.
 }
 \description{
-Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
-parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+Wrapper around \code{\link[VGAM]{dgengamma.stacy}} of \link[VGAM]{VGAM} to use
+the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 }
 \references{
 \insertAllCited{}

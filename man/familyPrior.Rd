@@ -59,12 +59,14 @@ estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
 \code{familyPrior} is a generic function that extracts the family used in
 \code{wals} objects.
 
-The double (reflected) Weibull (\code{\link[WALS]{ddweibull}}), Subbotin
-(\code{\link[WALS]{dsubbotin}}) and Laplace distributions
-(\code{\link[WALS]{dlaplace}}) are all special cases of the reflected
-generalized gamma distribution (\code{\link[WALS]{ddgengamma}}). The Laplace
-distribution is also a special case of the double Weibull and of the
-Subbotin distribution.
+The double (reflected) Weibull, Subbotin and Laplace distributions are all
+special cases of the reflected generalized gamma distribution
+(\code{\link[WALS]{ddgengamma}}). The Laplace distribution is also a special
+case of the double Weibull and of the Subbotin distribution.
+
+The density function of the reflected generalized gamma distribution is
+\deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)}
+               |x|^{-\alpha} \exp(-c |x|^{q}).}
 
 The default values for the parameters \code{q} and \code{b} are minimax regret
 solutions for the corresponding priors. The double (reflected) Weibull and

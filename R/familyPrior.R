@@ -17,12 +17,14 @@
 #' \code{familyPrior} is a generic function that extracts the family used in
 #' \code{wals} objects.
 #'
-#' The double (reflected) Weibull (\code{\link[WALS]{ddweibull}}), Subbotin
-#' (\code{\link[WALS]{dsubbotin}}) and Laplace distributions
-#' (\code{\link[WALS]{dlaplace}}) are all special cases of the reflected
-#' generalized gamma distribution (\code{\link[WALS]{ddgengamma}}). The Laplace
-#' distribution is also a special case of the double Weibull and of the
-#' Subbotin distribution.
+#' The double (reflected) Weibull, Subbotin and Laplace distributions are all
+#' special cases of the reflected generalized gamma distribution
+#' (\code{\link[WALS]{ddgengamma}}). The Laplace distribution is also a special
+#' case of the double Weibull and of the Subbotin distribution.
+#'
+#' The density function of the reflected generalized gamma distribution is
+#' \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)}
+#'                |x|^{-\alpha} \exp(-c |x|^{q}).}
 #'
 #' The default values for the parameters \code{q} and \code{b} are minimax regret
 #' solutions for the corresponding priors. The double (reflected) Weibull and
@@ -136,8 +138,8 @@ print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) 
 
 #' Internal function: double (reflected) Weibull density
 #'
-#' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
-#' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+#' Wrapper around \code{\link[VGAM]{dgengamma.stacy}} of \link[VGAM]{VGAM} to use
+#' the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @param x vector of quantiles.
 #' @inheritParams familyPrior
@@ -183,7 +185,7 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 
 #' Internal function: Laplace density
 #'
-#' Wrapper around \link[VGAM]{dlaplace} of \link[VGAM]{VGAM} to use the
+#' Wrapper around \code{\link[VGAM]{dlaplace}} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @inheritParams ddgengamma
