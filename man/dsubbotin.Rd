@@ -10,12 +10,10 @@ dsubbotin(x, q, b, log = FALSE)
 \item{x}{vector of quantiles.}
 
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution
-(\code{\link[WALS]{ddgengamma}}).}
+Parameter of reflected generalized gamma distribution.}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution
-(\code{\link[WALS]{ddgengamma}}).}
+Parameter of reflected generalized gamma distribution.}
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 }
@@ -23,8 +21,13 @@ Parameter of reflected generalized gamma distribution
 Gives the (log-)density.
 }
 \description{
-Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
-parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+Subbotin density, uses the parametrization on pp. 131 of
+\insertCite{magnus2016wals;textual}{WALS}. Also called generalized normal
+distribution.
+}
+\details{
+The density function is
+\deqn{\pi(x) = \frac{q c^{1/q}}{2 \Gamma(1/q)} \exp(-c |x|^{q}).}
 }
 \references{
 \insertAllCited{}

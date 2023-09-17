@@ -157,12 +157,17 @@ ddweibull <- function(x, q, b, log = FALSE) {
 
 #' Internal function: Subbotin density
 #'
-#' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
-#' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+#' Subbotin density, uses the parametrization on pp. 131 of
+#' \insertCite{magnus2016wals;textual}{WALS}. Also called generalized normal
+#' distribution.
 #'
-#' @inheritParams ddweibull
+#' @inheritParams ddgengamma
 #'
 #' @returns Gives the (log-)density.
+#'
+#' @details
+#' The density function is
+#' \deqn{\pi(x) = \frac{q c^{1/q}}{2 \Gamma(1/q)} \exp(-c |x|^{q}).}
 #'
 #' @references
 #' \insertAllCited{}
@@ -170,7 +175,9 @@ ddweibull <- function(x, q, b, log = FALSE) {
 #' @seealso [subbotin], [ddgengamma].
 #'
 dsubbotin <- function(x, q, b, log = FALSE) {
-  ddgengamma(x, q = q, alpha = 0.0, b = b, log = log)
+  delta <- 1.0 / q
+  loglik <- -(b*(abs(x)^(q))) + delta * log(b) - log(delta) - log(2.0) - lgamma(delta)
+  if (log) return(loglik) else return(exp(loglik))
 }
 
 
@@ -179,9 +186,7 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 #' Wrapper around \link[VGAM]{dlaplace} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
-#' @inheritParams ddweibull
-#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
+#' @inheritParams ddgengamma
 #'
 #' @details
 #' The density function is
