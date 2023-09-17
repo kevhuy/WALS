@@ -176,10 +176,16 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 
 #' Internal function: Laplace density
 #'
-#' Wrapper around \link[VGAM]{dgengamma.stacy} of \link[VGAM]{VGAM} to use the
+#' Wrapper around \link[VGAM]{dlaplace} of \link[VGAM]{VGAM} to use the
 #' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @inheritParams ddweibull
+#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
+#' Parameter of reflected generalized gamma distribution.
+#'
+#' @details
+#' The density function is
+#' \deqn{\pi(x) = \frac{c}{2} \exp(-c |x|).}
 #'
 #' @returns Gives the (log-)density.
 #'
@@ -189,7 +195,7 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 #' @seealso [laplace], [ddgengamma].
 #'
 dlaplace <- function(x, b, log = FALSE) {
-  ddgengamma(x, q = 1.0, alpha = 0.0, b = b, log = log)
+  VGAM::dlaplace(x, location = 0, scale = 1 / b, log = log)
 }
 
 
