@@ -8,7 +8,10 @@
 #' Parameter of reflected generalized gamma distribution. See below for details.
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
 #' Parameter of reflected generalized gamma distribution. See below for details.
-#' @param object Object of of class \code{familyPrior}.
+#' @param object,x Object of of class \code{"familyPrior"} or \code{"wals"}.
+#' The function \code{familyPrior} accesses the \code{"familyPrior"} objects
+#' that are stored in objects of class \code{"wals"}.
+#' @param digits The number of significant digits to display.
 #' @param ... Further arguments passed to methods.
 #'
 #' @details
@@ -129,7 +132,7 @@ laplace <- function(b = log(2.0)) {
 }
 
 ## Class methods ---------------------------------------------------------------
-
+#' @rdname familyPrior
 #' @export
 print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   priorPars <- paste(names(x$printPars), signif(x$printPars, digits),
@@ -138,7 +141,7 @@ print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) 
   invisible(x)
 }
 
-## Densities of distributions --------------------------------------------------
+## Densities of prior distributions --------------------------------------------
 
 #' Internal function: double (reflected) Weibull density
 #'

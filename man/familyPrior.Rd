@@ -6,6 +6,7 @@
 \alias{subbotin}
 \alias{laplace}
 \alias{familyPrior_laplace}
+\alias{print.familyPrior}
 \alias{familyPrior.wals}
 \title{Family Objects for Prior Distributions in WALS}
 \usage{
@@ -17,10 +18,14 @@ subbotin(q = 0.799512530172489, b = 0.937673273794677)
 
 laplace(b = log(2))
 
+\method{print}{familyPrior}(x, digits = max(3, getOption("digits") - 3), ...)
+
 \method{familyPrior}{wals}(object, ...)
 }
 \arguments{
-\item{object}{Object of of class \code{familyPrior}.}
+\item{object, x}{Object of of class \code{"familyPrior"} or \code{"wals"}.
+The function \code{familyPrior} accesses the \code{"familyPrior"} objects
+that are stored in objects of class \code{"wals"}.}
 
 \item{...}{Further arguments passed to methods.}
 
@@ -29,6 +34,8 @@ Parameter of reflected generalized gamma distribution. See below for details.}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
 Parameter of reflected generalized gamma distribution. See below for details.}
+
+\item{digits}{The number of significant digits to display.}
 }
 \value{
 An object of class \code{familyPrior}. This is a list with the
