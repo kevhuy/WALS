@@ -33,5 +33,5 @@ The density function is
 \insertAllCited{}
 }
 \seealso{
-\link{subbotin}, \link{ddgengamma}.
+\link{subbotin}.
 }

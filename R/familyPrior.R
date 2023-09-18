@@ -189,7 +189,7 @@ ddweibull <- function(x, q, b, log = FALSE) {
 #' @references
 #' \insertAllCited{}
 #'
-#' @seealso [subbotin], [ddgengamma].
+#' @seealso [subbotin].
 #'
 dsubbotin <- function(x, q, b, log = FALSE) {
   delta <- 1.0 / q
@@ -218,48 +218,4 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 #'
 dlaplace <- function(x, b, log = FALSE) {
   return(dsubbotin(x, q = 1, b = b, log = log))
-}
-
-
-# TODO: consider replacing dgengamma.stacy of VGAM with generalized normal
-# because that's what double generalized gamma is but with restrictions on
-# its parameters. gnorm packages provides it.
-
-#' Internal function: double generalized gamma density
-#'
-#' Wrapper around \code{\link[VGAM]{dgengamma.stacy}} of \link[VGAM]{VGAM} to
-#' use the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
-#'
-#' @param x vector of quantiles.
-#' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
-#' @param alpha \eqn{\alpha} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
-#' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution.
-#' @param log logical; if TRUE, probabilities p are given as log(p).
-#'
-#' @details
-#' The density function is
-#' \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)} |x|^{-\alpha} \exp(-c |x|^{q}).}
-#'
-#' The function uses \code{\link[VGAM]{dgengamma.stacy}} internally from
-#' \link[VGAM]{VGAM} that uses the parametrization in table 12.13, p.369 of
-#' \insertCite{yee2015vgam;textual}{WALS}.
-#'
-#' @returns Gives the (log-)density.
-#'
-#' @references
-#' \insertAllCited{}
-#'
-ddgengamma <- function(x, q, alpha, b, log = FALSE) {
-  d <- q
-  scale <- b^(-(1/d))
-  k <- (1 - alpha)/q # delta
-
-  if (log) {
-    return(VGAM::dgengamma.stacy(abs(x), scale = scale, d = d, k = k, log = TRUE) - log(2.0))
-  } else {
-    return(VGAM::dgengamma.stacy(abs(x), scale = scale, d = d, k = k, log = FALSE) / 2.0)
-  }
 }
