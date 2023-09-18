@@ -9,7 +9,8 @@
 #' \code{\link[stats]{make.link}}. See \link[stats]{family} for more details.
 #' Currently, only a limited number of links are supported. See below for more
 #' details.
-#' @param object Object of of class \code{"familyWALS"}.
+#' @param object The function \code{familyWALS} extracts the family objects stored
+#' in \code{"walsGLM"} objects.
 #' @param ... Further arguments passed to methods.
 #'
 #' The \code{negbinWALS} family currently only accepts \code{"log"}, while

@@ -21,7 +21,8 @@ negbinFixedWALS(scale, link)
 negbinWALS(scale, link)
 }
 \arguments{
-\item{object}{Object of of class \code{"familyWALS"}.}
+\item{object}{The function \code{familyWALS} extracts the family objects stored
+in \code{"walsGLM"} objects.}
 
 \item{...}{Further arguments passed to methods.
 
