@@ -39,7 +39,7 @@ distribution).}
 \item{b}{Parameter \eqn{c}.}
 \item{delta}{Parameter \eqn{\delta = (1 - \alpha)/q}.}
 \item{printPars}{vector. Contains the parameters that are shown in printing
-functions, e.g. \code{print.familyPrior}.}.
+functions, e.g. \code{print.familyPrior}.}
 \item{prior}{String with the name of the prior distribution.}
 
 \code{laplace} returns an object of the specialized class
@@ -74,7 +74,8 @@ The default values for the parameters \code{q} and \code{b} are minimax regret
 solutions for the corresponding priors. The double (reflected) Weibull and
 Subbotin prior are both neutral and robust. In contrast, the Laplace prior
 is only neutral but not robust. See section 9 "Enter Bayes: Neutrality and
-Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details.
+Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details and
+Table 1 for the optimal parameter values.
 }
 \examples{
 ## Use in wals():

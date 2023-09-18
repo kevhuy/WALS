@@ -10,7 +10,7 @@ dlaplace(x, b, log = FALSE)
 \item{x}{vector of quantiles.}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution.}
+Parameter of reflected generalized gamma distribution. See below for details.}
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 }
@@ -18,8 +18,8 @@ Parameter of reflected generalized gamma distribution.}
 Gives the (log-)density.
 }
 \description{
-Wrapper around \code{\link[VGAM]{dlaplace}} of \link[VGAM]{VGAM} to use the
-parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+Wrapper around \code{\link[WALS]{dsubbotin}} with fixed \code{q = 1}. Uses
+the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 }
 \details{
 The density function is
@@ -29,5 +29,5 @@ The density function is
 \insertAllCited{}
 }
 \seealso{
-\link{laplace}, \link{ddgengamma}.
+\link{laplace}, \link{dsubbotin}.
 }

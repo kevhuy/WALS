@@ -33,7 +33,8 @@
 #' solutions for the corresponding priors. The double (reflected) Weibull and
 #' Subbotin prior are both neutral and robust. In contrast, the Laplace prior
 #' is only neutral but not robust. See section 9 "Enter Bayes: Neutrality and
-#' Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details.
+#' Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details and
+#' Table 1 for the optimal parameter values.
 #'
 #' @returns An object of class \code{familyPrior}. This is a list with the
 #' elements
@@ -43,7 +44,7 @@
 #' \item{b}{Parameter \eqn{c}.}
 #' \item{delta}{Parameter \eqn{\delta = (1 - \alpha)/q}.}
 #' \item{printPars}{vector. Contains the parameters that are shown in printing
-#' functions, e.g. \code{print.familyPrior}.}.
+#' functions, e.g. \code{print.familyPrior}.}
 #' \item{prior}{String with the name of the prior distribution.}
 #'
 #' @references
@@ -177,7 +178,7 @@ ddweibull <- function(x, q, b, log = FALSE) {
 #' \insertCite{magnus2016wals;textual}{WALS}. Also called generalized normal
 #' distribution.
 #'
-#' @inheritParams ddgengamma
+#' @inheritParams ddweibull
 #'
 #' @returns Gives the (log-)density.
 #'
@@ -199,10 +200,10 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 
 #' Internal function: Laplace density
 #'
-#' Wrapper around \code{\link[VGAM]{dlaplace}} of \link[VGAM]{VGAM} to use the
-#' parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+#' Wrapper around \code{\link[WALS]{dsubbotin}} with fixed \code{q = 1}. Uses
+#' the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
-#' @inheritParams ddgengamma
+#' @inheritParams ddweibull
 #'
 #' @details
 #' The density function is
@@ -213,10 +214,10 @@ dsubbotin <- function(x, q, b, log = FALSE) {
 #' @references
 #' \insertAllCited{}
 #'
-#' @seealso [laplace], [ddgengamma].
+#' @seealso [laplace], [dsubbotin].
 #'
 dlaplace <- function(x, b, log = FALSE) {
-  VGAM::dlaplace(x, location = 0, scale = 1 / b, log = log)
+  return(dsubbotin(x, q = 1, b = b, log = log))
 }
 
 

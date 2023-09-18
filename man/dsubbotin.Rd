@@ -10,10 +10,10 @@ dsubbotin(x, q, b, log = FALSE)
 \item{x}{vector of quantiles.}
 
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution.}
+Parameter of reflected generalized gamma distribution. See below for details.}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution.}
+Parameter of reflected generalized gamma distribution. See below for details.}
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 }
