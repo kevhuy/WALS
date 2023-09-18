@@ -2,8 +2,8 @@
 % Please edit documentation in R/tools.R
 \name{computeGamma1r}
 \alias{computeGamma1r}
-\title{Computes fully restricted one-step ML estimator for transformed
-regressors in walsNB}
+\title{Internal function: Computes fully restricted one-step ML estimator for
+transformed regressors in walsNB}
 \usage{
 computeGamma1r(
   U,

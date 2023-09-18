@@ -2,7 +2,7 @@
 % Please edit documentation in R/tools.R
 \name{gammaToBeta}
 \alias{gammaToBeta}
-\title{Transform gammas back to betas}
+\title{Internal function: Transform gammas back to betas}
 \usage{
 gammaToBeta(
   posterior,

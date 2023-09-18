@@ -2,7 +2,7 @@
 % Please edit documentation in R/tools.R
 \name{checkSingularitySVD}
 \alias{checkSingularitySVD}
-\title{Check singularity of SVDed matrix}
+\title{Internal function: Check singularity of SVDed matrix}
 \usage{
 checkSingularitySVD(singularValues, tol, rtol, digits = 5)
 }

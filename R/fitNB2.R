@@ -1,5 +1,5 @@
-#' Fits a NB2 regression via maximum likelihood with log-link for mean and
-#' dispersion parameter.
+#' Internal function: Fits a NB2 regression via maximum likelihood with log-link
+#' for mean and dispersion parameter.
 #'
 #' Internal fitting function for NB2 regression models. Used for fitting the
 #' starting values of the one-step ML estimators in \code{\link{walsNB}}. Only

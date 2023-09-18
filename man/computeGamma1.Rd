@@ -2,7 +2,7 @@
 % Please edit documentation in R/tools.R
 \name{computeGamma1}
 \alias{computeGamma1}
-\title{Compute model-averaged estimator of focus regressors in walsNB}
+\title{Internal function: Compute model-averaged estimator of focus regressors in walsNB}
 \usage{
 computeGamma1(
   gamma2,

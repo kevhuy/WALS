@@ -2,7 +2,7 @@
 % Please edit documentation in R/tools.R
 \name{computeX2M1X2}
 \alias{computeX2M1X2}
-\title{Computes X2M1X2 for walsNB when SVD is applied to Z1}
+\title{Internal function: Computes X2M1X2 for walsNB when SVD is applied to Z1}
 \usage{
 computeX2M1X2(
   X2,

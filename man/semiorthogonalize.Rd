@@ -2,7 +2,7 @@
 % Please edit documentation in R/tools.R
 \name{semiorthogonalize}
 \alias{semiorthogonalize}
-\title{Semiorthogonal-type transformation of X2 to Z2}
+\title{Internal function: Semiorthogonal-type transformation of X2 to Z2}
 \usage{
 semiorthogonalize(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE)
 }

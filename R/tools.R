@@ -25,7 +25,7 @@ multAllRows <- function(X, y) {
 }
 
 
-#' Semiorthogonal-type transformation of X2 to Z2
+#' Internal function: Semiorthogonal-type transformation of X2 to Z2
 #'
 #' Uses the matrix Z2s (called \eqn{\bar{\Xi}} in eq. (9) of
 #' \insertCite{deluca2018glm;textual}{WALS}) to transform \eqn{\bar{X}_2} to
@@ -142,7 +142,7 @@ semiorthogonalize <- function(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE) {
 }
 
 
-#' Transform gammas back to betas
+#' Internal function: Transform gammas back to betas
 #'
 #' Transforms posterior means \eqn{\hat{\gamma}_2} and variances corresponding
 #' to transformed auxiliary regressors \eqn{Z_2} back to regression coefficients
@@ -225,7 +225,7 @@ gammaToBeta <- function(posterior, y, Z1, Z2, Delta1, D2, sigma, Z1inv,
               vcovBeta = vc, vcovGamma = vcGamma))
 }
 
-#' Check singularity of SVDed matrix
+#' Internal function: Check singularity of SVDed matrix
 #'
 #' Checks whether matrix is singular based on singular values of SVD.
 #'
@@ -334,7 +334,7 @@ extractModel <- function(formula, mf, data) {
               cont = cont))
 }
 
-#' Computes X2M1X2 for walsNB when SVD is applied to Z1
+#' Internal function: Computes X2M1X2 for walsNB when SVD is applied to Z1
 #'
 #' Exploits the SVD of \eqn{\bar{Z}_1} to compute
 #' \eqn{\bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2}} to avoid directly inverting
@@ -429,7 +429,7 @@ computeGammaUn <- function(U, V, singularVals,Z2, Z2start, Z2tq, Z1y0s, Z2y0s,
   return(list(gammaUn1 = gammaUn1, gammaUn2 = gammaUn2, D = D))
 }
 
-#' Computes unrestricted one-step ML estimator for transformed
+#' Internal function: Computes unrestricted one-step ML estimator for transformed
 #' regressors in walsNB
 #'
 #' Computes one-step ML estimator for the unrestricted model in walsNB
@@ -485,7 +485,7 @@ computeGammaUnSVD <- function(U, V, singularVals, ellStart, gStart, epsilonStart
 }
 
 
-#' Compute model-averaged estimator of focus regressors in walsNB
+#' Internal function: Compute model-averaged estimator of focus regressors in walsNB
 #'
 #' Exploits the SVD of the design matrix of the focus regressors \eqn{\bar{Z}_1},
 #' the model-averaged estimator for the auxiliary regressors
@@ -531,7 +531,6 @@ computeGammaUnSVD <- function(U, V, singularVals, ellStart, gStart, epsilonStart
 #' @references
 #' \insertAllCited{}
 #'
-#'
 computeGamma1 <- function(gamma2, Z2start, Z2, U, V, singularVals, ellStart, gStart,
                           epsilonStart, qStart, y0Start, tStart, psiStart) {
 
@@ -549,8 +548,8 @@ computeGamma1 <- function(gamma2, Z2start, Z2, U, V, singularVals, ellStart, gSt
 }
 
 
-#' Computes fully restricted one-step ML estimator for transformed
-#' regressors in walsNB
+#' Internal function: Computes fully restricted one-step ML estimator for
+#' transformed regressors in walsNB
 #'
 #' Computes one-step ML estimator of fully restricted model
 #' (coefs of transformed regressors of \eqn{\bar{Z}_1})
@@ -573,7 +572,6 @@ computeGamma1 <- function(gamma2, Z2start, Z2, U, V, singularVals, ellStart, gSt
 #' @references
 #' \insertAllCited{}
 #'
-#'
 computeGamma1r <- function(U, V, singularVals, ellStart, gStart,
                            epsilonStart, qStart, y0Start, tStart, psiStart) {
   ## TODO: computeGamma1R does exactly the same thing as computeGammaUnSVD
@@ -588,8 +586,8 @@ computeGamma1r <- function(U, V, singularVals, ellStart, gStart,
 
 }
 
-#' Uses SVD components to compute final estimate via Sherman Morrison
-#' formula.
+#' Internal function: Uses SVD components to compute final estimate via
+#' Sherman-Morrison-Woodbury formula.
 #'
 #' Solves the equation system in walsNB via Sherman-Morrison-Woodbury formula
 #' for the unrestricted estimator \eqn{\hat{\gamma}_{u}}.
@@ -632,7 +630,6 @@ computeGamma1r <- function(U, V, singularVals, ellStart, gStart,
 #'
 #' @references
 #' \insertAllCited{}
-#'
 #'
 svdLSplus <- function(U, V, singularVals, y, ell, geB) {
   A <- V %*% (crossprod(U, y)/singularVals)

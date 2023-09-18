@@ -2,8 +2,8 @@
 % Please edit documentation in R/tools.R
 \name{svdLSplus}
 \alias{svdLSplus}
-\title{Uses SVD components to compute final estimate via Sherman Morrison
-formula.}
+\title{Internal function: Uses SVD components to compute final estimate via
+Sherman-Morrison-Woodbury formula.}
 \usage{
 svdLSplus(U, V, singularVals, y, ell, geB)
 }

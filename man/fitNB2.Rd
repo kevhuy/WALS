@@ -2,8 +2,8 @@
 % Please edit documentation in R/fitNB2.R
 \name{fitNB2}
 \alias{fitNB2}
-\title{Fits a NB2 regression via maximum likelihood with log-link for mean and
-dispersion parameter.}
+\title{Internal function: Fits a NB2 regression via maximum likelihood with log-link
+for mean and dispersion parameter.}
 \usage{
 fitNB2(X, Y, family, control = controlNB())
 }

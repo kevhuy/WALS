@@ -2,7 +2,7 @@
 % Please edit documentation in R/tools.R
 \name{computeGammaUnSVD}
 \alias{computeGammaUnSVD}
-\title{Computes unrestricted one-step ML estimator for transformed
+\title{Internal function: Computes unrestricted one-step ML estimator for transformed
 regressors in walsNB}
 \usage{
 computeGammaUnSVD(
