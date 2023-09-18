@@ -183,8 +183,8 @@ familyWALS(fitBinomial)
 ## Example for walsNB objects
 data("NMES1988", package = "AER")
 
-fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
-           adl + region + gender + married + income + school + afam + employed)
+fWals <- (visits ~ chronic + age + I((age^2)/10) + insurance + medicaid |
+           adl + gender + married + income + school + afam + employed)
 fitNB <- walsNB(fWals, data = NMES1988, link = "log", prior = weibull(),
                 method = "fullSVD")
 summary(fitNB)
