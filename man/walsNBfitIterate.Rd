@@ -52,22 +52,23 @@ see \link[WALS]{controlNB}.}
 
 \item{keepX}{If \code{TRUE}, then output keeps the design matrices.}
 
-\item{iterate}{if TRUE then the WALS algorithm is iterated using the previous
+\item{iterate}{if \code{TRUE} then the WALS algorithm is iterated using the previous
 estimates as starting values.}
 
-\item{tol}{Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-between the previous beta and current beta falls below tol and the absolute
-difference between the previous and current rho falls below tol, then
-the algorithm stops.}
+\item{tol}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
+Euclidean distance between the previous and current coefficient divided by
+the square root of the length of the vector falls below tol and the absolute
+difference between the previous and current dispersion parameter falls below
+tol, then the algorithm stops. See below for more details.}
 
-\item{maxIt}{Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
-when number of iterations exceed maxIt.}
+\item{maxIt}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
+iterative fitting when number of iterations exceed maxIt.}
 
-\item{nIt}{Only used if iterate = TRUE. If this is specified, then tol is ignored
-and the algorithm iterates nIt times.}
+\item{nIt}{Only used if \code{iterate = TRUE}. If this is specified, then tol
+is ignored and the algorithm iterates \code{nIt} times.}
 
-\item{verbose}{If verbose = TRUE, then it prints the iteration process
-(only relevant if iterate = TRUE).}
+\item{verbose}{If \code{verbose = TRUE}, then it prints the iteration process
+(only relevant if \code{iterate = TRUE}).}
 
 \item{...}{Arguments to be passed to the workhorse function walsNBfit.}
 }
@@ -93,6 +94,17 @@ if \code{iterate = FALSE}.}
 }
 \description{
 See description of \link{walsNB}.
+}
+\details{
+The parameter \code{tol} is used to control the convergence of the iterative
+fitting algorithm. Let \eqn{i} be the current iteration step for the
+coefficient vector \eqn{\beta_{i} = (\beta_{i,1}, \ldots, \beta_{i,k})'},
+\eqn{k > 0}, and dispersion parameter \eqn{\rho_{i}}. If
+\deqn{\frac{||\beta_{i} - \beta_{i-1}||_{2}}{\sqrt{k}}
+= \sqrt{\frac{\sum_{j = 1}^{k} (\beta_{i,j} - \beta_{i-1,j})^{2}}{k}} < \texttt{tol},}
+and
+\deqn{|\rho_{i} - \rho_{i-1}| < \texttt{tol},}
+then the fitting process is assumed to have converged and stops.
 }
 \examples{
 data("NMES1988", package = "AER")

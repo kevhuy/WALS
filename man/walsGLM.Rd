@@ -96,23 +96,24 @@ the return.}
 \item{keepX}{if \code{TRUE}, then the model matrices are stored in the return.
 the return.}
 
-\item{iterate}{if TRUE then the WALS algorithm is iterated using the previous
+\item{iterate}{if \code{TRUE} then the WALS algorithm is iterated using the previous
 estimates as starting values.}
 
-\item{tol}{Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-between the previous beta and current beta falls below tol, then
-the algorithm stops.}
+\item{tol}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}.
+If the Euclidean distance between the previous and current coefficient vector
+divided by the square root of the length of the vector falls below tol, then
+the algorithm stops. See below for more details.}
 
-\item{maxIt}{Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
-when number of iterations exceed maxIt.}
+\item{maxIt}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
+iterative fitting when number of iterations exceed maxIt.}
 
 \item{nIt}{Only used if iterate = TRUE. If this is specified, then tol is ignored
 and the algorithm iterates nIt times. This option should not be used unless
 the user has a specific reason to run the algorithm nIt times, e.g. for
 replication purposes.}
 
-\item{verbose}{If verbose = TRUE, then it prints the iteration process
-(only relevant if iterate = TRUE).}
+\item{verbose}{If \code{verbose = TRUE}, then it prints the iteration process
+(only relevant if \code{iterate = TRUE}).}
 
 \item{x2}{Design matrix of auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}

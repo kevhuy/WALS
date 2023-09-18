@@ -611,10 +611,11 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' @param link specifies the link function, currently only "log" is supported.
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
 #' see \link[WALS]{controlNB}.
-#' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-#' between the previous beta and current beta falls below tol and the absolute
-#' difference between the previous and current rho falls below tol, then
-#' the algorithm stops.
+#' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
+#' Euclidean distance between the previous and current coefficient divided by
+#' the square root of the length of the vector falls below tol and the absolute
+#' difference between the previous and current dispersion parameter falls below
+#' tol, then the algorithm stops. See below for more details.
 #' @param ... Arguments to be passed to the workhorse function walsNBfit.
 #'
 #' @returns A list containing all elements returned from \link[WALS]{walsNBfit}
@@ -637,6 +638,18 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' \item{residuals}{Raw residuals, i.e. response - fitted mean.}
 #'
 #' @seealso [walsNB], [walsNBfit].
+#'
+#' @details
+#' The parameter \code{tol} is used to control the convergence of the iterative
+#' fitting algorithm. Let \eqn{i} be the current iteration step for the
+#' coefficient vector \eqn{\beta_{i} = (\beta_{i,1}, \ldots, \beta_{i,k})'},
+#' \eqn{k > 0}, and dispersion parameter \eqn{\rho_{i}}. If
+#' \deqn{\frac{||\beta_{i} - \beta_{i-1}||_{2}}{\sqrt{k}}
+#' = \sqrt{\frac{\sum_{j = 1}^{k} (\beta_{i,j} - \beta_{i-1,j})^{2}}{k}} < \texttt{tol},}
+#' and
+#' \deqn{|\rho_{i} - \rho_{i-1}| < \texttt{tol},}
+#' then the fitting process is assumed to have converged and stops.
+#'
 #'
 #' @examples
 #' data("NMES1988", package = "AER")
@@ -755,7 +768,10 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
 
     if (verbose) cat(paste("\rfinished iteration", i))
 
-    if (is.null(nIt) && (norm(betaOld - betaCurrent, type = "2") < tol && abs(rhoOld - rhoCurrent) < tol)) {
+    if (is.null(nIt) &&
+        ((norm(betaOld - betaCurrent, type = "2") / sqrt(length(betaCurrent))) < tol
+         && abs(rhoOld - rhoCurrent) < tol)
+    ) {
       converged <- TRUE
       cat("\nalgorithm converged\n")
       break

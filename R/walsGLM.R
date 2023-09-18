@@ -290,17 +290,18 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' passed to \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.
 #' @param keepY If \code{TRUE}, then output keeps response.
 #' @param keepX If \code{TRUE}, then output keeps the design matrices.
-#' @param iterate if TRUE then the WALS algorithm is iterated using the previous
+#' @param iterate if \code{TRUE} then the WALS algorithm is iterated using the previous
 #' estimates as starting values.
-#' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-#' between the previous beta and current beta falls below tol, then
-#' the algorithm stops.
-#' @param maxIt Only used if iterate = TRUE and nIt = NULL. Aborts iterative fitting
-#' when number of iterations exceed maxIt.
-#' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
-#' and the algorithm iterates nIt times.
-#' @param verbose If verbose = TRUE, then it prints the iteration process
-#' (only relevant if iterate = TRUE).
+#' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}.
+#' If the Euclidean distance between the previous and current coefficient vector
+#' divided by the square root of the length of the vector falls below tol, then
+#' the algorithm stops. See below for more details.
+#' @param maxIt Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
+#' iterative fitting when number of iterations exceed maxIt.
+#' @param nIt Only used if \code{iterate = TRUE}. If this is specified, then tol
+#' is ignored and the algorithm iterates \code{nIt} times.
+#' @param verbose If \code{verbose = TRUE}, then it prints the iteration process
+#' (only relevant if \code{iterate = TRUE}).
 #' @param ... Arguments to be passed to the workhorse function walsGLMfit.
 #'
 #' @returns A list containing all elements returned from \code{\link[WALS]{walsGLMfit}}
@@ -321,6 +322,15 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' \code{NULL} if \code{iterate = FALSE}.}
 #' \item{deviance}{Deviance of the fitted regression model.}
 #' \item{residuals}{Raw residuals, i.e. response - fitted mean.}
+#'
+#' @details
+#' The parameter \code{tol} is used to control the convergence of the iterative
+#' fitting algorithm. Let \eqn{i} be the current iteration step for the
+#' coefficient vector \eqn{\beta_{i} = (\beta_{i,1}, \ldots, \beta_{i,k})', k > 0}.
+#' If
+#' \deqn{\frac{||\beta_{i} - \beta_{i-1}||_{2}}{\sqrt{k}}
+#' = \sqrt{\frac{\sum_{j = 1}^{k} (\beta_{i,j} - \beta_{i-1,j})^{2}}{k}} < \texttt{tol},}
+#' then the fitting process is assumed to have converged and stops.
 #'
 #' @seealso [walsGLM], [walsGLMfit].
 #'
@@ -392,7 +402,9 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
     if (verbose) cat(paste("\rfinished iteration", it))
 
-    if (is.null(nIt) && (norm(betaOld - betaCurrent, type = "2") < tol)) {
+    if (is.null(nIt)
+        && ((norm(betaOld - betaCurrent, type = "2") / length(betaCurrent)) < tol)
+    ) {
       converged <- TRUE
       cat("\nalgorithm converged\n")
       break
