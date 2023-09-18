@@ -3,3 +3,4 @@
 ^library$
 .Rprofile
 README.md
+^\.github$
