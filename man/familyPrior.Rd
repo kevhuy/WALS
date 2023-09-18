@@ -25,12 +25,10 @@ laplace(b = log(2))
 \item{...}{Further arguments passed to methods.}
 
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution
-(\code{\link[WALS]{ddgengamma}}).}
+Parameter of reflected generalized gamma distribution. See below for details.}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution
-(\code{\link[WALS]{ddgengamma}}).}
+Parameter of reflected generalized gamma distribution. See below for details.}
 }
 \value{
 An object of class \code{familyPrior}. This is a list with the
@@ -59,14 +57,18 @@ estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
 \code{familyPrior} is a generic function that extracts the family used in
 \code{wals} objects.
 
-The double (reflected) Weibull, Subbotin and Laplace distributions are all
-special cases of the reflected generalized gamma distribution
-(\code{\link[WALS]{ddgengamma}}). The Laplace distribution is also a special
-case of the double Weibull and of the Subbotin distribution.
-
 The density function of the reflected generalized gamma distribution is
 \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)}
                |x|^{-\alpha} \exp(-c |x|^{q}).}
+
+The double (reflected) Weibull, Subbotin and Laplace distributions are all
+special cases of the reflected generalized gamma distribution. The Laplace
+distribution is also a special case of the double Weibull and of the Subbotin
+distribution.
+
+The double (reflected) Weibull density sets \eqn{q = 1 - \alpha}, the Subbotin
+density sets \eqn{\alpha = 0} and the Laplace density sets \eqn{\alpha = 0}
+and \eqn{q = 1}.
 
 The default values for the parameters \code{q} and \code{b} are minimax regret
 solutions for the corresponding priors. The double (reflected) Weibull and
@@ -87,5 +89,5 @@ summary(fit)
 }
 \seealso{
 \link{wals}, \link{walsGLM}, \link{walsNB}, \link{computePosterior}, \link{ddweibull},
-\link{dsubbotin}, \link{dlaplace}, \link{ddgengamma}.
+\link{dsubbotin}, \link{dlaplace}.
 }

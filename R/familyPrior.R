@@ -5,11 +5,9 @@
 #' estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
 #'
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution
-#' (\code{\link[WALS]{ddgengamma}}).
+#' Parameter of reflected generalized gamma distribution. See below for details.
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-#' Parameter of reflected generalized gamma distribution
-#' (\code{\link[WALS]{ddgengamma}}).
+#' Parameter of reflected generalized gamma distribution. See below for details.
 #' @param object Object of of class \code{familyPrior}.
 #' @param ... Further arguments passed to methods.
 #'
@@ -17,14 +15,19 @@
 #' \code{familyPrior} is a generic function that extracts the family used in
 #' \code{wals} objects.
 #'
-#' The double (reflected) Weibull, Subbotin and Laplace distributions are all
-#' special cases of the reflected generalized gamma distribution
-#' (\code{\link[WALS]{ddgengamma}}). The Laplace distribution is also a special
-#' case of the double Weibull and of the Subbotin distribution.
-#'
 #' The density function of the reflected generalized gamma distribution is
 #' \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)}
 #'                |x|^{-\alpha} \exp(-c |x|^{q}).}
+#'
+#'
+#' The double (reflected) Weibull, Subbotin and Laplace distributions are all
+#' special cases of the reflected generalized gamma distribution. The Laplace
+#' distribution is also a special case of the double Weibull and of the Subbotin
+#' distribution.
+#'
+#' The double (reflected) Weibull density sets \eqn{q = 1 - \alpha}, the Subbotin
+#' density sets \eqn{\alpha = 0} and the Laplace density sets \eqn{\alpha = 0}
+#' and \eqn{q = 1}.
 #'
 #' The default values for the parameters \code{q} and \code{b} are minimax regret
 #' solutions for the corresponding priors. The double (reflected) Weibull and
@@ -47,7 +50,7 @@
 #' \insertAllCited{}
 #'
 #' @seealso [wals], [walsGLM], [walsNB], [computePosterior], [ddweibull],
-#' [dsubbotin], [dlaplace], [ddgengamma].
+#' [dsubbotin], [dlaplace].
 #'
 #' @examples
 #' ## Use in wals():
@@ -138,8 +141,8 @@ print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) 
 
 #' Internal function: double (reflected) Weibull density
 #'
-#' Wrapper around \code{\link[VGAM]{dgengamma.stacy}} of \link[VGAM]{VGAM} to use
-#' the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+#' Wrapper around \code{\link[stats]{dweibull}} to use the parametrization on
+#' pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
 #'
 #' @param x vector of quantiles.
 #' @inheritParams familyPrior
@@ -147,13 +150,24 @@ print.familyPrior <- function(x, digits = max(3, getOption("digits") - 3), ...) 
 #'
 #' @returns Gives the (log-)density.
 #'
+#' @details
+#' The density function is
+#' \deqn{\pi(x) = \frac{q c}{2} |x|^{q - 1} \exp(-c |x|^{q}).}
+#'
 #' @references
 #' \insertAllCited{}
 #'
-#' @seealso [weibull], [ddgengamma].
+#' @seealso [weibull], [dweibull].
 #'
 ddweibull <- function(x, q, b, log = FALSE) {
-  ddgengamma(x, q = q, alpha = 1 - q, b = b, log = log)
+  shape <- q
+  scale <- exp(-log(b)/shape)
+
+  if (log) {
+    return(dweibull(abs(x), shape = shape, scale = scale, log = TRUE) - log(2.0))
+  } else {
+    return(dweibull(abs(x), shape = shape, scale = scale, log = FALSE) / 2.0)
+  }
 }
 
 

@@ -10,12 +10,10 @@ ddweibull(x, q, b, log = FALSE)
 \item{x}{vector of quantiles.}
 
 \item{q}{\eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution
-(\code{\link[WALS]{ddgengamma}}).}
+Parameter of reflected generalized gamma distribution. See below for details.}
 
 \item{b}{\eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
-Parameter of reflected generalized gamma distribution
-(\code{\link[WALS]{ddgengamma}}).}
+Parameter of reflected generalized gamma distribution. See below for details.}
 
 \item{log}{logical; if TRUE, probabilities p are given as log(p).}
 }
@@ -23,12 +21,16 @@ Parameter of reflected generalized gamma distribution
 Gives the (log-)density.
 }
 \description{
-Wrapper around \code{\link[VGAM]{dgengamma.stacy}} of \link[VGAM]{VGAM} to use
-the parametrization on pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+Wrapper around \code{\link[stats]{dweibull}} to use the parametrization on
+pp. 131 of \insertCite{magnus2016wals;textual}{WALS}.
+}
+\details{
+The density function is
+\deqn{\pi(x) = \frac{q c}{2} |x|^{q - 1} \exp(-c |x|^{q}).}
 }
 \references{
 \insertAllCited{}
 }
 \seealso{
-\link{weibull}, \link{ddgengamma}.
+\link{weibull}, \link{dweibull}.
 }
