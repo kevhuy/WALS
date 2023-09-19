@@ -3,7 +3,7 @@
 #' Computes the posterior mean and variance of the normal location problem with
 #' fixed variance to 1, i.e. \eqn{x | \gamma \sim N(\gamma, 1)}.
 #' The priors for \eqn{\gamma} are either \code{\link[WALS]{weibull}},
-#' \code{\link[WALS]{subbotin}} or \code{\link[WALS]{laplace}}. Their properties 
+#' \code{\link[WALS]{subbotin}} or \code{\link[WALS]{laplace}}. Their properties
 #' are briefly discussed in \insertCite{magnus2016wals;textual}{WALS}.
 #' Default method of computePosterior uses numerical integration. This is used
 #' for the \code{\link[WALS]{weibull}} and \code{\link[WALS]{subbotin}} priors.
@@ -12,8 +12,8 @@
 #' numerical integration. Here we use the default \code{\link[stats]{integrate}} which
 #' combines Gauss-Kronrod with Wynn's Epsilon algorithm for extrapolation.
 #'
-#' @param object Object of class \code{"\link[WALS]{familyPrior}"}, e.g. from 
-#' \code{\link[WALS]{weibull}}, should contain all necessary parameters needed 
+#' @param object Object of class \code{"\link[WALS]{familyPrior}"}, e.g. from
+#' \code{\link[WALS]{weibull}}, should contain all necessary parameters needed
 #' for the posterior.
 #' @param x vector. Observed values, i.e. in WALS these are the regression
 #' coefficients of the transformed regressor Z2 standardized by the standard
@@ -42,7 +42,7 @@ computePosterior.familyPrior <- function(object, x) {
   postVariance <- rep(NA, length(x))
 
   # Numerical integration and posterior mean and var. computations
-  for (i in 1:length(x)) {
+  for (i in seq_along(x)) {
     A0 <- integrate(A0f, lower = 0, upper = Inf, x = x[i],
                     priorDensity = object$density)
     if (A0$message != "OK") warning(paste0("Warning in integrate A0f: ", A0$message))
