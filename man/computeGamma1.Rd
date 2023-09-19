@@ -22,7 +22,7 @@ computeGamma1(
 }
 \arguments{
 \item{gamma2}{Model-averaged estimate for auxiliary regressors
-from \link[WALS]{computePosterior}.}
+from \code{\link[WALS]{computePosterior}}.}
 
 \item{Z2start}{Transformed design matrix of auxiliary regressors \eqn{\bar{Z}_2}.
 See details.}

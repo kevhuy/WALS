@@ -38,8 +38,8 @@ a constant column and can also be generated using model.matrix().}
 
 \item{rhoStart}{Starting value for log-dispersion parameter of NB2}
 
-\item{family}{Object of class \link{familyNBWALS}. Currently only supports
-\link{negbinWALS}.}
+\item{family}{Object of class \code{"\link[WALS]{familyNBWALS}"}. Currently only supports
+\code{\link[WALS]{negbinWALS}}.}
 
 \item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
@@ -75,7 +75,7 @@ The latter is used in the original MATLAB code for WALS in the linear regression
 \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
 see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.}
 
-\item{...}{Arguments for internal function \link[WALS]{computePosterior}.}
+\item{...}{Arguments for internal function \code{\link[WALS]{computePosterior}}.}
 }
 \value{
 A list containing
@@ -124,8 +124,8 @@ estimation of the starting values.}
 scale of the response.}
 }
 \description{
-Workhorse function behind \link{walsNB} and used internally in
-\link{walsNBfitIterate}.
+Workhorse function behind \code{\link{walsNB}} and used internally in
+\code{\link{walsNBfitIterate}}.
 }
 \details{
 The method to be specified in \code{method} mainly differ in the way
@@ -160,7 +160,7 @@ of \insertCite{huynhwals;textual}{WALS}.}
 \item{"original"} {Computes all inverses directly using \code{solve()} and
 does not make use of the Sherman-Morrison-Woodbury formula for certain
 inverses. Specifically: directly inverts the matrix
-\eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \link[base]{solve}
+\eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{\link[base]{solve}}
 in order to compute \eqn{\bar{M}_1}. Moreover, it computes the fully
 unrestricted estimators of the focus regressors
 \eqn{\tilde{\gamma}_{1u}} and of the auxiliary regressors

@@ -9,19 +9,19 @@
 #' @export
 walsNB <- function(x, ...) UseMethod("walsNB", x)
 
-#' \code{walsNB.formula} uses formulas to specify the design matrix.
+#' \code{walsNB.formula()} uses formulas to specify the design matrix.
 #' @rdname walsNB
 #'
 #' @inheritParams walsGLM.formula
 #' @param link specifies the link function, currently only "log" is supported.
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
-#' see \link[WALS]{controlNB}.
+#' see \code{\link[WALS]{controlNB}}.
 #' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
 #' between the previous beta and current beta falls below tol and the absolute difference between
 #' the previous and current rho falls below tol, then the algorithm stops.
 #' @param verbose If verbose = TRUE, then it prints the iteration process of
-#' internal function \link[WALS]{walsNBfitIterate} (only relevant if iterate = TRUE).
-#' @param ... Arguments for workhorse \link[WALS]{walsNBfit}.
+#' internal function \code{\link[WALS]{walsNBfitIterate}} (only relevant if iterate = TRUE).
+#' @param ... Arguments for workhorse \code{\link[WALS]{walsNBfit}}.
 #'
 #'
 #' @details
@@ -34,10 +34,10 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' It is recommended to manually create the interactions beforehand and then
 #' to insert them as 'linear terms' in the formula.
 #'
-#' @returns For \code{walsNB.formula}, it returns an object of class
-#' \code{walsNB} which inherits from \code{walsGLM} and \code{wals}. This is a
-#' list that contains all elements returned from \link[WALS]{walsNBfitIterate}
-#' and additionally
+#' @returns \code{walsNB.formula()} returns an object of class \code{"walsNB"}
+#' which inherits from \code{"walsGLM"} and \code{"wals"}. This is a list that
+#' contains all elements returned from \code{\link[WALS]{walsNBfitIterate}} and
+#' additionally
 #' \item{cl}{Call of the function.}
 #' \item{formula}{\code{formula} used.}
 #' \item{terms}{List containing the model terms of the focus and auxiliary
@@ -48,7 +48,7 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' focus and auxiliary regressors.}
 #' \item{model}{If \code{model = TRUE}, contains the model frame.}
 #'
-#' See returns of \link[WALS]{walsNBfit} and \link[WALS]{walsNBfitIterate}
+#' See returns of \code{\link[WALS]{walsNBfit}} and \code{\link[WALS]{walsNBfitIterate}}
 #' for more details.
 #'
 #' @examples
@@ -158,10 +158,10 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' @inheritParams wals.matrix
 #' @param y Count response as vector.
 #'
-#' @returns For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
-#' which inherits from \code{walsNB}, \code{walsGLMmatrix}, \code{walsGLM} and
-#' \code{wals}. This is a list that contains all elements returned from
-#' \link[WALS]{walsNBfitIterate} and additionally the call in \code{cl}.
+#' @returns \code{walsNB.matrix()} returns an object of class \code{"walsNBmatrix"},
+#' which inherits from \code{"walsNB"}, \code{"walsGLMmatrix"}, \code{"walsGLM"}
+#' and \code{"wals"}. This is a list that contains all elements returned from
+#' \code{\link[WALS]{walsNBfitIterate}} and additionally the call in \code{cl}.
 #'
 #' @examples
 #' ## Example for walsNB.matrix()
@@ -215,14 +215,14 @@ walsNB.default <- function(x, ...) {
 #' Fitter function for Weighted Average Least Squares estimation of NB2 regression model
 #'
 #'
-#' Workhorse function behind \link{walsNB} and used internally in
-#' \link{walsNBfitIterate}.
+#' Workhorse function behind \code{\link{walsNB}} and used internally in
+#' \code{\link{walsNBfitIterate}}.
 #'
 #' @inheritParams walsGLMfit
 #' @param y Count response as vector.
 #' @param rhoStart Starting value for log-dispersion parameter of NB2
-#' @param family Object of class \link{familyNBWALS}. Currently only supports
-#' \link{negbinWALS}.
+#' @param family Object of class \code{"\link[WALS]{familyNBWALS}"}. Currently only supports
+#' \code{\link[WALS]{negbinWALS}}.
 #' @param method Specifies method used. Available methods are \code{"fullSVD"}
 #' (default) or \code{"original"}. See details.
 #' @param svdTol Tolerance for rank of matrix \eqn{\bar{Z}_{1}} and \eqn{\bar{Z}}.
@@ -247,7 +247,7 @@ walsNB.default <- function(x, ...) {
 #' The latter is used in the original MATLAB code for WALS in the linear regression model
 #' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
 #' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
-#' @param ... Arguments for internal function \link[WALS]{computePosterior}.
+#' @param ... Arguments for internal function \code{\link[WALS]{computePosterior}}.
 #'
 #' @details The method to be specified in \code{method} mainly differ in the way
 #' they compute the fully restricted and unrestricted estimators for the
@@ -282,7 +282,7 @@ walsNB.default <- function(x, ...) {
 #' \item{"original"} {Computes all inverses directly using \code{solve()} and
 #' does not make use of the Sherman-Morrison-Woodbury formula for certain
 #' inverses. Specifically: directly inverts the matrix
-#' \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \link[base]{solve}
+#' \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{\link[base]{solve}}
 #' in order to compute \eqn{\bar{M}_1}. Moreover, it computes the fully
 #' unrestricted estimators of the focus regressors
 #' \eqn{\tilde{\gamma}_{1u}} and of the auxiliary regressors
@@ -604,13 +604,13 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' Iteratively fitting walsNB, internal function for walsNB.formula and
 #' walsNB.matrix.
 #'
-#' See description of \link{walsNB}.
+#' See description of \code{\link{walsNB}}.
 #'
 #' @param y Count response as vector.
 #' @inheritParams walsGLMfitIterate
 #' @param link specifies the link function, currently only "log" is supported.
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
-#' see \link[WALS]{controlNB}.
+#' see \code{\link[WALS]{controlNB}}.
 #' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
 #' Euclidean distance between the previous and current coefficient divided by
 #' the square root of the length of the vector falls below tol and the absolute
@@ -618,7 +618,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' tol, then the algorithm stops. See below for more details.
 #' @param ... Arguments to be passed to the workhorse function walsNBfit.
 #'
-#' @returns A list containing all elements returned from \link[WALS]{walsNBfit}
+#' @returns A list containing all elements returned from \code{\link[WALS]{walsNBfit}}
 #' and additionally the following elements:
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 #' \item{x}{list. If \code{keepX} is true, then it is a list with elements
@@ -811,12 +811,12 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
 
 ## Class methods ---------------------------------------------------------------
 
-#' Calculate Variance-Covariance Matrix for a \code{walsNB} object
+#' Calculate Variance-Covariance Matrix for a \code{"walsNB"} object
 #'
 #' This method always raises an error because the covariance matrix of the
 #' walsNB estimator has not been derived yet.
 #'
-#' @param object An object of class \code{walsNB}.
+#' @param object An object of class \code{"walsNB"}.
 #' @param ... For expansion in the future.
 #'
 #' @export
@@ -876,24 +876,24 @@ print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ..
 
 #' Define controllable parameters of initial NB fit
 #'
-#' @param start Optional starting values for \link[WALS]{fitNB2}. Only used if
+#' @param start Optional starting values for \code{\link[WALS]{fitNB2}}. Only used if
 #' \code{initMASS = FALSE}.
-#' @param method Optimization method used in \link[stats]{optim}. Only used if
+#' @param method Optimization method used in \code{\link[stats]{optim}}. Only used if
 #' \code{initMASS = FALSE}.
 #' @param controlOptim List with parameters controlling optimization process of
-#' \link[stats]{optim}. Only used if \code{initMASS = FALSE}.
+#' \code{\link[stats]{optim}}. Only used if \code{initMASS = FALSE}.
 #' @param initThetaMASS If TRUE, then initial \eqn{\log{\theta}} of
-#' \link[WALS]{fitNB2} is estimated using \link[MASS]{theta.ml}
+#' \code{\link[WALS]{fitNB2}} is estimated using \code{\link[MASS]{theta.ml}}
 #' (ML-estimation over 1 variable) based on regression coefficients from
 #' Poisson regression. If \code{FALSE}, then initial \eqn{\log{\theta}} = 0 is used.
-#' @param initMASS If TRUE (default), then initial fit in \link[WALS]{fitNB2} is estimated via
-#' \link[MASS]{glm.nb} and \code{initThetaMASS} is ignored.
-#' @param restricted If TRUE, then initial fit in \link[WALS]{fitNB2} only considers the
-#' focus regressors. By default \code{FALSE}, then the unrestricted model is
-#' estimated in \link[WALS]{fitNB2} (i.e. all regressors).
-#' @param eps Controls argument \code{eps} in \link[WALS]{fitNB2} for generating
-#' starting value for \code{logTheta} (\eqn{\log{\theta}}) via \link[MASS]{theta.ml}.
-#' @param epsilonMASS Sets epsilon in control argument of \link[MASS]{glm.nb}.
+#' @param initMASS If TRUE (default), then initial fit in \code{\link[WALS]{fitNB2}}
+#' is estimated via \code{\link[MASS]{glm.nb}} and \code{initThetaMASS} is ignored.
+#' @param restricted If TRUE, then initial fit in \code{\link[WALS]{fitNB2}} only
+#' considers the focus regressors. By default \code{FALSE}, then the unrestricted
+#' model is estimated in \code{\link[WALS]{fitNB2}} (i.e. all regressors).
+#' @param eps Controls argument \code{eps} in \code{\link[WALS]{fitNB2}} for generating
+#' starting value for \code{logTheta} (\eqn{\log{\theta}}) via \code{\link[MASS]{theta.ml}}.
+#' @param epsilonMASS Sets epsilon in control argument of \code{\link[MASS]{glm.nb}}.
 #'
 #' @export
 controlNB <- function(start = list(mu = NULL, logTheta = NULL), method = "BFGS",

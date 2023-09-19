@@ -121,10 +121,9 @@ a constant column and can also be generated using model.matrix().}
 \item{y}{Response as vector.}
 }
 \value{
-For \code{walsGLM.formula}, it returns an object of class
-\code{"walsGLM"} which inherits from \code{"\link[WALS]{wals}"}. This is a l
-ist that contains all elements returned from \code{\link[WALS]{walsGLMfitIterate}}
-and additionally
+\code{walsGLM.formula()} returns an object of class \code{"walsGLM"}
+which inherits from \code{"\link[WALS]{wals}"}. This is a list that contains
+all elements returned from \code{\link[WALS]{walsGLMfitIterate}} and additionally
 \item{cl}{Call of the function.}
 \item{formula}{\code{formula} used.}
 \item{terms}{List containing the model terms of the focus and auxiliary
@@ -138,7 +137,7 @@ focus and auxiliary regressors.}
 See returns of \code{\link[WALS]{walsGLMfit}} and \code{\link[WALS]{walsGLMfitIterate}}
 for more details.
 
-For \code{walsGLM.matrix}, it returns an object of class
+\code{walsGLM.matrix()} returns an object of class
 \code{"walsGLMmatrix"}, which inherits from \code{"walsGLM"}, \code{"walsMatrix"}
 and \code{"wals"}. This is a list that contains all elements returned from
 \code{\link[WALS]{walsGLMfitIterate}} and additionally the call in \code{cl}.

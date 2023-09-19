@@ -88,7 +88,7 @@ a constant column and can also be generated using model.matrix().}
 \item{y}{Response as vector.}
 }
 \value{
-For \code{wals.formula}, it returns an object of class
+\code{wals.formula()} returns an object of class
 \code{"wals"}. This is a list that contains all elements returned from
 \code{\link[WALS]{walsFit}} and additionally
 \item{y}{If \code{keepY = TRUE}, contains the response vector.}
@@ -109,7 +109,7 @@ focus and auxiliary regressors.}
 
 See returns of \code{\link[WALS]{walsFit}} for more details.
 
-For \code{wals.matrix}, it returns an object of class \code{"walsMatrix"},
+\code{wals.matrix} returns an object of class \code{"walsMatrix"},
 which inherits from \code{"wals"}. This is a list that contains all elements
 returned from \code{\link[WALS]{walsFit}} and additionally the response \code{y},
 the list \code{x} with model matrices \code{x1} and \code{x2}, the call

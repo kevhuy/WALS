@@ -104,11 +104,11 @@ the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
 which print the model-averaged estimation of the coefficients along with some
 further information.
 
-The \code{summary} methods returns an object of
+The \code{summary()} methods returns an object of
 class \code{"summary.walsGLM"} for objects of class \code{"walsGLM"} and an
 object of class \code{"summary.walsNB"} for objects of class \code{"walsNB"}.
 They contain the relevant summary statistics which can then be printed using
-the associated \code{print} methods.
+the associated \code{print()} methods.
 Inspired by \insertCite{deluca2011stata;textual}{WALS}, the summary statistics
 also show \code{Kappa} which is an indicator for the numerical stability of
 the method, i.e. it shows the square root of the condition number of the

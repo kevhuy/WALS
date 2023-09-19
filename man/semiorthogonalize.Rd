@@ -17,8 +17,8 @@ semiorthogonalize(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE)
 scaling by \eqn{n} because not needed in code).
 See \insertCite{deluca2018glm;textual}{WALS}}
 
-\item{SVD}{If \code{TRUE}, uses \code{svd()} to compute eigendecomposition
-of Z2s, otherwise uses \code{eigen()}.}
+\item{SVD}{If \code{TRUE}, uses \code{\link[base]{svd}} to compute eigendecomposition
+of Z2s, otherwise uses \code{\link[base]{eigen}}.}
 
 \item{postmult}{If \code{TRUE}, then it uses
 \eqn{Z2s^{-1/2} = H \Lambda^{-1/2} H^{\top}}, where \eqn{H} contains

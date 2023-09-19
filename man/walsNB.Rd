@@ -58,7 +58,7 @@ walsNB(x, ...)
 \item{x}{Design matrix of focus regressors. Usually includes a constant
 (column full of 1s) and can be generated using model.matrix().}
 
-\item{...}{Arguments for workhorse \link[WALS]{walsNBfit}.}
+\item{...}{Arguments for workhorse \code{\link[WALS]{walsNBfit}}.}
 
 \item{formula}{an object of class \code{"\link[Formula]{Formula}"}
 (or one that can be coerced to that class, e.g. \code{"\link[stats]{formula}"}):
@@ -86,7 +86,7 @@ used in the fitting process.}
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{controlInitNB}{Controls estimation of starting values for one-step ML,
-see \link[WALS]{controlNB}.}
+see \code{\link[WALS]{controlNB}}.}
 
 \item{model}{if \code{TRUE} (default), then the model.frame is stored in
 the return.}
@@ -113,7 +113,7 @@ the user has a specific reason to run the algorithm nIt times, e.g. for
 replication purposes.}
 
 \item{verbose}{If verbose = TRUE, then it prints the iteration process of
-internal function \link[WALS]{walsNBfitIterate} (only relevant if iterate = TRUE).}
+internal function \code{\link[WALS]{walsNBfitIterate}} (only relevant if iterate = TRUE).}
 
 \item{x2}{Design matrix of auxiliary regressors. Usually does not include
 a constant column and can also be generated using model.matrix().}
@@ -121,10 +121,10 @@ a constant column and can also be generated using model.matrix().}
 \item{y}{Count response as vector.}
 }
 \value{
-For \code{walsNB.formula}, it returns an object of class
-\code{walsNB} which inherits from \code{walsGLM} and \code{wals}. This is a
-list that contains all elements returned from \link[WALS]{walsNBfitIterate}
-and additionally
+\code{walsNB.formula()} returns an object of class \code{"walsNB"}
+which inherits from \code{"walsGLM"} and \code{"wals"}. This is a list that
+contains all elements returned from \code{\link[WALS]{walsNBfitIterate}} and
+additionally
 \item{cl}{Call of the function.}
 \item{formula}{\code{formula} used.}
 \item{terms}{List containing the model terms of the focus and auxiliary
@@ -135,13 +135,13 @@ regressors separately, as well as for the full model.}
 focus and auxiliary regressors.}
 \item{model}{If \code{model = TRUE}, contains the model frame.}
 
-See returns of \link[WALS]{walsNBfit} and \link[WALS]{walsNBfitIterate}
+See returns of \code{\link[WALS]{walsNBfit}} and \code{\link[WALS]{walsNBfitIterate}}
 for more details.
 
-For \code{walsNB.matrix}, it returns an object of class \code{walsNBmatrix},
-which inherits from \code{walsNB}, \code{walsGLMmatrix}, \code{walsGLM} and
-\code{wals}. This is a list that contains all elements returned from
-\link[WALS]{walsNBfitIterate} and additionally the call in \code{cl}.
+\code{walsNB.matrix()} returns an object of class \code{"walsNBmatrix"},
+which inherits from \code{"walsNB"}, \code{"walsGLMmatrix"}, \code{"walsGLM"}
+and \code{"wals"}. This is a list that contains all elements returned from
+\code{\link[WALS]{walsNBfitIterate}} and additionally the call in \code{cl}.
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method

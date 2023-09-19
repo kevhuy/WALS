@@ -9,13 +9,13 @@ svdLSplus(U, V, singularVals, y, ell, geB)
 }
 \arguments{
 \item{U}{Left singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
-from \link[base]{svd}.}
+from \code{\link[base]{svd}}.}
 
 \item{V}{Right singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
-from \link[base]{svd}.}
+from \code{\link[base]{svd}}.}
 
 \item{singularVals}{Singular values of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
-from \link[base]{svd}.}
+from \code{\link[base]{svd}}.}
 
 \item{y}{"Pseudo"-response, see details.}
 

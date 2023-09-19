@@ -14,7 +14,7 @@ are supported.}
 }
 \description{
 Reconstruct family object for negative binomial type 2 (NB2) with fixed
-scale parameter theta. Analogous to \link[MASS]{negative.binomial} in
+scale parameter theta. Analogous to \code{\link[MASS]{negative.binomial}} in
 \code{MASS} but \code{MASS} uses non-canonical link.
 }
 \references{

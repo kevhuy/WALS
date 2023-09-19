@@ -1,22 +1,23 @@
 #' Family Objects for Prior Distributions in WALS
 #'
-#' \code{familyPrior} objects provide a convenient way to specify the prior
-#' distribution usedfor the Bayesian posterior mean estimation of the WALS
-#' estimators in \link{wals}, \link{walsGLM} and \link{walsNB}.
+#' \code{"familyPrior"} objects provide a convenient way to specify the prior
+#' distribution used for the Bayesian posterior mean estimation of the WALS
+#' estimators in \code{\link[WALS]{wals}}, \code{\link[WALS]{walsGLM}} and 
+#' \code{\link[WALS]{walsNB}}
 #'
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
 #' Parameter of reflected generalized gamma distribution. See below for details.
 #' @param b \eqn{c} in \insertCite{magnus2016wals;textual}{WALS}.
 #' Parameter of reflected generalized gamma distribution. See below for details.
-#' @param object,x Object of of class \code{"familyPrior"} or \code{"wals"}.
-#' The function \code{familyPrior} accesses the \code{"familyPrior"} objects
-#' that are stored in objects of class \code{"wals"}.
+#' @param object,x Object of of class \code{"familyPrior"} or \code{"\link[WALS]{wals}"}.
+#' The function \code{familyPrior()} accesses the \code{"familyPrior"} objects
+#' that are stored in objects of class \code{"\link[WALS]{wals}"}.
 #' @param digits The number of significant digits to display.
 #' @param ... Further arguments passed to methods.
 #'
 #' @details
-#' \code{familyPrior} is a generic function that extracts the family used in
-#' \code{wals} objects.
+#' \code{familyPrior()} is a generic function that extracts the family used in
+#' \code{"\link[WALS]{wals}"} objects.
 #'
 #' The density function of the reflected generalized gamma distribution is
 #' \deqn{\pi(x) = \frac{q c^{(1 - \alpha)/q}}{2 \Gamma((1 - \alpha)/q)}
@@ -39,7 +40,7 @@
 #' Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details and
 #' Table 1 for the optimal parameter values.
 #'
-#' @returns An object of class \code{familyPrior}. This is a list with the
+#' @returns An object of class \code{"familyPrior"}. This is a list with the
 #' elements
 #' \item{q}{Parameter \eqn{q}.}
 #' \item{alpha}{Parameter \eqn{\alpha} (of the reflected generalized gamma
@@ -47,7 +48,7 @@
 #' \item{b}{Parameter \eqn{c}.}
 #' \item{delta}{Parameter \eqn{\delta = (1 - \alpha)/q}.}
 #' \item{printPars}{vector. Contains the parameters that are shown in printing
-#' functions, e.g. \code{print.familyPrior}.}
+#' functions, e.g. \code{print.familyPrior()}.}
 #' \item{prior}{String with the name of the prior distribution.}
 #'
 #' @references
@@ -108,11 +109,11 @@ subbotin <- function(q = 0.799512530172489, b = 0.937673273794677) {
 #' Laplace prior
 #' @rdname familyPrior
 #' @aliases familyPrior_laplace
-#' @returns \code{laplace} returns an object of the specialized class
-#' \code{familyPrior_laplace} that inherits from \code{familyPrior}.
+#' @returns \code{laplace()} returns an object of the specialized class
+#' \code{"familyPrior_laplace"} that inherits from \code{"familyPrior"}.
 #' This allows separate processing of the Laplace prior in the estimation
 #' functions as closed-form formulas exists for its posterior mean and variance.
-#' The list elements are the same as for objects of class \code{familyPrior}.
+#' The list elements are the same as for objects of class \code{"familyPrior"}.
 #'
 #' @export
 laplace <- function(b = log(2.0)) {

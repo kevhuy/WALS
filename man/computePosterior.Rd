@@ -4,7 +4,7 @@
 \alias{computePosterior}
 \alias{computePosterior.familyPrior}
 \alias{computePosterior.familyPrior_laplace}
-\title{Compute posterior mean and variance of normal location problem}
+\title{Internal function: Compute posterior mean and variance of normal location problem}
 \usage{
 computePosterior(object, ...)
 
@@ -13,8 +13,9 @@ computePosterior(object, ...)
 \method{computePosterior}{familyPrior_laplace}(object, x)
 }
 \arguments{
-\item{object}{Object of class \link[WALS]{familyPrior}, e.g. \code{\link[WALS]{weibull}},
-should contain all necessary parameters needed for the posterior.}
+\item{object}{Object of class \code{"\link[WALS]{familyPrior}"}, e.g. from
+\code{\link[WALS]{weibull}}, should contain all necessary parameters needed
+for the posterior.}
 
 \item{...}{Further arguments passed to methods.}
 
@@ -25,14 +26,12 @@ deviation: \eqn{\gamma_{2u} / s}.}
 \description{
 Computes the posterior mean and variance of the normal location problem with
 fixed variance to 1, i.e. \eqn{x | \gamma \sim N(\gamma, 1)}.
-The priors for \eqn{\gamma} are either \link[WALS]{weibull},
-\link[WALS]{subbotin} or \link[WALS]{laplace}. Their properties are briefly
-discussed in \insertCite{magnus2016wals;textual}{WALS}.
-Currently only the \link[WALS]{weibull} and \link[WALS]{laplace} prior for
-\eqn{\gamma} are supported.
+The priors for \eqn{\gamma} are either \code{\link[WALS]{weibull}},
+\code{\link[WALS]{subbotin}} or \code{\link[WALS]{laplace}}. Their properties
+are briefly discussed in \insertCite{magnus2016wals;textual}{WALS}.
 Default method of computePosterior uses numerical integration. This is used
-for the \link[WALS]{weibull}, \link[WALS]{subbotin} priors in my case.
-For the \link[WALS]{laplace} prior closed form expressions exist for the integrals.
+for the \code{\link[WALS]{weibull}} and \code{\link[WALS]{subbotin}} priors.
+For the \code{\link[WALS]{laplace}} prior closed form expressions exist for the integrals.
 In the original MATLAB code, the Gauss-Kronrod quadrature was used for
 numerical integration. Here we use the default \code{\link[stats]{integrate}} which
 combines Gauss-Kronrod with Wynn's Epsilon algorithm for extrapolation.
@@ -41,8 +40,8 @@ combines Gauss-Kronrod with Wynn's Epsilon algorithm for extrapolation.
 See section "Numerical integration in Bayesian estimation step"
 in the appendix of \insertCite{huynhwals;textual}{WALS} for details.
 
-\code{computePosterior.familyPrior_laplace} is the specialized method for the
-S3 class \code{familyPrior_laplace} and computes the posterior first and
+\code{computePosterior.familyPrior_laplace()} is the specialized method for the
+S3 class \code{"familyPrior_laplace"} and computes the posterior first and
 second moments of the normal location problem with a
 Laplace prior using the analytical formula (without numerical integration).
 For more details, see \insertCite{deluca2020laplace;textual}{WALS} and the

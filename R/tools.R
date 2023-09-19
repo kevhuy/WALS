@@ -39,8 +39,8 @@ multAllRows <- function(X, y) {
 #' \eqn{\bar{\Delta}_2 \bar{X}_2^{\top} \bar{M}_1 \Delta_{2}} is one (ignored
 #' scaling by \eqn{n} because not needed in code).
 #' See \insertCite{deluca2018glm;textual}{WALS}
-#' @param SVD If \code{TRUE}, uses \code{svd()} to compute eigendecomposition
-#' of Z2s, otherwise uses \code{eigen()}.
+#' @param SVD If \code{TRUE}, uses \code{\link[base]{svd}} to compute eigendecomposition
+#' of Z2s, otherwise uses \code{\link[base]{eigen}}.
 #' @param postmult If \code{TRUE}, then it uses
 #' \eqn{Z2s^{-1/2} = H \Lambda^{-1/2} H^{\top}}, where \eqn{H} contains
 #' the eigenvectors of Z2s in its columns and \eqn{\Lambda} the corresponding
@@ -494,7 +494,7 @@ computeGammaUnSVD <- function(U, V, singularVals, ellStart, gStart, epsilonStart
 #' in walsNB.
 #'
 #' @param gamma2 Model-averaged estimate for auxiliary regressors
-#' from \link[WALS]{computePosterior}.
+#' from \code{\link[WALS]{computePosterior}}.
 #' @param Z2start Transformed design matrix of auxiliary regressors \eqn{\bar{Z}_2}.
 #' See details.
 #' @param Z2 Another transformed design matrix of auxiliary regressors \eqn{Z_2}.
@@ -593,11 +593,11 @@ computeGamma1r <- function(U, V, singularVals, ellStart, gStart,
 #' for the unrestricted estimator \eqn{\hat{\gamma}_{u}}.
 #'
 #' @param U Left singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
-#' from \link[base]{svd}.
+#' from \code{\link[base]{svd}}.
 #' @param V Right singular vectors of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
-#' from \link[base]{svd}.
+#' from \code{\link[base]{svd}}.
 #' @param singularVals Singular values of \eqn{\bar{Z}} or \eqn{\bar{Z}_{1}}
-#' from \link[base]{svd}.
+#' from \code{\link[base]{svd}}.
 #' @param y "Pseudo"-response, see details.
 #' @param ell Vector \eqn{\bar{\ell}} from section
 #' "Simplification for computing \eqn{\tilde{\gamma}_{u}}"

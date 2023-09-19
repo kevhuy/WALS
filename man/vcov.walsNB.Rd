@@ -2,12 +2,12 @@
 % Please edit documentation in R/walsNB.R
 \name{vcov.walsNB}
 \alias{vcov.walsNB}
-\title{Calculate Variance-Covariance Matrix for a \code{walsNB} object}
+\title{Calculate Variance-Covariance Matrix for a \code{"walsNB"} object}
 \usage{
 \method{vcov}{walsNB}(object, ...)
 }
 \arguments{
-\item{object}{An object of class \code{walsNB}.}
+\item{object}{An object of class \code{"walsNB"}.}
 
 \item{...}{For expansion in the future.}
 }

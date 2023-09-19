@@ -21,7 +21,7 @@
 #' @export
 wals <- function(x, ...) UseMethod("wals", x)
 
-#' \code{wals.formula} uses formulas to specify the design matrix.
+#' \code{wals.formula()} uses formulas to specify the design matrix.
 #' @rdname wals
 #'
 #' @param formula an object of class \code{"\link[Formula]{Formula}"}
@@ -60,7 +60,7 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' It is recommended to manually create the interactions beforehand and then
 #' to insert them as 'linear terms' in the formula.
 #'
-#' @returns For \code{wals.formula}, it returns an object of class
+#' @returns \code{wals.formula()} returns an object of class
 #' \code{"wals"}. This is a list that contains all elements returned from
 #' \code{\link[WALS]{walsFit}} and additionally
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
@@ -220,7 +220,7 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' a constant column and can also be generated using model.matrix().
 #' @param y Response as vector.
 #'
-#' @returns For \code{wals.matrix}, it returns an object of class \code{"walsMatrix"},
+#' @returns \code{wals.matrix} returns an object of class \code{"walsMatrix"},
 #' which inherits from \code{"wals"}. This is a list that contains all elements
 #' returned from \code{\link[WALS]{walsFit}} and additionally the response \code{y},
 #' the list \code{x} with model matrices \code{x1} and \code{x2}, the call

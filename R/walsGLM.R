@@ -9,7 +9,7 @@
 #' @export
 walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 
-#' \code{walsGLM.formula} uses formulas to specify the design matrix.
+#' \code{walsGLM.formula()} uses formulas to specify the design matrix.
 #' @rdname walsGLM
 #'
 #' @inheritParams wals.formula
@@ -31,10 +31,9 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' It is recommended to manually create the interactions beforehand and then
 #' to insert them as 'linear terms' in the formula.
 #'
-#' @returns For \code{walsGLM.formula}, it returns an object of class
-#' \code{"walsGLM"} which inherits from \code{"\link[WALS]{wals}"}. This is a l
-#' ist that contains all elements returned from \code{\link[WALS]{walsGLMfitIterate}}
-#' and additionally
+#' @returns \code{walsGLM.formula()} returns an object of class \code{"walsGLM"} 
+#' which inherits from \code{"\link[WALS]{wals}"}. This is a list that contains 
+#' all elements returned from \code{\link[WALS]{walsGLMfitIterate}} and additionally
 #' \item{cl}{Call of the function.}
 #' \item{formula}{\code{formula} used.}
 #' \item{terms}{List containing the model terms of the focus and auxiliary
@@ -146,7 +145,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #'
 #' @inheritParams wals.matrix
 #'
-#' @returns For \code{walsGLM.matrix}, it returns an object of class
+#' @returns \code{walsGLM.matrix()} returns an object of class
 #' \code{"walsGLMmatrix"}, which inherits from \code{"walsGLM"}, \code{"walsMatrix"}
 #' and \code{"wals"}. This is a list that contains all elements returned from
 #' \code{\link[WALS]{walsGLMfitIterate}} and additionally the call in \code{cl}.
@@ -217,7 +216,7 @@ walsGLM.default <- function(x, ...) {
 #' except for \code{residuals}, and additionally (some fields are replaced)
 #' \item{condition}{Condition number of the matrix
 #' \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
-#' \item{family}{Object of class \code{\link[WALS]{familyWALS}}. The family used.}
+#' \item{family}{Object of class \code{"\link[WALS]{familyWALS}"}. The family used.}
 #' \item{betaStart}{Starting values of the regression coefficients for the
 #' one-step ML estimators.}
 #' \item{fitted.link}{Linear link fitted to the data.}
@@ -474,11 +473,11 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' which print the model-averaged estimation of the coefficients along with some
 #' further information.
 #'
-#' The \code{summary} methods returns an object of
+#' The \code{summary()} methods returns an object of
 #' class \code{"summary.walsGLM"} for objects of class \code{"walsGLM"} and an
 #' object of class \code{"summary.walsNB"} for objects of class \code{"walsNB"}.
 #' They contain the relevant summary statistics which can then be printed using
-#' the associated \code{print} methods.
+#' the associated \code{print()} methods.
 #' Inspired by \insertCite{deluca2011stata;textual}{WALS}, the summary statistics
 #' also show \code{Kappa} which is an indicator for the numerical stability of
 #' the method, i.e. it shows the square root of the condition number of the

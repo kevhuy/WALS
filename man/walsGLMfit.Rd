@@ -31,7 +31,7 @@ A list containing all elements returned by \code{\link[WALS]{walsFit}},
 except for \code{residuals}, and additionally (some fields are replaced)
 \item{condition}{Condition number of the matrix
 \eqn{\bar{\Xi} = \bar{\Delta}_{2} \bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2} \bar{\Delta}_{2}}.}
-\item{family}{Object of class \code{\link[WALS]{familyWALS}}. The family used.}
+\item{family}{Object of class \code{"\link[WALS]{familyWALS}"}. The family used.}
 \item{betaStart}{Starting values of the regression coefficients for the
 one-step ML estimators.}
 \item{fitted.link}{Linear link fitted to the data.}

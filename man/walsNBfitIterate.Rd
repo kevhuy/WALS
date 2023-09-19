@@ -46,7 +46,7 @@ a constant column and can also be generated using model.matrix().}
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
 \item{controlInitNB}{Controls estimation of starting values for one-step ML,
-see \link[WALS]{controlNB}.}
+see \code{\link[WALS]{controlNB}}.}
 
 \item{keepY}{If \code{TRUE}, then output keeps response.}
 
@@ -73,7 +73,7 @@ is ignored and the algorithm iterates \code{nIt} times.}
 \item{...}{Arguments to be passed to the workhorse function walsNBfit.}
 }
 \value{
-A list containing all elements returned from \link[WALS]{walsNBfit}
+A list containing all elements returned from \code{\link[WALS]{walsNBfit}}
 and additionally the following elements:
 \item{y}{If \code{keepY = TRUE}, contains the response vector.}
 \item{x}{list. If \code{keepX} is true, then it is a list with elements
@@ -93,7 +93,7 @@ if \code{iterate = FALSE}.}
 \item{residuals}{Raw residuals, i.e. response - fitted mean.}
 }
 \description{
-See description of \link{walsNB}.
+See description of \code{\link{walsNB}}.
 }
 \details{
 The parameter \code{tol} is used to control the convergence of the iterative
