@@ -31,8 +31,8 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' It is recommended to manually create the interactions beforehand and then
 #' to insert them as 'linear terms' in the formula.
 #'
-#' @returns \code{walsGLM.formula()} returns an object of class \code{"walsGLM"} 
-#' which inherits from \code{"\link[WALS]{wals}"}. This is a list that contains 
+#' @returns \code{walsGLM.formula()} returns an object of class \code{"walsGLM"}
+#' which inherits from \code{"\link[WALS]{wals}"}. This is a list that contains
 #' all elements returned from \code{\link[WALS]{walsGLMfitIterate}} and additionally
 #' \item{cl}{Call of the function.}
 #' \item{formula}{\code{formula} used.}
@@ -571,7 +571,7 @@ predict.walsGLM <- function(object, newdata,
   # TODO: include offsets
   type <- match.arg(type)
 
-  # convenience type for scores.R
+  # convenience type
   if (type == "logDens") {
     type <- "density"
     log <- TRUE

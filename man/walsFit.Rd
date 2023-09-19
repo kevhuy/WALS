@@ -78,7 +78,7 @@ focus regressors.}
 auxiliary regressors.}
 \item{vcovBeta}{Estimated covariance matrix of the regression coefficients.}
 \item{vcovGamma}{Estimated covariance matrix of the coefficients of the
-tranformed regressors.}
+transformed regressors.}
 \item{sigma}{Estimated or prespecified standard deviation of the error term.}
 \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
 \item{method}{Stores \code{method} used from the arguments.}

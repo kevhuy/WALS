@@ -93,7 +93,7 @@ auxiliary regressors.}
 \item{vcovBeta}{\code{NULL}, not implemented yet, placeholder for estimated
 covariance matrix of the regression coefficients.}
 \item{vcovGamma}{\code{NULL}, not implemented yet, placeholder for estimated
-covariance matrix of the coefficients of the tranformed regressors.}
+covariance matrix of the coefficients of the transformed regressors.}
 \item{betaStart}{Starting values of the regression coefficients for the
 one-step ML estimators.}
 \item{rhoStart}{Starting values of the dispersion parameter for the
@@ -116,9 +116,9 @@ Else \code{NULL}.}
 \item{n}{Number of observations.}
 \item{X1names}{Names of the focus regressors.}
 \item{X2names}{Names of the auxiliary regressors.}
-\item{familyStart}{\link{familyNBWALS}. The family object used for the
+\item{familyStart}{The family object of class \code{"\link{familyNBWALS}"} used for the
 estimation of the starting values.}
-\item{family}{\link{familyNBWALS}. The family object used later for predictions.}
+\item{family}{The family object of class \code{"\link{familyNBWALS}"} used later for predictions.}
 \item{fitted.link}{Linear link fitted to the data.}
 \item{fitted.values}{Estimated conditional mean for the data. Lives on the
 scale of the response.}

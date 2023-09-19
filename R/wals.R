@@ -4,7 +4,7 @@
 #' Weighted-Average Least Squares method by
 #' \insertCite{magnus2010growth;textual}{WALS}.
 #'
-#' R port of MATLAB code wals.m (version 2.0, revision 18 december 2013)
+#' R port of MATLAB code wals.m (version 2.0, revision 18 December 2013)
 #' by J.R. Magnus and G.De Luca, available from https://www.janmagnus.nl/items/WALS.pdf.
 #' Calculates WALS estimates and variances when some regressors (X1) are present
 #' in all models and model selection takes place over the rest (X2).
@@ -321,7 +321,7 @@ wals.default <- function(x, ...) {
 #' auxiliary regressors.}
 #' \item{vcovBeta}{Estimated covariance matrix of the regression coefficients.}
 #' \item{vcovGamma}{Estimated covariance matrix of the coefficients of the
-#' tranformed regressors.}
+#' transformed regressors.}
 #' \item{sigma}{Estimated or prespecified standard deviation of the error term.}
 #' \item{prior}{\code{familyPrior}. The \code{prior} specified in the arguments.}
 #' \item{method}{Stores \code{method} used from the arguments.}

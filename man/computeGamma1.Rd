@@ -62,7 +62,7 @@ See section "ML estimation" of  \insertCite{huynhwalsnb;textual}{WALS}.}
 Exploits the SVD of the design matrix of the focus regressors \eqn{\bar{Z}_1},
 the model-averaged estimator for the auxiliary regressors
 \eqn{\hat{\gamma}_{2}} and the Sherman-Morrison-Woodbury
-formula for computing themodel-averaged estimator of the focus regressors
+formula for computing the model-averaged estimator of the focus regressors
 in walsNB.
 }
 \details{
