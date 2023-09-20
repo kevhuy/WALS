@@ -96,7 +96,7 @@ fitNB2 <- function(X, Y, family, control = controlNB()) {
     eta <- X %*% parms[1:k]
     mu <- family$linkinv(eta)
     theta <- exp(parms[k + 1])
-    gr <- countreg::snbinom(Y, mu = mu, size = theta)
+    gr <- snbinom(Y, mu = mu, size = theta)
     gr <- cbind(gr[, 1] * family$mu.eta(eta)[,,drop = TRUE] * X, gr[, 2] * theta)
     return(-colSums(gr))
   }
@@ -110,4 +110,37 @@ fitNB2 <- function(X, Y, family, control = controlNB()) {
               convergence = fit$convergence, ll = -fit$value, message = fit$message,
               start = start)
   return(out)
+}
+
+#' Internal function: first derivatives of NB2 PMF
+#'
+#' First derivatives of NB2 PMF used in \code{\link[WALS]{fitNB2}}. Code is
+#' taken from the \code{countreg} package version 0.2-1 (2023-06-13)
+#' \insertCite{countreg}{WALS}.
+#'
+#' @param x Vector of quantiles.
+#' @param mu Vector of means.
+#' @param size Vector of dispersion parameter. If a scalar is given, the value
+#' is recycled.
+#' @param parameter Specifies which parameter the derivative is taken for.
+#' \code{parameter = c("mu", "size")} returns a matrix with derivatives
+#' for both parameters.
+#' @param drop If \code{TRUE}, drops empty dimensions of return using
+#' \code{\link[base]{drop}}. If \code{FALSE} does not apply \code{\link[base]{drop}}.
+#'
+#' @returns A vector or matrix containing the first derivatives.
+#'
+#' @references
+#' \insertAllCited{}
+#'
+snbinom <- function(x, mu, size, parameter = c("mu", "size"), drop = TRUE) {
+  parameter <- sapply(parameter, function(x) match.arg(x, c("mu", "size")))
+  s <- cbind(
+    if ("mu" %in% parameter) x/mu - (x + size)/(mu + size) else NULL,
+    if ("size" %in% parameter) digamma(x + size) - digamma(size) +
+      log(size) + 1 - log(mu + size) - (x + size) / (mu + size) else NULL
+  )
+  colnames(s) <- c("mu", "size")[c("mu", "size") %in% parameter]
+  s[(x < 0) | (abs(x - round(x)) > sqrt(.Machine$double.eps)), ] <- 0
+  if (drop & NCOL(s) < 2L) drop(s) else s
 }
