@@ -415,7 +415,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
     if (verbose) cat(paste("\rfinished iteration", it))
 
     if (is.null(nIt)
-        && ((norm(betaOld - betaCurrent, type = "2") / length(betaCurrent)) < tol)
+        && ((norm(betaOld - betaCurrent, type = "2") / sqrt(length(betaCurrent))) < tol)
     ) {
       converged <- TRUE
       if (verbose) cat("\nalgorithm converged\n")
