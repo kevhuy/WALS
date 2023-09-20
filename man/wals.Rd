@@ -109,7 +109,7 @@ focus and auxiliary regressors.}
 
 See returns of \code{\link[WALS]{walsFit}} for more details.
 
-\code{wals.matrix} returns an object of class \code{"walsMatrix"},
+\code{wals.matrix()} returns an object of class \code{"walsMatrix"},
 which inherits from \code{"wals"}. This is a list that contains all elements
 returned from \code{\link[WALS]{walsFit}} and additionally the response \code{y},
 the list \code{x} with model matrices \code{x1} and \code{x2}, the call

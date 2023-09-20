@@ -219,7 +219,7 @@ wals.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' a constant column and can also be generated using model.matrix().
 #' @param y Response as vector.
 #'
-#' @returns \code{wals.matrix} returns an object of class \code{"walsMatrix"},
+#' @returns \code{wals.matrix()} returns an object of class \code{"walsMatrix"},
 #' which inherits from \code{"wals"}. This is a list that contains all elements
 #' returned from \code{\link[WALS]{walsFit}} and additionally the response \code{y},
 #' the list \code{x} with model matrices \code{x1} and \code{x2}, the call
