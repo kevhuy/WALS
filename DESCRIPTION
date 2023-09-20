@@ -17,9 +17,7 @@ Suggests:
     AER,
     BayesVarSel,
     BMS,
-    countreg,
     testthat (>= 3.1.10)
-Additional_repositories: http://R-Forge.R-project.org
 Description: Implements the Weighted-Average Least Squares (WALS) method for model averaging
     of negative binomial regression models (Huynh, 2023), generalized linear models 
     (De Luca et al., 2018) <doi:10.1016/j.jeconom.2017.12.007> 

@@ -127,7 +127,7 @@ The \code{\link[stats]{predict}} and \code{\link[stats]{residuals}} methods,
 especially the different types of predictions/residuals controlled by
 \code{type}, are inspired by the corresponding methods in \code{countreg}
 version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see
-e.g. \code{\link[countreg]{predict.hurdle}}, and \code{\link[stats]{stats}}
+e.g. \code{predict.hurdle()} from \code{countreg}, and \code{\link[stats]{stats}}
 version 4.3.1 (2023-06-16) \insertCite{R2023}{WALS}, see e.g.
 \code{\link[stats]{residuals.glm}}. The \code{summary()}, \code{print.summary()},
 \code{print()} and \code{logLik()} methods are also inspired by the corresponding
@@ -152,7 +152,7 @@ are also inherited from \code{"wals"}. They only allow \code{type = "focus"}
 and \code{type = "aux"} and extract the corresponding component of the model.
 This is similar to the implementation of these extractors in \code{countreg}
 version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
-\code{\link[countreg]{terms.hurdle}}.
+\code{terms.hurdle()}.
 \subsection{Details on the use of the argument type}{
 
 For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
