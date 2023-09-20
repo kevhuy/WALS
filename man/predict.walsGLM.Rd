@@ -129,7 +129,7 @@ especially the different types of predictions/residuals controlled by
 version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see
 e.g. \code{\link[countreg]{predict.hurdle}}, and \code{\link[stats]{stats}}
 version 4.3.1 (2023-06-16) \insertCite{R2023}{WALS}, see e.g.
-\code{\link[stats]{residuals.glm}}. The \code{summary()}, \code{print.summary},
+\code{\link[stats]{residuals.glm}}. The \code{summary()}, \code{print.summary()},
 \code{print()} and \code{logLik()} methods are also inspired by the corresponding
 methods for objects of class \code{"glm"} in \code{\link[stats]{stats}}, see
 e.g. \code{\link[stats]{print.summary.glm}}.
@@ -148,7 +148,7 @@ estimated coefficients/covariance matrix for the original regressors \eqn{X}
 (\eqn{\gamma} coefficients).
 
 The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
-are also inherited from \code{wals}. They only allow \code{type = "focus"}
+are also inherited from \code{"wals"}. They only allow \code{type = "focus"}
 and \code{type = "aux"} and extract the corresponding component of the model.
 This is similar to the implementation of these extractors in \code{countreg}
 version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
