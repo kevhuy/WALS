@@ -1,6 +1,6 @@
 Package: WALS
-Version: 0.2
-Date: 2023-09-19
+Version: 0.2.1
+Date: 2023-09-20
 Title: Weighted-Average Least Squares Model Averaging
 Authors@R: 
     person("Kevin", "Huynh", email = "Kevin.Huynh@unibas.ch",
