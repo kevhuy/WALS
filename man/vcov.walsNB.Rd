@@ -11,6 +11,10 @@
 
 \item{...}{For expansion in the future.}
 }
+\value{
+No return value, only raises error because no covariance matrix
+estimator exists yet.
+}
 \description{
 This method always raises an error because the covariance matrix of the
 walsNB estimator has not been derived yet.
