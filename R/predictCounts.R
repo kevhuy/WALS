@@ -22,7 +22,7 @@ predictCounts <- function(x, ...) UseMethod("predictCounts", x)
 
 #' @rdname predictCounts
 #'
-#' @param family object of class \code{"familyWALScount"}.
+#' @param family object of class \code{"\link{familyWALScount}"}.
 #' @param yUnique vector. The counts (larger or equal to zero) which to predict
 #' probabilities for.
 #' @param rowNames vector. The names of the observations.
