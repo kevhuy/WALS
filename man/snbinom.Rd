@@ -26,8 +26,8 @@ A vector or matrix containing the first derivatives.
 }
 \description{
 First derivatives of NB2 PMF used in \code{\link[WALS]{fitNB2}}. Code is
-taken from the \code{countreg} package version 0.2-1 (2023-06-13)
-\insertCite{countreg}{WALS}.
+taken from the function \code{snbinom()} in the \code{countreg} package
+version 0.2-1 (2023-06-13) \insertCite{countreg}{WALS}.
 }
 \references{
 \insertAllCited{}
