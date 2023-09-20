@@ -104,7 +104,7 @@ the generic functions \code{\link[base]{print}} and \code{\link[base]{summary}}
 which print the model-averaged estimation of the coefficients along with some
 further information.
 
-The \code{summary()} methods returns an object of
+The \code{\link[base]{summary}} methods returns an object of
 class \code{"summary.walsGLM"} for objects of class \code{"walsGLM"} and an
 object of class \code{"summary.walsNB"} for objects of class \code{"walsNB"}.
 They contain the relevant summary statistics which can then be printed using
@@ -122,6 +122,37 @@ given the family used and the model-averaged estimates of the coefficients.
 \code{"walsGLM"} inherits from \code{"wals"}, while \code{"walsNB"} inherits from
 both, \code{"walsGLM"} and \code{"wals"}. Thus, see \code{\link[WALS]{predict.wals}}
 for more methods.
+
+The \code{\link[stats]{predict}} and \code{\link[stats]{residuals}} methods,
+especially the different types of predictions/residuals controlled by
+\code{type}, are inspired by the corresponding methods in \code{countreg}
+version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see
+e.g. \code{\link[countreg]{predict.hurdle}}, and \code{\link[stats]{stats}}
+version 4.3.1 (2023-06-16) \insertCite{R2023}{WALS}, see e.g.
+\code{\link[stats]{residuals.glm}}. The \code{summary()}, \code{print.summary},
+\code{print()} and \code{logLik()} methods are also inspired by the corresponding
+methods for objects of class \code{"glm"} in \code{\link[stats]{stats}}, see
+e.g. \code{\link[stats]{print.summary.glm}}.
+
+\code{\link[stats]{coef}} and \code{\link[stats]{vcov}} are inherited from
+\code{"wals"} (see \code{\link[WALS]{predict.wals}} for more), except for
+objects of class \code{"walsNB"} (see \code{\link[WALS]{vcov.walsNB}}).
+The \code{type} argument specifies which part of the coefficient
+vector/covariance matrix of the estimates should be returned.
+For \code{type = "all"}, they return the complete vector/matrix.
+For \code{type = "focus"} and \code{type = "aux"} they return only the part
+corresponding to the focus and auxiliary regressors, respectively.
+Additionally, the user can choose whether to return the
+estimated coefficients/covariance matrix for the original regressors \eqn{X}
+(\eqn{\beta} coefficients) or of the transformed regressors \eqn{Z}
+(\eqn{\gamma} coefficients).
+
+The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
+are also inherited from \code{wals}. They only allow \code{type = "focus"}
+and \code{type = "aux"} and extract the corresponding component of the model.
+This is similar to the implementation of these extractors in \code{countreg}
+version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
+\code{\link[countreg]{terms.hurdle}}.
 \subsection{Details on the use of the argument type}{
 
 For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
@@ -150,36 +181,6 @@ Different return types for \code{\link[stats]{residuals}}:
 square root of variance function)
 \item \code{type = "response"}: raw residuals (observed - fitted)
 }
-
-\code{\link[stats]{coef}} and \code{\link[stats]{vcov}} are inherited from
-\code{"wals"} (see \code{\link[WALS]{predict.wals}} for more), except for
-objects of class \code{"walsNB"} (see \code{\link[WALS]{vcov.walsNB}}).
-The \code{type} argument specifies which part of the coefficient
-vector/covariance matrix of the estimates should be returned.
-For \code{type = "all"}, they return the complete vector/matrix.
-For \code{type = "focus"} and \code{type = "aux"} they return only the part
-corresponding to the focus and auxiliary regressors, respectively.
-Additionally, the user can choose whether to return the
-estimated coefficients/covariance matrix for the original regressors \eqn{X}
-(\eqn{\beta} coefficients) or of the transformed regressors \eqn{Z}
-(\eqn{\gamma} coefficients).
-
-The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
-are also inherited from \code{wals}. They only allow \code{type = "focus"}
-and \code{type = "aux"} and extract the corresponding component of the model.
-This is similar to the implementation of these extractors in \code{countreg}
-version 0.2-1 (2023-06-13) \insertCite{countreg}{WALS}, see e.g.
-\code{\link[countreg]{terms.hurdle}}.
-
-The \code{predict()} and \code{residuals()} methods, especially the different
-types of predictions/residuals controlled by \code{type}, are inspired by the
-corresponding methods in \code{countreg} version 0.2-1 (2023-06-13)
-\insertCite{countreg}{WALS}, see e.g. \code{\link[countreg]{predict.hurdle}},
-and \code{\link[stats]{stats}} version 4.3.1 (2023-06-16) \insertCite{R2023}{WALS},
-see e.g. \code{\link[stats]{residuals.glm}}. The \code{summary()},
-\code{print.summary}, \code{print()} and \code{logLik()} methods are also
-inspired by the corresponding methods for objects of class \code{"glm"} in
-\code{\link[stats]{stats}}, see e.g. \code{\link[stats]{print.summary.glm}}.
 }
 }
 \examples{

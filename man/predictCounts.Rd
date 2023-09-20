@@ -45,7 +45,7 @@ supported.
 
 The \code{predictCounts.familyWALScount()} method is a modified version of the
 \code{\link[countreg]{predict.hurdle}} method from the \code{countreg} package
-version 0.2-1 (2023-06-13) \insertCite{countreg}{WALS} using the argument
+version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS} using the argument
 \code{type = "prob"}.
 }
 \references{
