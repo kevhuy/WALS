@@ -1,7 +1,11 @@
 #' Weighted Average Least Squares for Generalized Linear Models
 #'
-#' Fits an NB2 regression model using the Weighted-Average Least Squares method
-#' described in \insertCite{deluca2018glm;textual}{WALS}.
+#' Fits a generalized linear model (GLM) using the Weighted-Average Least Squares
+#' method described in \insertCite{deluca2018glm;textual}{WALS}.
+#'
+#' @details
+#' Computes WALS estimates when focus regressors (X1) are present in all
+#' submodels and model averaging takes place over the auxiliary regressors (X2).
 #'
 #' @references
 #' \insertAllCited{}
@@ -142,6 +146,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #' \code{walsGLM.matrix()} uses prespecified design matrices x (focus) and
 #' x2 (auxiliary) and response vector y.
 #' @rdname walsGLM
+#' @aliases walsGLMmatrix
 #'
 #' @inheritParams wals.matrix
 #'
@@ -187,6 +192,14 @@ walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
 }
 
 #' @rdname walsGLM
+#'
+#' @details
+#' \code{walsGLM.default()} raises an error if \code{x} is not an object of class
+#' \code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
+#' version of \code{\link[mboost]{glmboost.default}} from
+#' the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
+#' \insertCite{mboost}{WALS}.
+#'
 #' @export
 walsGLM.default <- function(x, ...) {
   # inspired by glmboost.default in mboost.
@@ -517,13 +530,14 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' * \code{type = "response"}: raw residuals (observed - fitted)
 #'
 #' \code{\link[stats]{coef}} and \code{\link[stats]{vcov}} are inherited from
-#' \code{wals} (see \code{\link[WALS]{predict.wals}} for more), except for objects of
-#' class \code{"walsNB"} (see \code{\link[WALS]{vcov.walsNB}}). The \code{type}
-#' argument specifies which part of the coefficient vector/covariance matrix of
-#' the estimates should be returned. For \code{type = "all"}, they return the
-#' complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they
-#' return only the part corresponding to the focus and auxiliary regressors,
-#' respectively. Additionally, the user can choose whether to return the
+#' \code{"wals"} (see \code{\link[WALS]{predict.wals}} for more), except for
+#' objects of class \code{"walsNB"} (see \code{\link[WALS]{vcov.walsNB}}).
+#' The \code{type} argument specifies which part of the coefficient
+#' vector/covariance matrix of the estimates should be returned.
+#' For \code{type = "all"}, they return the complete vector/matrix.
+#' For \code{type = "focus"} and \code{type = "aux"} they return only the part
+#' corresponding to the focus and auxiliary regressors, respectively.
+#' Additionally, the user can choose whether to return the
 #' estimated coefficients/covariance matrix for the original regressors \eqn{X}
 #' (\eqn{\beta} coefficients) or of the transformed regressors \eqn{Z}
 #' (\eqn{\gamma} coefficients).
@@ -531,6 +545,19 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
 #' are also inherited from \code{wals}. They only allow \code{type = "focus"}
 #' and \code{type = "aux"} and extract the corresponding component of the model.
+#' This is similar to the implementation of these extractors in \code{countreg}
+#' version 0.2-1 (2023-06-13) \insertCite{countreg}{WALS}, see e.g.
+#' \code{\link[countreg]{terms.hurdle}}.
+#'
+#' The \code{predict()} and \code{residuals()} methods, especially the different
+#' types of predictions/residuals controlled by \code{type}, are inspired by the
+#' corresponding methods in \code{countreg} version 0.2-1 (2023-06-13)
+#' \insertCite{countreg}{WALS}, see e.g. \code{\link[countreg]{predict.hurdle}},
+#' and \code{\link[stats]{stats}} version 4.3.1 (2023-06-16) \insertCite{R2023}{WALS},
+#' see e.g. \code{\link[stats]{residuals.glm}}. The \code{summary()},
+#' \code{print.summary}, \code{print()} and \code{logLik()} methods are also
+#' inspired by the corresponding methods for objects of class \code{"glm"} in
+#' \code{\link[stats]{stats}}, see e.g. \code{\link[stats]{print.summary.glm}}.
 #'
 #' @references
 #' \insertAllCited{}

@@ -4,6 +4,7 @@
 \alias{walsGLM}
 \alias{walsGLM.formula}
 \alias{walsGLM.matrix}
+\alias{walsGLMmatrix}
 \alias{walsGLM.default}
 \title{Weighted Average Least Squares for Generalized Linear Models}
 \usage{
@@ -143,10 +144,13 @@ and \code{"wals"}. This is a list that contains all elements returned from
 \code{\link[WALS]{walsGLMfitIterate}} and additionally the call in \code{cl}.
 }
 \description{
-Fits an NB2 regression model using the Weighted-Average Least Squares method
-described in \insertCite{deluca2018glm;textual}{WALS}.
+Fits a generalized linear model (GLM) using the Weighted-Average Least Squares
+method described in \insertCite{deluca2018glm;textual}{WALS}.
 }
 \details{
+Computes WALS estimates when focus regressors (X1) are present in all
+submodels and model averaging takes place over the auxiliary regressors (X2).
+
 Formulas should always contain two parts, i.e. they should be of the form
 "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
 regressors (includes a constant by default) and the ones after "|" are the
@@ -155,6 +159,12 @@ auxiliary regressors.
 \strong{WARNING:} Interactions in formula do work work properly yet.
 It is recommended to manually create the interactions beforehand and then
 to insert them as 'linear terms' in the formula.
+
+\code{walsGLM.default()} raises an error if \code{x} is not an object of class
+\code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
+version of \code{\link[mboost]{glmboost.default}} from
+the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
+\insertCite{mboost}{WALS}.
 }
 \examples{
 data("HMDA", package = "AER")

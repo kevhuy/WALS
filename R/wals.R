@@ -2,21 +2,20 @@
 #'
 #' Performs model averaging for linear regression models using the
 #' Weighted-Average Least Squares method by
-#' \insertCite{magnus2010growth;textual}{WALS}.
+#' \insertCite{magnus2010growth;textual}{WALS}. See also
+#' \insertCite{deluca2011stata;textual}{WALS},
+#' \insertCite{kumar2013normallocation;textual}{WALS} and
+#' \insertCite{magnus2016wals;textual}{WALS}.
 #'
+#' @details
 #' R port of MATLAB code wals.m (version 2.0, revision 18 December 2013)
-#' by J.R. Magnus and G.De Luca, available from https://www.janmagnus.nl/items/WALS.pdf.
-#' Calculates WALS estimates and variances when some regressors (X1) are present
-#' in all models and model selection takes place over the rest (X2).
+#' by J.R. Magnus and G. De Luca, available from
+#' \href{https://www.janmagnus.nl/items/WALS.pdf}{https://www.janmagnus.nl/items/WALS.pdf}.
+#' Calculates WALS estimates when focus regressors (X1) are present in all
+#' submodels and model averaging takes place over the auxiliary regressors (X2).
 #'
 #' @references
-#' \insertRef{deluca2011stata}{WALS}
-#'
-#' \insertRef{kumar2013normallocation}{WALS}
-#'
-#' \insertRef{magnus2010growth}{WALS}
-#'
-#' \insertRef{magnus2016wals}{WALS}
+#' \insertAllCited{}
 #'
 #' @export
 wals <- function(x, ...) UseMethod("wals", x)
@@ -260,6 +259,14 @@ wals.matrix <- function(x, x2, y, subset = NULL, na.action = NULL,
 }
 
 #' @rdname wals
+#'
+#' @details
+#' \code{wals.default()} raises an error if \code{x} is not an object of class
+#' \code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
+#' version of \code{\link[mboost]{glmboost.default}} from
+#' the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
+#' \insertCite{mboost}{WALS}.
+#'
 #' @export
 wals.default <- function(x, ...) {
   # inspired by glmboost.default in mboost.

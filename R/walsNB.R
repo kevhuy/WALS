@@ -3,6 +3,10 @@
 #' Fits an NB2 regression model using the Weighted-Average Least Squares method
 #' of \insertCite{huynhwalsnb;textual}{WALS}.
 #'
+#' @details
+#' Computes WALS estimates when focus regressors (X1) are present in all
+#' submodels and model averaging takes place over the auxiliary regressors (X2).
+#'
 #' @references
 #' \insertAllCited{}
 #'
@@ -154,6 +158,7 @@ walsNB.formula <- function(formula, data, subset = NULL, na.action = NULL,
 #' \code{walsNB.matrix()} uses prespecified design matrices x (focus) and
 #' x2 (auxiliary) and response vector y.
 #' @rdname walsNB
+#' @aliases walsNBmatrix
 #'
 #' @inheritParams wals.matrix
 #' @param y Count response as vector.
@@ -201,6 +206,14 @@ walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
 }
 
 #' @rdname walsNB
+#'
+#' @details
+#' \code{walsNB.default()} raises an error if \code{x} is not an object of class
+#' \code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
+#' version of \code{\link[mboost]{glmboost.default}} from
+#' the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
+#' \insertCite{mboost}{WALS}.
+#'
 #' @export
 walsNB.default <- function(x, ...) {
   # inspired by glmboost.default in mboost.

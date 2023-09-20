@@ -4,6 +4,7 @@
 \alias{walsNB}
 \alias{walsNB.formula}
 \alias{walsNB.matrix}
+\alias{walsNBmatrix}
 \alias{walsNB.default}
 \title{Weighted-Average Least Squares for Negative Binomial Regression}
 \usage{
@@ -148,6 +149,9 @@ Fits an NB2 regression model using the Weighted-Average Least Squares method
 of \insertCite{huynhwalsnb;textual}{WALS}.
 }
 \details{
+Computes WALS estimates when focus regressors (X1) are present in all
+submodels and model averaging takes place over the auxiliary regressors (X2).
+
 Formulas should always contain two parts, i.e. they should be of the form
 "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
 regressors (includes a constant by default) and the ones after "|" are the
@@ -156,6 +160,12 @@ auxiliary regressors.
 \strong{WARNING:} Interactions in formula do not work properly yet.
 It is recommended to manually create the interactions beforehand and then
 to insert them as 'linear terms' in the formula.
+
+\code{walsNB.default()} raises an error if \code{x} is not an object of class
+\code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
+version of \code{\link[mboost]{glmboost.default}} from
+the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
+\insertCite{mboost}{WALS}.
 }
 \examples{
 ## Example for walsNB.formula()

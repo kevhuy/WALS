@@ -118,13 +118,17 @@ the list \code{x} with model matrices \code{x1} and \code{x2}, the call
 \description{
 Performs model averaging for linear regression models using the
 Weighted-Average Least Squares method by
-\insertCite{magnus2010growth;textual}{WALS}.
+\insertCite{magnus2010growth;textual}{WALS}. See also
+\insertCite{deluca2011stata;textual}{WALS},
+\insertCite{kumar2013normallocation;textual}{WALS} and
+\insertCite{magnus2016wals;textual}{WALS}.
 }
 \details{
 R port of MATLAB code wals.m (version 2.0, revision 18 December 2013)
-by J.R. Magnus and G.De Luca, available from https://www.janmagnus.nl/items/WALS.pdf.
-Calculates WALS estimates and variances when some regressors (X1) are present
-in all models and model selection takes place over the rest (X2).
+by J.R. Magnus and G. De Luca, available from
+\href{https://www.janmagnus.nl/items/WALS.pdf}{https://www.janmagnus.nl/items/WALS.pdf}.
+Calculates WALS estimates when focus regressors (X1) are present in all
+submodels and model averaging takes place over the auxiliary regressors (X2).
 
 Formulas should always contain two parts, i.e. they should be of the form
 "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
@@ -134,6 +138,12 @@ auxiliary regressors.
 \strong{WARNING:} Interactions in formula do not work properly yet.
 It is recommended to manually create the interactions beforehand and then
 to insert them as 'linear terms' in the formula.
+
+\code{wals.default()} raises an error if \code{x} is not an object of class
+\code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
+version of \code{\link[mboost]{glmboost.default}} from
+the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
+\insertCite{mboost}{WALS}.
 }
 \examples{
 ## Replicate table on p. 534 of De Luca & Magnus (2011)
@@ -196,11 +206,5 @@ wals(X1, X2, y, prior = weibull())
 
 }
 \references{
-\insertRef{deluca2011stata}{WALS}
-
-\insertRef{kumar2013normallocation}{WALS}
-
-\insertRef{magnus2010growth}{WALS}
-
-\insertRef{magnus2016wals}{WALS}
+\insertAllCited{}
 }
