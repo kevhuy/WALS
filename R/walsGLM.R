@@ -405,9 +405,9 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
     ## call workhorse
     out <- walsGLMfit(X1 = X1, X2 = X2, y = y, betaStart1 = betaCurrent[1L:k1],
-                       betaStart2 = betaCurrent[(k1 + 1L):(k1 + k2)],
-                       family = family, prior = prior,
-                       ...)
+                      betaStart2 = betaCurrent[(k1 + 1L):(k1 + k2)],
+                      family = family, prior = prior,
+                      ...)
 
     betaCurrent <- out$coef
     it <- it + 1
@@ -418,7 +418,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
         && ((norm(betaOld - betaCurrent, type = "2") / length(betaCurrent)) < tol)
     ) {
       converged <- TRUE
-      cat("\nalgorithm converged\n")
+      if (verbose) cat("\nalgorithm converged\n")
       break
     }
 
@@ -426,7 +426,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
   if (!is.null(nIt)) {
     converged <- NULL
-  } else if (!converged) cat("\nalgorithm failed to converge\n")
+  } else if (!converged) warning("algorithm failed to converge\n")
 
   # replace starting values with original starting values
   out$betaStart <- betaStart

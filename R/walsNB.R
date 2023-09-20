@@ -790,7 +790,7 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
          && abs(rhoOld - rhoCurrent) < tol)
     ) {
       converged <- TRUE
-      cat("\nalgorithm converged\n")
+      if (verbose) cat("\nalgorithm converged\n")
       break
     }
 
@@ -798,7 +798,7 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
 
   if (!is.null(nIt)) {
     converged <- NULL
-  } else if (!converged) cat("\nalgorithm failed to converge\n")
+  } else if (!converged) warning("algorithm failed to converge\n")
 
 
   # replace starting values with original starting values
