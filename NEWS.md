@@ -1,3 +1,3 @@
-# WALS 0.2.1
+# WALS 0.2.2
 
 * First CRAN release
