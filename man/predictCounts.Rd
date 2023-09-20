@@ -7,15 +7,13 @@
 \usage{
 predictCounts(x, ...)
 
-\method{predictCounts}{familyWALScount}(family, yUnique, rowNames, eta, ...)
+\method{predictCounts}{familyWALScount}(x, yUnique, rowNames, eta, ...)
 }
 \arguments{
 \item{x}{object of class \code{"\link[WALS]{familyWALScount}"}.}
 
 \item{...}{Further parameters passed to \code{density()} function in
 \code{family}.}
-
-\item{family}{object of class \code{"\link{familyWALScount}"}.}
 
 \item{yUnique}{vector. The counts (larger or equal to zero) which to predict
 probabilities for.}

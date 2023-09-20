@@ -8,9 +8,9 @@
 \usage{
 computePosterior(object, ...)
 
-\method{computePosterior}{familyPrior}(object, x)
+\method{computePosterior}{familyPrior}(object, x, ...)
 
-\method{computePosterior}{familyPrior_laplace}(object, x)
+\method{computePosterior}{familyPrior_laplace}(object, x, ...)
 }
 \arguments{
 \item{object}{Object of class \code{"\link[WALS]{familyPrior}"}, e.g. from
@@ -41,9 +41,9 @@ See section "Numerical integration in Bayesian estimation step"
 in the appendix of \insertCite{huynhwals;textual}{WALS} for details.
 
 \code{computePosterior.familyPrior_laplace()} is the specialized method for the
-S3 class \code{"familyPrior_laplace"} and computes the posterior first and
-second moments of the normal location problem with a
-Laplace prior using the analytical formula (without numerical integration).
+S3 class \code{"\link[WALS]{familyPrior_laplace}"} and computes the posterior
+first and second moments of the normal location problem with a Laplace prior
+using the analytical formula (without numerical integration).
 For more details, see \insertCite{deluca2020laplace;textual}{WALS} and the
 original code of Magnus and De Luca.
 }

@@ -34,7 +34,7 @@
 computePosterior <- function(object, ...) UseMethod("computePosterior", object)
 
 #' @rdname computePosterior
-computePosterior.familyPrior <- function(object, x) {
+computePosterior.familyPrior <- function(object, x, ...) {
   # Use numerical integration for Weibull and Subbotin priors.
 
   # preallocate
@@ -66,14 +66,14 @@ computePosterior.familyPrior <- function(object, x) {
 #'
 #' @details
 #' \code{computePosterior.familyPrior_laplace()} is the specialized method for the
-#' S3 class \code{"familyPrior_laplace"} and computes the posterior first and
-#' second moments of the normal location problem with a
-#' Laplace prior using the analytical formula (without numerical integration).
+#' S3 class \code{"\link[WALS]{familyPrior_laplace}"} and computes the posterior
+#' first and second moments of the normal location problem with a Laplace prior
+#' using the analytical formula (without numerical integration).
 #' For more details, see \insertCite{deluca2020laplace;textual}{WALS} and the
 #' original code of Magnus and De Luca.
 #'
 #' @rdname computePosterior
-computePosterior.familyPrior_laplace <- function(object, x) {
+computePosterior.familyPrior_laplace <- function(object, x, ...) {
   signx <- sign(x)
   absx <- abs(x)
 

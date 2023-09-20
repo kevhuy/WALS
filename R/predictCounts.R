@@ -22,7 +22,6 @@ predictCounts <- function(x, ...) UseMethod("predictCounts", x)
 
 #' @rdname predictCounts
 #'
-#' @param family object of class \code{"\link{familyWALScount}"}.
 #' @param yUnique vector. The counts (larger or equal to zero) which to predict
 #' probabilities for.
 #' @param rowNames vector. The names of the observations.
@@ -40,14 +39,14 @@ predictCounts <- function(x, ...) UseMethod("predictCounts", x)
 #' \code{length{yUnique}} with the predicted probabilities of the counts given
 #' in \code{yUnique} for every observation in \code{eta}.
 #'
-predictCounts.familyWALScount <- function(family, yUnique, rowNames, eta, ...) {
+predictCounts.familyWALScount <- function(x, yUnique, rowNames, eta, ...) {
   # ... to insert other parameters, e.g. for negbin also need scale
   # Inspired by code in countreg (Kleiber & Zeileis)
   nUnique <- length(yUnique)
   rval <- matrix(NA, nrow = length(eta), ncol = nUnique)
   dimnames(rval) <- list(rowNames, yUnique)
 
-  for (i in 1:nUnique) rval[,i] <- family$density(yUnique[i], eta = eta, ...)
+  for (i in 1:nUnique) rval[,i] <- x$density(yUnique[i], eta = eta, ...)
 
   return(rval)
 }
