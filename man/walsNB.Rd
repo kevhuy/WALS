@@ -161,6 +161,10 @@ auxiliary regressors.
 It is recommended to manually create the interactions beforehand and then
 to insert them as 'linear terms' in the formula.
 
+See \code{\link[WALS]{predict.walsGLM}} and \code{\link[WALS]{predict.wals}}
+for some class methods that the fitted objects inherit from
+\code{"\link[WALS]{walsGLM}"} and \code{"\link[WALS]{wals}"}, respectively.
+
 \code{walsNB.default()} raises an error if \code{x} is not an object of class
 \code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
 version of \code{\link[mboost]{glmboost.default}} from

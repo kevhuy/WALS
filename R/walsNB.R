@@ -38,6 +38,10 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' It is recommended to manually create the interactions beforehand and then
 #' to insert them as 'linear terms' in the formula.
 #'
+#' See \code{\link[WALS]{predict.walsGLM}} and \code{\link[WALS]{predict.wals}}
+#' for some class methods that the fitted objects inherit from
+#' \code{"\link[WALS]{walsGLM}"} and \code{"\link[WALS]{wals}"}, respectively.
+#'
 #' @returns \code{walsNB.formula()} returns an object of class \code{"walsNB"}
 #' which inherits from \code{"walsGLM"} and \code{"wals"}. This is a list that
 #' contains all elements returned from \code{\link[WALS]{walsNBfitIterate}} and
