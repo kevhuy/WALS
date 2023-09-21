@@ -213,10 +213,14 @@ walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
 #'
 #' @details
 #' \code{walsNB.default()} raises an error if \code{x} is not an object of class
-#' \code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
-#' version of \code{\link[mboost]{glmboost.default}} from
-#' the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
-#' \insertCite{mboost}{WALS}.
+#' \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
+#' it calls \code{walsNB.matrix()}. It is a modified version of
+#' \code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
+#' package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
+#'
+#' @returns \code{walsNB.default()} raises an error if \code{x} is not an object
+#' of class \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
+#' returns an object of class \code{"walsNBmatrix"}. See above for more details.
 #'
 #' @export
 walsNB.default <- function(x, ...) {
@@ -230,7 +234,6 @@ walsNB.default <- function(x, ...) {
 
 
 #' Fitter function for Weighted Average Least Squares estimation of NB2 regression model
-#'
 #'
 #' Workhorse function behind \code{\link{walsNB}} and used internally in
 #' \code{\link{walsNBfitIterate}}.

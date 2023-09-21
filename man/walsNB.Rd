@@ -143,6 +143,10 @@ for more details.
 which inherits from \code{"walsNB"}, \code{"walsGLMmatrix"}, \code{"walsGLM"}
 and \code{"wals"}. This is a list that contains all elements returned from
 \code{\link[WALS]{walsNBfitIterate}} and additionally the call in \code{cl}.
+
+\code{walsNB.default()} raises an error if \code{x} is not an object
+of class \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
+returns an object of class \code{"walsNBmatrix"}. See above for more details.
 }
 \description{
 Fits an NB2 regression model using the Weighted-Average Least Squares method
@@ -166,10 +170,10 @@ for some class methods that the fitted objects inherit from
 \code{"\link[WALS]{walsGLM}"} and \code{"\link[WALS]{wals}"}, respectively.
 
 \code{walsNB.default()} raises an error if \code{x} is not an object of class
-\code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
-version of \code{\link[mboost]{glmboost.default}} from
-the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
-\insertCite{mboost}{WALS}.
+\code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
+it calls \code{walsNB.matrix()}. It is a modified version of
+\code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
+package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
 }
 \examples{
 ## Example for walsNB.formula()
