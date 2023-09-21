@@ -21,7 +21,7 @@ negbinFixedWALS(scale, link)
 negbinWALS(scale, link)
 }
 \arguments{
-\item{object}{The function \code{familyWALS} extracts the family objects stored
+\item{object}{The function \code{familyWALS()} extracts the family objects stored
 in \code{"walsGLM"} objects.}
 
 \item{...}{Further arguments passed to methods.
@@ -38,10 +38,10 @@ details.}
 \item{scale}{dispersion parameter of NB2 to be used, always larger than 0.}
 }
 \value{
-An object of class \code{"familyWALS"} that inherits from
-\code{"\link[stats]{family}"}. This is a list that contains elements returned
-from the corresponding family function that it extends. Additionally, the
-following elements are available:
+An object of class \code{"familyWALS"} to be used in
+\code{\link[WALS]{walsGLM}} that inherits from \code{"\link[stats]{family}"}.
+This is a list that contains elements returned from the corresponding family
+function that it extends. Additionally, the following elements are available:
 \item{theta.eta}{function. Derivative of the canonical parameter \eqn{\theta}
 with respect to the linear link \eqn{\eta}, i.e. \eqn{d \theta / d \eta}.}
 \item{psi}{function. \eqn{\psi} defined on p. 3 of \insertCite{deluca2018glm}{WALS}.}
@@ -57,12 +57,18 @@ for GLMs and \insertCite{huynhwalsnb}{WALS} for \code{negbinWALS()} used in
 \code{\link[WALS]{walsNB}}.}
 \item{density}{function. The probability density/mass function of the family.}
 
+\code{poissonWALS()} and \code{negbinFixedWALS()} return objects of class
+\code{"familyWALScount"} that inherit from \code{"familyWALS"} and
+\code{"family"}. These are lists that contain the same elements as
+\code{"familyWALS"} objects described above.
+
 \code{negbinWALS()} creates an object of class \code{"familyNBWALS"}
-that inherits from \code{"familyWALS"} and \code{"\link[stats]{family}"}.
-This is a list that contains all elements returned from the corresponding
-family function that it extends and the elements described above for objects
-of class \code{"familyWALS"}. Additionally contains the following elements with
-functions required in \code{\link[WALS]{walsNB}} that are described in
+(only used internally in \code{\link[WALS]{walsNB}}) that inherits from
+\code{"familyWALScount"}, \code{"familyWALS"} and \code{"\link[stats]{family}"}.
+This is a list that contains all elements returned from \code{negbinFixed}
+that it extends and the elements described above for objects of class
+\code{"familyWALS"}. Additionally contains the following elements with functions
+required in \code{\link[WALS]{walsNB}} that are described in
 \insertCite{huynhwalsnb}{WALS}:
 \item{q}{function. Computes \eqn{\bar{q}}.}
 \item{g}{function. Computes \eqn{\bar{g}}.}
@@ -81,8 +87,8 @@ and extend those with (transformation) functions required for
 \code{\link[WALS]{walsGLM}} and \code{\link[WALS]{walsNB}}.
 }
 \details{
-\code{familyWALS} is a generic function that extracts the family used in
-\code{walsGLM} objects.
+\code{familyWALS()} is a generic function that extracts the family used in
+\code{"walsGLM"} objects.
 
 \code{negbinFixedWALS()} creates the \code{"familyWALS"} object for negative
 binomial distribution type 2 (NB2) with fixed dispersion parameter. It extends
@@ -125,5 +131,5 @@ plot(bi$theta.eta, from = -10, to = 10) # constant. logit is canonical link
 \insertAllCited{}
 }
 \seealso{
-\link{family}.
+\link{family}, \link{walsGLM}.
 }

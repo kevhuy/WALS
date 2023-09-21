@@ -9,7 +9,7 @@
 #' \code{\link[stats]{make.link}}. See \code{\link[stats]{family}} for more details.
 #' Currently, only a limited number of links are supported. See below for more
 #' details.
-#' @param object The function \code{familyWALS} extracts the family objects stored
+#' @param object The function \code{familyWALS()} extracts the family objects stored
 #' in \code{"walsGLM"} objects.
 #' @param ... Further arguments passed to methods.
 #'
@@ -17,8 +17,8 @@
 #' \code{negbinFixedWALS()} supports both \code{"log"} and \code{"canonical"}.
 #'
 #' @details
-#' \code{familyWALS} is a generic function that extracts the family used in
-#' \code{walsGLM} objects.
+#' \code{familyWALS()} is a generic function that extracts the family used in
+#' \code{"walsGLM"} objects.
 #'
 #' \code{negbinFixedWALS()} creates the \code{"familyWALS"} object for negative
 #' binomial distribution type 2 (NB2) with fixed dispersion parameter. It extends
@@ -41,10 +41,10 @@
 #' difficulties in the fitting process. In contrast, \code{negbinWALS()} only
 #' supports the \code{"log"} link.
 #'
-#' @returns An object of class \code{"familyWALS"} that inherits from
-#' \code{"\link[stats]{family}"}. This is a list that contains elements returned
-#' from the corresponding family function that it extends. Additionally, the
-#' following elements are available:
+#' @returns An object of class \code{"familyWALS"} to be used in
+#' \code{\link[WALS]{walsGLM}} that inherits from \code{"\link[stats]{family}"}.
+#' This is a list that contains elements returned from the corresponding family
+#' function that it extends. Additionally, the following elements are available:
 #' \item{theta.eta}{function. Derivative of the canonical parameter \eqn{\theta}
 #' with respect to the linear link \eqn{\eta}, i.e. \eqn{d \theta / d \eta}.}
 #' \item{psi}{function. \eqn{\psi} defined on p. 3 of \insertCite{deluca2018glm}{WALS}.}
@@ -60,10 +60,15 @@
 #' \code{\link[WALS]{walsNB}}.}
 #' \item{density}{function. The probability density/mass function of the family.}
 #'
+#' \code{poissonWALS()} and \code{negbinFixedWALS()} return objects of class
+#' \code{"familyWALScount"} that inherit from \code{"familyWALS"} and
+#' \code{"family"}. These are lists that contain the same elements as
+#' \code{"familyWALS"} objects described above.
+#'
 #' @references
 #' \insertAllCited{}
 #'
-#' @seealso [family].
+#' @seealso [family], [walsGLM].
 #'
 #' @examples
 #' ## Use in walsGLM():
@@ -317,11 +322,12 @@ negbinFixedWALS <- function(scale, link) {
 #' @param scale dispersion parameter of NB2 to be used, always larger than 0.
 #'
 #' @returns \code{negbinWALS()} creates an object of class \code{"familyNBWALS"}
-#' that inherits from \code{"familyWALS"} and \code{"\link[stats]{family}"}.
-#' This is a list that contains all elements returned from the corresponding
-#' family function that it extends and the elements described above for objects
-#' of class \code{"familyWALS"}. Additionally contains the following elements with
-#' functions required in \code{\link[WALS]{walsNB}} that are described in
+#' (only used internally in \code{\link[WALS]{walsNB}}) that inherits from
+#' \code{"familyWALScount"}, \code{"familyWALS"} and \code{"\link[stats]{family}"}.
+#' This is a list that contains all elements returned from \code{negbinFixed}
+#' that it extends and the elements described above for objects of class
+#' \code{"familyWALS"}. Additionally contains the following elements with functions
+#' required in \code{\link[WALS]{walsNB}} that are described in
 #' \insertCite{huynhwalsnb}{WALS}:
 #' \item{q}{function. Computes \eqn{\bar{q}}.}
 #' \item{g}{function. Computes \eqn{\bar{g}}.}

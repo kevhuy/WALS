@@ -926,7 +926,7 @@ print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ..
 #'        married + region, data = NMES1988, prior = weibull(),
 #'        controlInitNB = controlNB(initMASS = FALSE, restricted = TRUE))
 #'
-#' @seealso [walsNB], [walsNBfitIterate]
+#' @seealso [walsNB], [walsNBfitIterate].
 #'
 #' @export
 controlNB <- function(start = list(mu = NULL, logTheta = NULL), method = "BFGS",

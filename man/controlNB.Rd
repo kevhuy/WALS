@@ -59,5 +59,5 @@ walsNB(visits ~ health + chronic + age + gender | I((age^2)/10) +
 
 }
 \seealso{
-\link{walsNB}, \link{walsNBfitIterate}
+\link{walsNB}, \link{walsNBfitIterate}.
 }
