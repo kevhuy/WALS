@@ -2,7 +2,7 @@
 #'
 #' \code{"familyPrior"} objects provide a convenient way to specify the prior
 #' distribution used for the Bayesian posterior mean estimation of the WALS
-#' estimators in \code{\link[WALS]{wals}}, \code{\link[WALS]{walsGLM}} and 
+#' estimators in \code{\link[WALS]{wals}}, \code{\link[WALS]{walsGLM}} and
 #' \code{\link[WALS]{walsNB}}
 #'
 #' @param q \eqn{q} in \insertCite{magnus2016wals;textual}{WALS}.
@@ -40,8 +40,9 @@
 #' Robustness" of \insertCite{magnus2016wals;textual}{WALS} for details and
 #' Table 1 for the optimal parameter values.
 #'
-#' @returns An object of class \code{"familyPrior"}. This is a list with the
-#' elements
+#' @returns An object of class \code{"familyPrior"} to be used in
+#' \code{\link[WALS]{wals}}, \code{\link[WALS]{walsGLM}} and \code{\link[WALS]{walsNB}}.
+#' This is a list with the elements
 #' \item{q}{Parameter \eqn{q}.}
 #' \item{alpha}{Parameter \eqn{\alpha} (of the reflected generalized gamma
 #' distribution).}

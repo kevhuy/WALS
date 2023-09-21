@@ -38,8 +38,9 @@ Parameter of reflected generalized gamma distribution. See below for details.}
 \item{digits}{The number of significant digits to display.}
 }
 \value{
-An object of class \code{"familyPrior"}. This is a list with the
-elements
+An object of class \code{"familyPrior"} to be used in
+\code{\link[WALS]{wals}}, \code{\link[WALS]{walsGLM}} and \code{\link[WALS]{walsNB}}.
+This is a list with the elements
 \item{q}{Parameter \eqn{q}.}
 \item{alpha}{Parameter \eqn{\alpha} (of the reflected generalized gamma
 distribution).}
