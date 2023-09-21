@@ -114,6 +114,10 @@ which inherits from \code{"wals"}. This is a list that contains all elements
 returned from \code{\link[WALS]{walsFit}} and additionally the response \code{y},
 the list \code{x} with model matrices \code{x1} and \code{x2}, the call
 \code{cl}, \code{offset} and \code{weights}.
+
+\code{wals.default()} raises an error if \code{x} is not an object
+of class \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
+returns an object of class \code{"walsMatrix"}. See above for more details.
 }
 \description{
 Performs model averaging for linear regression models using the
@@ -140,10 +144,10 @@ It is recommended to manually create the interactions beforehand and then
 to insert them as 'linear terms' in the formula.
 
 \code{wals.default()} raises an error if \code{x} is not an object of class
-\code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
-version of \code{\link[mboost]{glmboost.default}} from
-the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
-\insertCite{mboost}{WALS}.
+\code{"matrix"} or a class that extends \code{"matrix"}. Otherwise it calls
+\code{wals.matrix()}. It is a modified version of
+\code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
+package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
 }
 \examples{
 ## Replicate table on p. 534 of De Luca & Magnus (2011)

@@ -195,10 +195,15 @@ walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
 #'
 #' @details
 #' \code{walsGLM.default()} raises an error if \code{x} is not an object of class
-#' \code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
-#' version of \code{\link[mboost]{glmboost.default}} from
-#' the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
-#' \insertCite{mboost}{WALS}.
+#' \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise it calls
+#' \code{walsGLM.matrix()}. It is a modified version of
+#' \code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
+#' package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
+#'
+#' @returns \code{walsGLM.default()} raises an error if \code{x} is not an object
+#' of class \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
+#' returns an object of class \code{"walsGLMmatrix"}. See above for more details.
+#'
 #'
 #' @export
 walsGLM.default <- function(x, ...) {
@@ -458,7 +463,8 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' \code{"walsNBmatrix"}.
 #'
 #' @param object,x An object of class \code{"walsGLM"}, \code{"walsGLMmatrix"},
-#' \code{"walsNB"} or \code{"walsNBmatrix"}.
+#' \code{"walsNB"}, \code{"walsNBmatrix"}, \code{"summary.walsGLM"} or
+#' \code{"summary.walsNB"}.
 #' @inheritParams predict.wals
 #' @param type Character specifying the type of prediction, residual or model
 #' part to be returned. For details see below.
@@ -536,29 +542,22 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
 #' \code{terms.hurdle()}.
 #'
-#' ## Details on the use of the argument type
-#' For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
-#' \code{type} argument specifies the type of prediction or residual to return.
-#'
-#' Different return types for \code{\link[stats]{predict}}:
-#' * \code{type = "response"}: predicted mean
-#' * \code{type = "link"}: predicted linear link
-#' * \code{type = "variance"}: predicted variance
-#' * \code{type = "prob"}: Only available if a family of class \code{"\link[WALS]{familyWALScount}"}
-#' was used for fitting or for objects of class \code{"walsNB"} or \code{"walsNBmatrix"}.
-#' Returns the probability at counts specified by \code{at}.
-#' * \code{type = "density"}: predicted density
-#' * \code{type = "logDens"}: for convenience, returns predicted log-density.
+#' @returns \code{predict.walsGLM()} and \code{predict.walsGLMmatrix()} return
+#' different types of predictions depending on the argument \code{type}:
+#' * \code{type = "response"}: vector. Predicted mean
+#' * \code{type = "link"}: vector. Predicted linear link
+#' * \code{type = "variance"}: vector. Predicted variance
+#' * \code{type = "prob"}: matrix. Only available if a family of class
+#' \code{"\link[WALS]{familyWALScount}"} was used for fitting or for objects of
+#' class \code{"walsNB"} or \code{"walsNBmatrix"}. Returns the probability at
+#' counts specified by \code{at}.
+#' * \code{type = "density"}: vector. Predicted density
+#' * \code{type = "logDens"}: vector. For convenience, returns predicted log-density.
 #' Equivalent to setting \code{type = "density"} and \code{log = TRUE}.
+#'
 #' If \code{type = "prob"}, \code{type = "density"} or \code{type = "logDens"},
 #' then \code{newdata} must contain the response or \code{newY} must be
 #' specified depending on the class of the object.
-#'
-#' Different return types for \code{\link[stats]{residuals}}:
-#' * \code{type = "deviance"}: deviance residuals
-#' * \code{type = "pearson"}: Pearson residuals (raw residuals scaled by
-#' square root of variance function)
-#' * \code{type = "response"}: raw residuals (observed - fitted)
 #'
 #' @references
 #' \insertAllCited{}
@@ -684,6 +683,14 @@ predict.walsGLMmatrix <- function(object, newX1, newX2, newY = NULL,
 }
 
 #' @rdname predict.walsGLM
+#'
+#' @returns \code{residuals.walsGLM()} returns different types of residuals
+#' depending on the argument \code{type}:
+#' * \code{type = "deviance"}: deviance residuals
+#' * \code{type = "pearson"}: Pearson residuals (raw residuals scaled by
+#' square root of variance function)
+#' * \code{type = "response"}: raw residuals (observed - fitted)
+#'
 #' @export
 residuals.walsGLM <- function(object, type = c("deviance", "pearson", "response"),
                               ...) {
@@ -705,6 +712,10 @@ residuals.walsGLM <- function(object, type = c("deviance", "pearson", "response"
 }
 
 #' @rdname predict.walsGLM
+#'
+#' @returns \code{print.walsGLM()} invisibly returns its input argument \code{x},
+#' i.e. an object of object of class \code{"walsGLM"}.
+#'
 #' @export
 print.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   print.wals(x, digits, ...)
@@ -713,6 +724,11 @@ print.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
 }
 
 #' @rdname predict.walsGLM
+#'
+#' @returns \code{summary.walsGLM()} returns an object of class
+#' \code{"summary.walsGLM"} which contains the necessary fields for printing the
+#' summary in \code{print.summary.walsGLM()}.
+#'
 #' @export
 summary.walsGLM <- function(object, ...) {
   object <- summary.wals(object, ...)
@@ -728,6 +744,10 @@ summary.walsGLM <- function(object, ...) {
 }
 
 #' @rdname predict.walsGLM
+#'
+#' @returns \code{print.summary.walsGLM()} invisibly returns its input argument
+#' \code{x}, i.e. an object of object of class \code{"summary.walsGLM"}.
+#'
 #' @export
 print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
@@ -765,6 +785,10 @@ print.summary.walsGLM <- function(x, digits = max(3, getOption("digits") - 3), .
 }
 
 #' @rdname predict.walsGLM
+#'
+#' @returns \code{logLik.walsGLM()} returns the log-likelihood of the fitted
+#' model.
+#'
 #' @export
 logLik.walsGLM <- function(object, ...) {
   if (!missing(...)) warning("extra arguments discarded")
@@ -772,6 +796,6 @@ logLik.walsGLM <- function(object, ...) {
   return(sum(object$family$density(y, object$fitted.link, log = TRUE)))
 }
 
-#' @rdname predict.walsGLM
+#' @rdname familyWALS
 #' @export
 familyWALS.walsGLM <- function(object, ...) return(object$family)

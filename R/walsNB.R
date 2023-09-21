@@ -624,7 +624,8 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' Iteratively fitting walsNB, internal function for walsNB.formula and
 #' walsNB.matrix.
 #'
-#' See description of \code{\link{walsNB}}.
+#' Wrapper around \code{\link[WALS]{walsNBfit}} that allows iteratively
+#' (re-)fitting \code{\link[WALS]{walsNB}} models.
 #'
 #' @param y Count response as vector.
 #' @inheritParams walsGLMfitIterate
@@ -848,6 +849,11 @@ vcov.walsNB <- function(object, ...) {
 }
 
 #' @rdname predict.walsGLM
+#'
+#' @returns \code{summary.walsNB()} returns an object of class
+#' \code{"summary.walsNB"} which contains the necessary fields for printing the
+#' summary in \code{print.summary.walsNB()}.
+#'
 #' @export
 summary.walsNB <- function(object, ...) {
   object <- summary.wals(object, ...)
@@ -861,6 +867,10 @@ summary.walsNB <- function(object, ...) {
 }
 
 #' @rdname predict.walsGLM
+#'
+#' @returns \code{print.summary.walsNB()} invisibly returns its input argument
+#' \code{x}, i.e. an object of object of class \code{"summary.walsNB"}.
+#'
 #' @export
 print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),

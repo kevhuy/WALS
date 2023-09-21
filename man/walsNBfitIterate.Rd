@@ -93,7 +93,8 @@ if \code{iterate = FALSE}.}
 \item{residuals}{Raw residuals, i.e. response - fitted mean.}
 }
 \description{
-See description of \code{\link{walsNB}}.
+Wrapper around \code{\link[WALS]{walsNBfit}} that allows iteratively
+(re-)fitting \code{\link[WALS]{walsNB}} models.
 }
 \details{
 The parameter \code{tol} is used to control the convergence of the iterative

@@ -40,7 +40,8 @@
 \method{model.matrix}{wals}(object, type = c("focus", "aux"), ...)
 }
 \arguments{
-\item{object, x}{An object of class \code{"wals"} or \code{"walsMatrix"}.}
+\item{object, x}{An object of class \code{"wals"}, \code{"walsMatrix"} or
+\code{"summary.wals"}.}
 
 \item{newdata}{Optionally, a data frame in which to look for variables with
 which to predict. If omitted, the original observations are used.}
@@ -62,6 +63,60 @@ For details see below.}
 \item{transformed}{Logical specifying whether the coefficients/covariance
 matrix of original regressors (\code{FALSE}, default) or the transformed
 regressors (\code{TRUE}) should be returned.}
+}
+\value{
+\code{predict.wals()} and \code{predict.walsMatrix()} return a vector
+containing the predicted means.
+
+\code{fitted.wals()} returns a vector containing the fitted means
+for the data used in fitting.
+
+\code{residuals.wals()} returns the raw residuals of the fitted
+model, i.e. response - fitted mean.
+
+\code{print.wals()} invisibly returns its input argument \code{x},
+i.e. an object of object of class \code{"wals"}.
+
+\code{summary.wals} returns an object of class \code{"summary.wals"}
+which contains the necessary fields for printing the summary in
+\code{print.summary.wals()}.
+
+\code{print.summary.wals()} invisibly returns its input argument
+\code{x}, i.e. an object of object of class \code{"summary.wals"}.
+
+\code{coef.wals()} returns a vector containing the fitted coefficients.
+If \code{type = "focus"}, only the coefficients of the focus regressors are
+returned and if \code{type = "aux"}, only the coefficients of auxiliary
+regressors are returned. Else if \code{type = "all"}, the coefficients
+of both focus and auxiliary regressors are returned. Additionally if
+\code{transformed = FALSE}, \code{coef.wals()} returns the estimated
+coefficients for the original regressors \eqn{X} (\eqn{\beta} coefficients)
+and else if \code{transformed = TRUE} the coefficients of the transformed
+regressors \eqn{Z} (\eqn{\gamma} coefficients).
+
+\code{vcov.wals()} returns a matrix containing the estimated
+(co-)variances of the fitted regression coefficients. If \code{type = "focus"},
+only the submatrix belonging to the focus regressors is returned and if
+\code{type = "aux"}, only the submatrix corresponding to the auxiliary
+regressors is returned. Else if \code{type = "all"}, the complete covariance
+matrix is returned. Additionally if \code{transformed = FALSE},
+\code{vcov.wals()} returns the estimated covariance matrix for the original
+regressors \eqn{X} (\eqn{\beta} coefficients) and else if
+\code{transformed = TRUE} the covariance matrix of the transformed regressors
+\eqn{Z} (\eqn{\gamma} coefficients).
+
+\code{nobs.wals()} returns the number of observations used for
+fitting the model.
+
+\code{terms.wals()} returns the \emph{terms} representation of the fitted
+model. It is of class \code{c("terms", "formula")}, see \code{\link[stats]{terms}}
+and \code{\link[stats]{terms.object}} for more details. If \code{type = "focus"},
+then returns the terms for the focus regressors, else if \code{type = "aux"}
+returns the terms for the auxiliary regressors.
+
+\code{model.matrix.wals()} either returns the design matrix of the
+focus regressors (\code{type = "focus"}) or of the auxiliary regressors
+(\code{type = "aux"}). See \code{\link[stats]{model.matrix}} for more details.
 }
 \description{
 Methods for extracting information from fitted model-averaging objects of
@@ -87,25 +142,17 @@ parameters.
 The \code{\link[stats]{residuals}} method computes raw residuals
 (observed - fitted).
 
-The \code{\link[WALS]{familyPrior}} method returns an object of class
-\code{"familyPrior"} that was used as prior in the Bayesian estimation step.
-}
-\section{Details on the use of the argument type}{
 For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}
-argument specifies which part of the coefficient vector/covariance matrix of
-the estimates should be returned. For \code{type = "all"}, they return the
-complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they
-return only the part corresponding to the focus and auxiliary regressors,
-respectively. Additionally, the user can choose whether to return the
-estimated coefficients/covariance matrix for the original regressors \eqn{X}
-(\eqn{\beta} coefficients) or of the transformed regressors \eqn{Z}
-(\eqn{\gamma} coefficients).
+argument, either \code{"all"}, \code{"focus"} or \code{"aux"}, specifies which
+part of the coefficient vector/covariance matrix of the estimates should be
+returned. Additionally, the \code{transformed} argument specifies whether to
+return the estimated  coefficients/covariance matrix for the original
+regressors \eqn{X} or of the transformed regressors \eqn{Z}.
 
 The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
 behave similarly to \code{coef}, but they only allow \code{type = "focus"}
 and \code{type = "aux"}. They extract the corresponding component of the model.
 }
-
 \examples{
 ## Example for wals objects
 fitGrowth <- wals(gdpgrowth ~ lgdp60 + equipinv + school60 + life60 + popgrowth |

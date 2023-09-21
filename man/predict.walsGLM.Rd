@@ -8,7 +8,6 @@
 \alias{summary.walsGLM}
 \alias{print.summary.walsGLM}
 \alias{logLik.walsGLM}
-\alias{familyWALS.walsGLM}
 \alias{summary.walsNB}
 \alias{print.summary.walsNB}
 \title{Methods for walsGLM, walsGLMmatrix, walsNB and walsNBmatrix Objects}
@@ -44,15 +43,14 @@
 
 \method{logLik}{walsGLM}(object, ...)
 
-\method{familyWALS}{walsGLM}(object, ...)
-
 \method{summary}{walsNB}(object, ...)
 
 \method{print}{summary.walsNB}(x, digits = max(3, getOption("digits") - 3), ...)
 }
 \arguments{
 \item{object, x}{An object of class \code{"walsGLM"}, \code{"walsGLMmatrix"},
-\code{"walsNB"} or \code{"walsNBmatrix"}.}
+\code{"walsNB"}, \code{"walsNBmatrix"}, \code{"summary.walsGLM"} or
+\code{"summary.walsNB"}.}
 
 \item{newdata}{Optionally, a data frame in which to look for variables with
 which to predict. If omitted, the original observations are used.}
@@ -82,6 +80,55 @@ in \code{newdata}. The default is to predict \code{NA}.}
 \code{type = "prob"}, \code{type = "density"} or \code{type = "logDens"}.}
 
 \item{digits}{The number of significant digits to display.}
+}
+\value{
+\code{predict.walsGLM()} and \code{predict.walsGLMmatrix()} return
+different types of predictions depending on the argument \code{type}:
+\itemize{
+\item \code{type = "response"}: vector. Predicted mean
+\item \code{type = "link"}: vector. Predicted linear link
+\item \code{type = "variance"}: vector. Predicted variance
+\item \code{type = "prob"}: matrix. Only available if a family of class
+\code{"\link[WALS]{familyWALScount}"} was used for fitting or for objects of
+class \code{"walsNB"} or \code{"walsNBmatrix"}. Returns the probability at
+counts specified by \code{at}.
+\item \code{type = "density"}: vector. Predicted density
+\item \code{type = "logDens"}: vector. For convenience, returns predicted log-density.
+Equivalent to setting \code{type = "density"} and \code{log = TRUE}.
+}
+
+If \code{type = "prob"}, \code{type = "density"} or \code{type = "logDens"},
+then \code{newdata} must contain the response or \code{newY} must be
+specified depending on the class of the object.
+
+\code{residuals.walsGLM()} returns different types of residuals
+depending on the argument \code{type}:
+\itemize{
+\item \code{type = "deviance"}: deviance residuals
+\item \code{type = "pearson"}: Pearson residuals (raw residuals scaled by
+square root of variance function)
+\item \code{type = "response"}: raw residuals (observed - fitted)
+}
+
+\code{print.walsGLM()} invisibly returns its input argument \code{x},
+i.e. an object of object of class \code{"walsGLM"}.
+
+\code{summary.walsGLM()} returns an object of class
+\code{"summary.walsGLM"} which contains the necessary fields for printing the
+summary in \code{print.summary.walsGLM()}.
+
+\code{print.summary.walsGLM()} invisibly returns its input argument
+\code{x}, i.e. an object of object of class \code{"summary.walsGLM"}.
+
+\code{logLik.walsGLM()} returns the log-likelihood of the fitted
+model.
+
+\code{summary.walsNB()} returns an object of class
+\code{"summary.walsNB"} which contains the necessary fields for printing the
+summary in \code{print.summary.walsNB()}.
+
+\code{print.summary.walsNB()} invisibly returns its input argument
+\code{x}, i.e. an object of object of class \code{"summary.walsNB"}.
 }
 \description{
 Methods for extracting information from fitted model-averaging objects of
@@ -153,35 +200,6 @@ and \code{type = "aux"} and extract the corresponding component of the model.
 This is similar to the implementation of these extractors in \code{countreg}
 version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
 \code{terms.hurdle()}.
-\subsection{Details on the use of the argument type}{
-
-For \code{\link[stats]{predict}} and \code{\link[stats]{residuals}}, the
-\code{type} argument specifies the type of prediction or residual to return.
-
-Different return types for \code{\link[stats]{predict}}:
-\itemize{
-\item \code{type = "response"}: predicted mean
-\item \code{type = "link"}: predicted linear link
-\item \code{type = "variance"}: predicted variance
-\item \code{type = "prob"}: Only available if a family of class \code{"\link[WALS]{familyWALScount}"}
-was used for fitting or for objects of class \code{"walsNB"} or \code{"walsNBmatrix"}.
-Returns the probability at counts specified by \code{at}.
-\item \code{type = "density"}: predicted density
-\item \code{type = "logDens"}: for convenience, returns predicted log-density.
-Equivalent to setting \code{type = "density"} and \code{log = TRUE}.
-If \code{type = "prob"}, \code{type = "density"} or \code{type = "logDens"},
-then \code{newdata} must contain the response or \code{newY} must be
-specified depending on the class of the object.
-}
-
-Different return types for \code{\link[stats]{residuals}}:
-\itemize{
-\item \code{type = "deviance"}: deviance residuals
-\item \code{type = "pearson"}: Pearson residuals (raw residuals scaled by
-square root of variance function)
-\item \code{type = "response"}: raw residuals (observed - fitted)
-}
-}
 }
 \examples{
 ## Example for walsGLM objects

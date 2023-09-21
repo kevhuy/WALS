@@ -262,10 +262,14 @@ wals.matrix <- function(x, x2, y, subset = NULL, na.action = NULL,
 #'
 #' @details
 #' \code{wals.default()} raises an error if \code{x} is not an object of class
-#' \code{"matrix"} or a class that extends \code{"matrix"}. It is a modified
-#' version of \code{\link[mboost]{glmboost.default}} from
-#' the \code{\link[mboost]{mboost}} package version 2.9-8 (2023-09-06)
-#' \insertCite{mboost}{WALS}.
+#' \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise it calls
+#' \code{wals.matrix()}. It is a modified version of
+#' \code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
+#' package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
+#'
+#' @returns \code{wals.default()} raises an error if \code{x} is not an object
+#' of class \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
+#' returns an object of class \code{"walsMatrix"}. See above for more details.
 #'
 #' @export
 wals.default <- function(x, ...) {
@@ -511,7 +515,8 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' inherit from \code{"wals"}, so the methods for \code{"wals"} also work for
 #' objects of class \code{"walsMatrix"}.
 #'
-#' @param object,x An object of class \code{"wals"} or \code{"walsMatrix"}.
+#' @param object,x An object of class \code{"wals"}, \code{"walsMatrix"} or
+#' \code{"summary.wals"}.
 #' @param newdata Optionally, a data frame in which to look for variables with
 #' which to predict. If omitted, the original observations are used.
 #' @param na.action Function determining what should be done with missing values
@@ -543,23 +548,19 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' The \code{\link[stats]{residuals}} method computes raw residuals
 #' (observed - fitted).
 #'
-#' The \code{\link[WALS]{familyPrior}} method returns an object of class
-#' \code{"familyPrior"} that was used as prior in the Bayesian estimation step.
-#'
-#' # Details on the use of the argument type
 #' For \code{\link[stats]{coef}} and \code{\link[stats]{vcov}}, the \code{type}
-#' argument specifies which part of the coefficient vector/covariance matrix of
-#' the estimates should be returned. For \code{type = "all"}, they return the
-#' complete vector/matrix. For \code{type = "focus"} and \code{type = "aux"} they
-#' return only the part corresponding to the focus and auxiliary regressors,
-#' respectively. Additionally, the user can choose whether to return the
-#' estimated coefficients/covariance matrix for the original regressors \eqn{X}
-#' (\eqn{\beta} coefficients) or of the transformed regressors \eqn{Z}
-#' (\eqn{\gamma} coefficients).
+#' argument, either \code{"all"}, \code{"focus"} or \code{"aux"}, specifies which
+#' part of the coefficient vector/covariance matrix of the estimates should be
+#' returned. Additionally, the \code{transformed} argument specifies whether to
+#' return the estimated  coefficients/covariance matrix for the original
+#' regressors \eqn{X} or of the transformed regressors \eqn{Z}.
 #'
 #' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
 #' behave similarly to \code{coef}, but they only allow \code{type = "focus"}
 #' and \code{type = "aux"}. They extract the corresponding component of the model.
+#'
+#' @returns \code{predict.wals()} and \code{predict.walsMatrix()} return a vector
+#' containing the predicted means.
 #'
 #' @references
 #' \insertAllCited{}
@@ -631,14 +632,26 @@ predict.walsMatrix <- function(object, newX1, newX2, ...) {
 }
 
 #' @rdname predict.wals
+#'
+#' @returns \code{fitted.wals()} returns a vector containing the fitted means
+#' for the data used in fitting.
+#'
 #' @export
 fitted.wals <- function(object, ...) return(object$fitted.values)
 
 #' @rdname predict.wals
+#'
+#' @returns \code{residuals.wals()} returns the raw residuals of the fitted
+#' model, i.e. response - fitted mean.
+#'
 #' @export
 residuals.wals <- function(object, ...) return(object$residuals)
 
 #' @rdname predict.wals
+#'
+#' @returns \code{print.wals()} invisibly returns its input argument \code{x},
+#' i.e. an object of object of class \code{"wals"}.
+#'
 #' @export
 print.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
 
@@ -660,6 +673,11 @@ print.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
 }
 
 #' @rdname predict.wals
+#'
+#' @returns \code{summary.wals} returns an object of class \code{"summary.wals"}
+#' which contains the necessary fields for printing the summary in
+#' \code{print.summary.wals()}.
+#'
 #' @export
 summary.wals <- function(object, ...) {
   k1 <- object$k1
@@ -675,6 +693,10 @@ summary.wals <- function(object, ...) {
 }
 
 #' @rdname predict.wals
+#'
+#' @returns \code{print.summary.wals()} invisibly returns its input argument
+#' \code{x}, i.e. an object of object of class \code{"summary.wals"}.
+#'
 #' @export
 print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...) {
   cat("\nCall:", deparse(x$call, width.cutoff = floor(getOption("width") * 0.85)),
@@ -685,6 +707,17 @@ print.summary.wals <- function(x, digits = max(3, getOption("digits") - 3), ...)
 }
 
 #' @rdname predict.wals
+#'
+#' @returns \code{coef.wals()} returns a vector containing the fitted coefficients.
+#' If \code{type = "focus"}, only the coefficients of the focus regressors are
+#' returned and if \code{type = "aux"}, only the coefficients of auxiliary
+#' regressors are returned. Else if \code{type = "all"}, the coefficients
+#' of both focus and auxiliary regressors are returned. Additionally if
+#' \code{transformed = FALSE}, \code{coef.wals()} returns the estimated
+#' coefficients for the original regressors \eqn{X} (\eqn{\beta} coefficients)
+#' and else if \code{transformed = TRUE} the coefficients of the transformed
+#' regressors \eqn{Z} (\eqn{\gamma} coefficients).
+#'
 #' @export
 coef.wals <- function(object, type = c("all", "focus", "aux"),
                       transformed = FALSE, ...) {
@@ -706,6 +739,18 @@ coef.wals <- function(object, type = c("all", "focus", "aux"),
 }
 
 #' @rdname predict.wals
+#'
+#' @returns \code{vcov.wals()} returns a matrix containing the estimated
+#' (co-)variances of the fitted regression coefficients. If \code{type = "focus"},
+#' only the submatrix belonging to the focus regressors is returned and if
+#' \code{type = "aux"}, only the submatrix corresponding to the auxiliary
+#' regressors is returned. Else if \code{type = "all"}, the complete covariance
+#' matrix is returned. Additionally if \code{transformed = FALSE},
+#' \code{vcov.wals()} returns the estimated covariance matrix for the original
+#' regressors \eqn{X} (\eqn{\beta} coefficients) and else if
+#' \code{transformed = TRUE} the covariance matrix of the transformed regressors
+#' \eqn{Z} (\eqn{\gamma} coefficients).
+#'
 #' @export
 vcov.wals <- function(object, type = c("all", "focus", "aux"),
                       transformed = FALSE, ...) {
@@ -727,16 +772,32 @@ vcov.wals <- function(object, type = c("all", "focus", "aux"),
 }
 
 #' @rdname predict.wals
+#'
+#' @returns \code{nobs.wals()} returns the number of observations used for
+#' fitting the model.
+#'
 #' @export
 nobs.wals <- function(object, ...) return(object$n)
 
 #' @rdname predict.wals
+#'
+#' @returns \code{terms.wals()} returns the *terms* representation of the fitted
+#' model. It is of class \code{c("terms", "formula")}, see \code{\link[stats]{terms}}
+#' and \code{\link[stats]{terms.object}} for more details. If \code{type = "focus"},
+#' then returns the terms for the focus regressors, else if \code{type = "aux"}
+#' returns the terms for the auxiliary regressors.
+#'
 #' @export
 terms.wals <- function(x, type = c("focus", "aux"), ...) {
   return(x$terms[[match.arg(type)]])
 }
 
 #' @rdname predict.wals
+#'
+#' @returns \code{model.matrix.wals()} either returns the design matrix of the
+#' focus regressors (\code{type = "focus"}) or of the auxiliary regressors
+#' (\code{type = "aux"}). See \code{\link[stats]{model.matrix}} for more details.
+#'
 #' @export
 model.matrix.wals <- function(object, type = c("focus", "aux"), ...) {
   type <- match.arg(type)
