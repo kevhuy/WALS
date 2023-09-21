@@ -906,14 +906,27 @@ print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ..
 #' \code{\link[WALS]{fitNB2}} is estimated using \code{\link[MASS]{theta.ml}}
 #' (ML-estimation over 1 variable) based on regression coefficients from
 #' Poisson regression. If \code{FALSE}, then initial \eqn{\log{\theta}} = 0 is used.
-#' @param initMASS If TRUE (default), then initial fit in \code{\link[WALS]{fitNB2}}
+#' @param initMASS If \code{TRUE} (default), then initial fit in \code{\link[WALS]{fitNB2}}
 #' is estimated via \code{\link[MASS]{glm.nb}} and \code{initThetaMASS} is ignored.
+#' If \code{FALSE}, then the initial fit is estimated by minimizing the
+#' log-likelihood using \code{\link[stats]{optim}}.
 #' @param restricted If TRUE, then initial fit in \code{\link[WALS]{fitNB2}} only
 #' considers the focus regressors. By default \code{FALSE}, then the unrestricted
 #' model is estimated in \code{\link[WALS]{fitNB2}} (i.e. all regressors).
 #' @param eps Controls argument \code{eps} in \code{\link[WALS]{fitNB2}} for generating
 #' starting value for \code{logTheta} (\eqn{\log{\theta}}) via \code{\link[MASS]{theta.ml}}.
 #' @param epsilonMASS Sets epsilon in control argument of \code{\link[MASS]{glm.nb}}.
+#'
+#' @returns Returns a list containing the parameters specified in the arguments
+#' to be used in \code{\link[WALS]{walsNB}} (and \code{\link[WALS]{walsNBfitIterate}}).
+#'
+#' @examples
+#' data("NMES1988", package = "AER")
+#' walsNB(visits ~ health + chronic + age + gender | I((age^2)/10) +
+#'        married + region, data = NMES1988, prior = weibull(),
+#'        controlInitNB = controlNB(initMASS = FALSE, restricted = TRUE))
+#'
+#' @seealso [walsNB], [walsNBfitIterate]
 #'
 #' @export
 controlNB <- function(start = list(mu = NULL, logTheta = NULL), method = "BFGS",

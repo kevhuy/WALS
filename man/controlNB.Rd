@@ -30,8 +30,10 @@ controlNB(
 (ML-estimation over 1 variable) based on regression coefficients from
 Poisson regression. If \code{FALSE}, then initial \eqn{\log{\theta}} = 0 is used.}
 
-\item{initMASS}{If TRUE (default), then initial fit in \code{\link[WALS]{fitNB2}}
-is estimated via \code{\link[MASS]{glm.nb}} and \code{initThetaMASS} is ignored.}
+\item{initMASS}{If \code{TRUE} (default), then initial fit in \code{\link[WALS]{fitNB2}}
+is estimated via \code{\link[MASS]{glm.nb}} and \code{initThetaMASS} is ignored.
+If \code{FALSE}, then the initial fit is estimated by minimizing the
+log-likelihood using \code{\link[stats]{optim}}.}
 
 \item{restricted}{If TRUE, then initial fit in \code{\link[WALS]{fitNB2}} only
 considers the focus regressors. By default \code{FALSE}, then the unrestricted
@@ -42,6 +44,20 @@ starting value for \code{logTheta} (\eqn{\log{\theta}}) via \code{\link[MASS]{th
 
 \item{epsilonMASS}{Sets epsilon in control argument of \code{\link[MASS]{glm.nb}}.}
 }
+\value{
+Returns a list containing the parameters specified in the arguments
+to be used in \code{\link[WALS]{walsNB}} (and \code{\link[WALS]{walsNBfitIterate}}).
+}
 \description{
 Define controllable parameters of initial NB fit
+}
+\examples{
+data("NMES1988", package = "AER")
+walsNB(visits ~ health + chronic + age + gender | I((age^2)/10) +
+       married + region, data = NMES1988, prior = weibull(),
+       controlInitNB = controlNB(initMASS = FALSE, restricted = TRUE))
+
+}
+\seealso{
+\link{walsNB}, \link{walsNBfitIterate}
 }
