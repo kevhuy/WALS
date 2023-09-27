@@ -319,6 +319,16 @@ wals.default <- function(x, ...) {
 #' See \insertCite{deluca2011stata;textual}{WALS} for more details.
 #' \strong{WARNING: It is not recommended to set \code{prescale = FALSE}.}
 #' The option \code{prescale = FALSE} only exists for historical reasons.
+#' @param postmult If \code{TRUE}, then it computes
+#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2} H^{\top}} instead of
+#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2}.}
+#' The latter is used in the original MATLAB code for WALS in the linear regression model
+#' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
+#' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
+#' The first form is required for fitting \code{"\link[WALS]{walsGLM}"} objects
+#' in \code{\link[WALS]{walsGLMfit}}, see eq. (9) of \insertCite{deluca2018glm;textual}{WALS}
+#' for more details. It is not recommended to set \code{postmult = FALSE} when
+#' using \code{\link[WALS]{walsGLM}}.
 #' @param ... Arguments for internal function \code{\link[WALS]{computePosterior}}.
 #'
 #'
@@ -372,7 +382,7 @@ wals.default <- function(x, ...) {
 walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
                      method = "original", svdTol = .Machine$double.eps,
                      svdRtol = 1e-6, keepUn = FALSE, eigenSVD = TRUE,
-                     prescale = TRUE, ...) {
+                     prescale = TRUE, postmult = FALSE, ...) {
   ### TODO: Implement using SVD but also take advantage of orthogonality of
   ### U and V. Currently only use it for inverting (X1bar'X1bar)
   ## Sanity checks
@@ -443,7 +453,7 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 
   ## Step 3: Semi-orthogonalization of Z2s -------------------------------------
 
-  outSemiOrt <- semiorthogonalize(Z2s, X2, Delta2, eigenSVD)
+  outSemiOrt <- semiorthogonalize(Z2s, X2, Delta2, eigenSVD, postmult)
 
 
   ## Step 4: OLS of unrestricted model -----------------------------------------

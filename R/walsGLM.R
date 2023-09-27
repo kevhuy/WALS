@@ -223,6 +223,14 @@ walsGLM.default <- function(x, ...) {
 #' @param betaStart1 Starting values for coefficients of focus regressors X1.
 #' @param betaStart2 Starting values for coefficients of auxiliary regressors X2.
 #' @param family Object of class \code{"\link[WALS]{familyWALS}"}.
+#' @param postmult If \code{TRUE} (default), then it computes
+#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2} H^{\top}} instead of
+#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2}.}
+#' The latter is used in the original MATLAB code for WALS in the linear regression model
+#' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
+#' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
+#' The first form is required in eq. (9) of \insertCite{deluca2018glm;textual}{WALS}.
+#' **Thus, it is not recommended to set \code{postmult = FALSE}.**
 #' @param ... Further arguments passed to \code{\link[WALS]{walsFit}}.
 #'
 #' @details
@@ -269,7 +277,7 @@ walsGLM.default <- function(x, ...) {
 #'
 #' @export
 walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
-                       family, prior = weibull(), ...) {
+                       family, prior = weibull(), postmult = TRUE, ...) {
   X1names <- colnames(X1)
   X2names <- colnames(X2)
   Xnames <- c(X1names, X2names)
@@ -282,7 +290,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 
   # use generic WALS algo for linear models
   fit <- walsFit(X1 = X1start, X2 = X2start, y = yStart, sigma = 1,
-                  prior = prior, prescale = TRUE, ...)
+                  prior = prior, prescale = TRUE, postmult = postmult, ...)
 
   fit$family <- family
   fit$betaStart <- c(betaStart1, betaStart2)

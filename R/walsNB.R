@@ -267,6 +267,7 @@ walsNB.default <- function(x, ...) {
 #' The latter is used in the original MATLAB code for WALS in the linear regression model
 #' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
 #' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
+#' It is not recommended to set \code{postmult = FALSE}.
 #' @param ... Arguments for internal function \code{\link[WALS]{computePosterior}}.
 #'
 #' @details The method to be specified in \code{method} mainly differ in the way

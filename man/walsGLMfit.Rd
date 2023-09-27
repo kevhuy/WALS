@@ -4,7 +4,17 @@
 \alias{walsGLMfit}
 \title{Fitter function for Weighted Average Least Squares estimation of GLMs}
 \usage{
-walsGLMfit(X1, X2, y, betaStart1, betaStart2, family, prior = weibull(), ...)
+walsGLMfit(
+  X1,
+  X2,
+  y,
+  betaStart1,
+  betaStart2,
+  family,
+  prior = weibull(),
+  postmult = TRUE,
+  ...
+)
 }
 \arguments{
 \item{X1}{Design matrix for focus regressors. Usually includes a constant
@@ -23,6 +33,15 @@ a constant column and can also be generated using model.matrix().}
 
 \item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
+
+\item{postmult}{If \code{TRUE} (default), then it computes
+\deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2} H^{\top}} instead of
+\deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2}.}
+The latter is used in the original MATLAB code for WALS in the linear regression model
+\insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
+see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
+The first form is required in eq. (9) of \insertCite{deluca2018glm;textual}{WALS}.
+\strong{Thus, it is not recommended to set \code{postmult = FALSE}.}}
 
 \item{...}{Further arguments passed to \code{\link[WALS]{walsFit}}.}
 }

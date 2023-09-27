@@ -73,7 +73,8 @@ determine whether \eqn{\bar{Xi}} is of full rank (need it for \eqn{\bar{Xi}^{-1/
 \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2}.}
 The latter is used in the original MATLAB code for WALS in the linear regression model
 \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
-see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.}
+see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
+It is not recommended to set \code{postmult = FALSE}.}
 
 \item{...}{Arguments for internal function \code{\link[WALS]{computePosterior}}.}
 }
