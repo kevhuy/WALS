@@ -1,7 +1,7 @@
 #' Weighted-Average Least Squares for Negative Binomial Regression
 #'
-#' Fits an NB2 regression model using the Weighted-Average Least Squares method
-#' of \insertCite{huynhwalsnb;textual}{WALS}.
+#' Performs model averaging for NB2 regression models using the Weighted-Average
+#' Least Squares method of \insertCite{huynhwalsnb;textual}{WALS}.
 #'
 #' @details
 #' Computes WALS estimates when focus regressors (X1) are present in all

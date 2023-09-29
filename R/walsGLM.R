@@ -1,7 +1,7 @@
 #' Weighted Average Least Squares for Generalized Linear Models
 #'
-#' Fits a generalized linear model (GLM) using the Weighted-Average Least Squares
-#' method described in \insertCite{deluca2018glm;textual}{WALS}.
+#' Performs model averaging of generalized linear models (GLMs) using the
+#' Weighted-Average Least Squares method described in \insertCite{deluca2018glm;textual}{WALS}.
 #'
 #' @details
 #' Computes WALS estimates when focus regressors (X1) are present in all
