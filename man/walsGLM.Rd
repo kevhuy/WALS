@@ -19,7 +19,7 @@ walsGLM(x, ...)
   weights = NULL,
   offset = NULL,
   prior = weibull(),
-  controlGLMfit = list(),
+  controlInitGLM = controlGLM(),
   model = TRUE,
   keepY = TRUE,
   keepX = FALSE,
@@ -41,7 +41,7 @@ walsGLM(x, ...)
   weights = NULL,
   offset = NULL,
   prior = weibull(),
-  controlGLMfit = list(),
+  controlInitGLM = controlGLM(),
   keepY = TRUE,
   keepX = FALSE,
   iterate = FALSE,
@@ -85,8 +85,8 @@ used in the fitting process.}
 \item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
-\item{controlGLMfit}{Controls estimation of starting values for one-step ML,
-passed to \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.}
+\item{controlInitGLM}{Controls estimation of starting values for one-step ML,
+see \code{\link[WALS]{controlGLM}}.}
 
 \item{model}{if \code{TRUE} (default), then the model.frame is stored in
 the return.}

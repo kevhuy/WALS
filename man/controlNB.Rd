@@ -35,8 +35,8 @@ is estimated via \code{\link[MASS]{glm.nb}} and \code{initThetaMASS} is ignored.
 If \code{FALSE}, then the initial fit is estimated by minimizing the
 log-likelihood using \code{\link[stats]{optim}}.}
 
-\item{restricted}{If TRUE, then initial fit in \code{\link[WALS]{fitNB2}} only
-considers the focus regressors. By default \code{FALSE}, then the unrestricted
+\item{restricted}{If \code{TRUE}, then initial fit in \code{\link[WALS]{fitNB2}}
+only considers the focus regressors. By default \code{FALSE}, then the unrestricted
 model is estimated in \code{\link[WALS]{fitNB2}} (i.e. all regressors).}
 
 \item{eps}{Controls argument \code{eps} in \code{\link[WALS]{fitNB2}} for generating

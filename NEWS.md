@@ -1,3 +1,10 @@
+# WALS 0.2.4.9000 (development)
+
+* Renamed argument `controlGLMfit` in `walsGLM()` to `controlInitGLM` and allow
+initialization with restricted model. `controlInitGLM` should be specified using the new 
+function `controlGLM()`.
+* Fixed typo in docs of `controlNB()`.
+
 # WALS 0.2.4
 
 * Added option `postmult` for `walsGLMfit()`. Corresponds to eq. (9) of De Luca et al. (2018).

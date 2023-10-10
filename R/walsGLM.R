@@ -67,7 +67,7 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' @export
 walsGLM.formula <- function(formula, family, data, subset = NULL,
                             na.action = NULL, weights = NULL, offset = NULL,
-                            prior = weibull(), controlGLMfit = list(),
+                            prior = weibull(), controlInitGLM = controlGLM(),
                             model = TRUE, keepY = TRUE, keepX = FALSE,
                             iterate = FALSE, tol = 1e-6, maxIt = 50, nIt = NULL,
                             verbose = FALSE, ...) {
@@ -126,7 +126,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 
   ## Fit model
   out <- walsGLMfitIterate(Y, X1, X2, family, na.action, weights, offset, prior,
-                           controlGLMfit, keepY, keepX, iterate, tol, maxIt,
+                           controlInitGLM, keepY, keepX, iterate, tol, maxIt,
                            nIt, verbose, ...)
 
   # add more elements
@@ -170,7 +170,7 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
 #' @export
 walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
                            weights = NULL, offset = NULL,
-                           prior = weibull(), controlGLMfit = list(),
+                           prior = weibull(), controlInitGLM = controlGLM(),
                            keepY = TRUE, keepX = FALSE,
                            iterate = FALSE, tol = 1e-6, maxIt = 50, nIt = NULL,
                            verbose = FALSE, ...) {
@@ -182,7 +182,7 @@ walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
   }
 
   out <- walsGLMfitIterate(y, X1, X2, family, na.action, weights, offset, prior,
-                           controlGLMfit, keepY, keepX, iterate, tol, maxIt,
+                           controlInitGLM, keepY, keepX, iterate, tol, maxIt,
                            nIt, verbose, ...)
 
   out$call <- cl
@@ -311,8 +311,8 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' @param na.action Not implemented yet.
 #' @param weights Not implemented yet.
 #' @param offset Not implemented yet.
-#' @param controlGLMfit Controls estimation of starting values for one-step ML,
-#' passed to \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.
+#' @param controlInitGLM Controls estimation of starting values for one-step ML,
+#' see \code{\link[WALS]{controlGLM}}.
 #' @param keepY If \code{TRUE}, then output keeps response.
 #' @param keepX If \code{TRUE}, then output keeps the design matrices.
 #' @param iterate if \code{TRUE} then the WALS algorithm is iterated using the previous
@@ -374,7 +374,7 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' @export
 walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
                               weights = NULL, offset = NULL,
-                              prior = weibull(), controlGLMfit = list(),
+                              prior = weibull(), controlInitGLM = controlGLM(),
                               keepY = TRUE, keepX = FALSE, iterate = FALSE,
                               tol = 1e-6, maxIt = 50, nIt = NULL,
                               verbose = FALSE, ...) {
@@ -386,7 +386,9 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
   if (any(colnames(X1) %in% colnames(X2))) stop("X1 and X2 contain the same variables")
 
   # generate starting values
-  initialFit <- glm.fit(cbind(X1, X2), y, family = family, control = controlGLMfit)
+  Xinit <- if (controlInitGLM$restricted) X1 else cbind(X1, X2)
+  initialFit <- glm.fit(Xinit, y, family = family,
+                        control = controlInitGLM$controlGLMfit)
 
   if (!initialFit$converged) {
     warning("Convergence issue in IWLS algo in glm.fit for initial fit of full model. ",
@@ -394,9 +396,12 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 
   }
 
-  betaStart <- initialFit$coefficients
-  betaStart1 <- betaStart[1L:k1]
-  betaStart2 <- betaStart[(k1 + 1L):(k1 + k2)]
+  if (controlInitGLM$restricted) {
+    betaStart <- c(coef(initialFit), rep(0, k2))
+    names(betaStart) <- c(colnames(X1), colnames(X2))
+  } else {
+    betaStart <- coef(initialFit)
+  }
 
   # simply reuse iterative code by setting nIt = 1
   if (!iterate) nIt <- 1
@@ -807,3 +812,33 @@ logLik.walsGLM <- function(object, ...) {
 #' @rdname familyWALS
 #' @export
 familyWALS.walsGLM <- function(object, ...) return(object$family)
+
+
+## Helper functions ------------------------------------------------------------
+
+#' Define controllable parameters of initial GLM fit
+#'
+#' @param restricted If \code{TRUE}, then initial fit in \code{\link[stats]{glm.fit}}
+#' only considers the focus regressors. By default \code{FALSE}, then the unrestricted
+#' model is estimated in \code{\link[stats]{glm.fit}} (i.e. all regressors).
+#' @param controlGLMfit List. Arguments to be passed to \code{control} argument
+#' of \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.
+#'
+#' @returns Returns a list containing the parameters specified in the arguments
+#' to be used in \code{\link[WALS]{walsGLM}} (and \code{\link[WALS]{walsGLMfitIterate}}).
+#'
+#' @examples
+#' data("HMDA", package = "AER")
+#' fitBinomial <- walsGLM(deny ~ pirat + hirat + lvrat + chist + mhist + phist |
+#'                        selfemp + afam, data = HMDA,
+#'                        family = binomialWALS(),
+#'                        prior = weibull(),
+#'                        controlInitGLM = controlGLM(restricted = TRUE,
+#'                                                    controlGLMfit = list(trace = TRUE)))
+#'
+#' @seealso [walsGLM], [walsGLMfitIterate], [glm.fit], [glm.control].
+#'
+#' @export
+controlGLM <- function(restricted = FALSE, controlGLMfit = list()) {
+  return(list(restricted = restricted, controlGLMfit = controlGLMfit))
+}

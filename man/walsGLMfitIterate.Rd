@@ -14,7 +14,7 @@ walsGLMfitIterate(
   weights = NULL,
   offset = NULL,
   prior = weibull(),
-  controlGLMfit = list(),
+  controlInitGLM = controlGLM(),
   keepY = TRUE,
   keepX = FALSE,
   iterate = FALSE,
@@ -45,8 +45,8 @@ a constant column and can also be generated using model.matrix().}
 \item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
 
-\item{controlGLMfit}{Controls estimation of starting values for one-step ML,
-passed to \code{\link[stats]{glm.fit}}. See also \code{\link[stats]{glm.control}}.}
+\item{controlInitGLM}{Controls estimation of starting values for one-step ML,
+see \code{\link[WALS]{controlGLM}}.}
 
 \item{keepY}{If \code{TRUE}, then output keeps response.}
 
