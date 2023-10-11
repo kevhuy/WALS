@@ -158,8 +158,8 @@ estimator for the focus regressors \eqn{\hat{\gamma}_1} (see section
 Described in more detail in the appendix
 of \insertCite{huynhwals;textual}{WALS}.}
 
-\item{"original"} {Computes all inverses directly using \code{solve()} and
-does not make use of the Sherman-Morrison-Woodbury formula for certain
+\item{"original"} {Computes all inverses directly using \code{\link[base]{solve}}
+and does not make use of the Sherman-Morrison-Woodbury formula for certain
 inverses. Specifically: directly inverts the matrix
 \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{\link[base]{solve}}
 in order to compute \eqn{\bar{M}_1}. Moreover, it computes the fully
@@ -172,8 +172,8 @@ This method should only be used as reference and for easier
 debugging.}
 }
 
-All variables in the code that are contain "start" in their name feature the
-starting values for the one-step ML estimation of submodels. See section
+All variables in the code that contain "start" in their name are computed
+using the starting values of the one-step ML estimators. See section
 "One-step ML estimator" of \insertCite{huynhwalsnb}{WALS} for details.
 }
 \examples{

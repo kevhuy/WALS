@@ -300,8 +300,8 @@ walsNB.default <- function(x, ...) {
 #' of \insertCite{huynhwals;textual}{WALS}.}
 #'
 #'
-#' \item{"original"} {Computes all inverses directly using \code{solve()} and
-#' does not make use of the Sherman-Morrison-Woodbury formula for certain
+#' \item{"original"} {Computes all inverses directly using \code{\link[base]{solve}}
+#' and does not make use of the Sherman-Morrison-Woodbury formula for certain
 #' inverses. Specifically: directly inverts the matrix
 #' \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{\link[base]{solve}}
 #' in order to compute \eqn{\bar{M}_1}. Moreover, it computes the fully
@@ -314,8 +314,8 @@ walsNB.default <- function(x, ...) {
 #' debugging.}
 #' }
 #'
-#' All variables in the code that are contain "start" in their name feature the
-#' starting values for the one-step ML estimation of submodels. See section
+#' All variables in the code that contain "start" in their name are computed
+#' using the starting values of the one-step ML estimators. See section
 #' "One-step ML estimator" of \insertCite{huynhwalsnb}{WALS} for details.
 #'
 #' @returns A list containing
@@ -396,10 +396,10 @@ walsNB.default <- function(x, ...) {
 #'
 #' @export
 walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
-                       prior, method = c("fullSVD", "original"),
-                       svdTol = .Machine$double.eps,
-                       svdRtol = 1e-6, keepUn = FALSE, keepR = FALSE,
-                       eigenSVD = TRUE, postmult = TRUE, ...) {
+                      prior, method = c("fullSVD", "original"),
+                      svdTol = .Machine$double.eps,
+                      svdRtol = 1e-6, keepUn = FALSE, keepR = FALSE,
+                      eigenSVD = TRUE, postmult = TRUE, ...) {
   ## Sanity checks
   method <- match.arg(method)
 
