@@ -297,7 +297,7 @@ genNewdata <- function(terms, contrasts, newdata, na.action, xlev) {
   ## HACK ##
   # drop constant from X2...
   # TODO: Can we solve this more elegantly?
-  X2 <- X2[, -1L]
+  X2 <- X2[, -1L, drop = FALSE]
 
   return(list(X1 = X1, X2 = X2))
 }

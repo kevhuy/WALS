@@ -1,5 +1,7 @@
 # WALS 0.2.4.9000 (development)
 
+* Fixed bug where prediction with only a single auxiliary regressor was not possible: 
+Do not drop columns of X2 in genNewdata().
 * Renamed argument `controlGLMfit` in `walsGLM()` to `controlInitGLM` and allow
 initialization with restricted model. `controlInitGLM` should be specified using the new 
 function `controlGLM()`.
