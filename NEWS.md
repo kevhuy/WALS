@@ -6,6 +6,7 @@ Do not drop columns of X2 in genNewdata().
 initialization with restricted model. `controlInitGLM` should be specified using the new 
 function `controlGLM()`.
 * Fixed typo in docs of `controlNB()`.
+* Updated CITATION.
 
 # WALS 0.2.4
 
