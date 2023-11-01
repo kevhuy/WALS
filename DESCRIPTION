@@ -1,6 +1,6 @@
 Package: WALS
 Version: 0.2.4.9000
-Date: 2023-10-13
+Date: 2023-11-01
 Title: Weighted-Average Least Squares Model Averaging
 Authors@R: 
     person("Kevin", "Huynh", email = "Kevin.Huynh@unibas.ch",
@@ -18,8 +18,8 @@ Suggests:
     BayesVarSel,
     BMS,
     testthat (>= 3.1.10)
-Description: Implements the Weighted-Average Least Squares method for model averaging
-    of negative binomial regression models of Huynh (2023) (mimeo),
+Description: Implements Weighted-Average Least Squares model averaging
+    for negative binomial regression models of Huynh (2023) (mimeo),
     generalized linear models of De Luca, Magnus, Peracchi (2018) 
     <doi:10.1016/j.jeconom.2017.12.007> and linear regression models of 
     Magnus, Powell, Pruefer (2010) <doi:10.1016/j.jeconom.2009.07.004>, see also 
