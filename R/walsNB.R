@@ -277,7 +277,7 @@ walsNB.default <- function(x, ...) {
 #'  + \bar{g} \bar{\epsilon} X_{1}^{\top}\bar{q} \bar{q}^{\top} X_{1},}
 #'
 #' when using the Sherman-Morrison-Woodbury formula. We further leverage the
-#' SVD of \eqn{\bar{Z}_1} and additionally \eqn{\bar{Z}} to compute the fully
+#' SVD of \eqn{\bar{Z}_1} and additionally \eqn{\bar{Z}} to compute the
 #' unrestricted estimator \eqn{\tilde{\gamma}_{u}} and the fully restricted
 #' estimator \eqn{\tilde{\gamma}_{r}}. For \eqn{\tilde{\gamma}_{u}}, we simply
 #' use the SVD of \eqn{\bar{Z}} to solve the full equation system derived from

@@ -7,14 +7,14 @@
 semiorthogonalize(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE)
 }
 \arguments{
-\item{Z2s}{Matrix from which we take negative square root for
-\eqn{X2 * Delta2 * Z2s^(1/2)}.}
+\item{Z2s}{Matrix for which we take negative square root in
+\eqn{X2 * Delta2 * Z2s^{1/2}}.}
 
 \item{X2}{Design matrix of auxiliary regressors to be transformed to Z2}
 
 \item{Delta2}{Scaling matrix such that diagonal of
-\eqn{\bar{\Delta}_2 \bar{X}_2^{\top} \bar{M}_1 \Delta_{2}} is one (ignored
-scaling by \eqn{n} because not needed in code).
+\eqn{\bar{\Delta}_2 \bar{X}_2^{\top} \bar{M}_1 \bar{X}_2 \Delta_{2}} is one
+(ignored scaling by \eqn{n} because not needed in code).
 See \insertCite{deluca2018glm;textual}{WALS}}
 
 \item{SVD}{If \code{TRUE}, uses \code{\link[base]{svd}} to compute eigendecomposition
@@ -45,46 +45,34 @@ For WALS in the NB2 regression model, \eqn{\bar{M}_{1} \bar{Z}_{2}} is not
 semiorthogonal anymore due to the rank-1 perturbation in \eqn{\bar{M}_1} which
 causes \eqn{\bar{M}_1} to not be idempotent anymore, see
 the section "Transformed model" in \insertCite{huynhwalsnb;textual}{WALS}.
-
-The transformation is the same as for WALS in the linear
-regression model, note however, that the definition of \eqn{\Xi} in eq. (12)
-of \insertCite{magnus2016wals;textual}{WALS} differs from eq. (9) of
-\insertCite{deluca2018glm;textual}{WALS}: In
-\insertCite{magnus2016wals;textual}{WALS}
-
-\deqn{\Xi = diag(\lambda_1, \lambda_2, ...)}
-
-defines the diagonal matrix of the eigenvalues of
-\eqn{\Delta_2 X_{2}^{\top} M_{1} X_{2} \Delta_2}. The transformation then uses
-
-\deqn{Z_{2} = X_2 \Delta_2 T \Xi^{-1/2},}
-
-where \eqn{T} contains the eigenvectors of
-\eqn{\Delta_2 X_{2}^{\top} M_{1} X_{2} \Delta_2} in the columns. This definition
-is used when \code{postmult = FALSE}.
-
-In contrast,
-\insertCite{deluca2018glm;textual}{WALS} defines
-
-\deqn{\Xi = \Delta_2 X_{2}^{\top} M_{1} X_{2} \Delta_2}
-
-(ignored scaling by \eqn{n} and notation with bar for easier comparison),
-then the transformation is
-
-\deqn{Z_2 = X_2 \Delta_2 \Xi^{-1/2}.}
-This definition is used when \code{postmult = TRUE}.
 }
 
 \section{On the use of \code{postmult = TRUE}}{
 
-The transformation triggered by \code{postmult = TRUE}
-\eqn{Z2s^{-1/2} = T \Lambda^{-1/2} T^{\top}} is used in
-\insertCite{huynhwalsnb;textual}{WALS} and in eq. (9) of
-\insertCite{deluca2018glm;textual}{WALS}, whereas \code{postmult = FALSE}
-uses \eqn{Z2s^{-1/2} = T \Lambda^{-1/2}} which is used in the original MATLAB
-code for WALS in the linear regression model
-\insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
-see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
+The transformation of the auxiliary regressors \eqn{Z_2} for linear WALS in
+eq. (12) of \insertCite{magnus2016wals;textual}{WALS} differs from the
+transformation for WALS GLM (and WALS NB) in eq. (9) of
+\insertCite{deluca2018glm;textual}{WALS}:
+
+In \insertCite{magnus2016wals;textual}{WALS} the transformed auxiliary
+regressors are
+
+\deqn{Z_{2} = X_2 \Delta_2 T \Lambda^{-1/2},}
+
+where \eqn{T} contains the eigenvectors of
+\eqn{\Xi = \Delta_2 X_{2}^{\top} M_{1} X_{2} \Delta_2} in the columns and
+\eqn{\Lambda} the respective eigenvalues. This definition is used when
+\code{postmult = FALSE}.
+
+In contrast, \insertCite{deluca2018glm;textual}{WALS} defines
+
+\deqn{Z_2 = X_2 \Delta_2 T \Lambda^{-1/2} T^{\top},}
+
+where we ignored scaling by \eqn{n} and the notation with "bar" for easier
+comparison. This definition is used when \code{postmult = TRUE} and is
+strongly preferred for \code{\link[WALS]{walsGLM}} and \code{\link[WALS]{walsNB}}.
+
+See \insertCite{huynhwals;textual}{WALS} for more details.
 }
 
 \references{
