@@ -320,15 +320,19 @@ wals.default <- function(x, ...) {
 #' \strong{WARNING: It is not recommended to set \code{prescale = FALSE}.}
 #' The option \code{prescale = FALSE} only exists for historical reasons.
 #' @param postmult If \code{TRUE}, then it computes
-#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2} H^{\top}} instead of
-#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2}.}
-#' The latter is used in the original MATLAB code for WALS in the linear regression model
+#' \deqn{Z_{2} = X_{2} \Delta_{2} T \Lambda^{-1/2} T^{\top},}
+#' where \eqn{T} contains the eigenvectors and \eqn{\Lambda} the eigenvalues
+#' from the eigenvalue decomposition
+#' \deqn{\Xi = \Delta_2 X_{2}^{\top} M_{1} X_{2} \Delta_2 = T \Lambda T^{\top},}
+#' instead of
+#' \deqn{Z_{2} = X_{2} \Delta_{2} T \Lambda^{-1/2}.}
+#' See \insertCite{huynhwals;textual}{WALS} for more details. The latter is used
+#' in the original MATLAB code for WALS in the linear regression model
 #' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
-#' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
-#' The first form is required for fitting \code{"\link[WALS]{walsGLM}"} objects
-#' in \code{\link[WALS]{walsGLMfit}}, see eq. (9) of \insertCite{deluca2018glm;textual}{WALS}
-#' for more details. It is not recommended to set \code{postmult = FALSE} when
-#' using \code{\link[WALS]{walsGLM}}.
+#' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS}.
+#' The first form is required in eq. (9) of \insertCite{deluca2018glm;textual}{WALS}.
+#' It is not recommended to set \code{postmult = FALSE} when using \code{\link[WALS]{walsGLM}}
+#' and \code{\link[WALS]{walsNB}}.
 #' @param ... Arguments for internal function \code{\link[WALS]{computePosterior}}.
 #'
 #'

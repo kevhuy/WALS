@@ -74,8 +74,7 @@ All parameters that contain "start" feature the starting values for the
 one-step ML estimation of submodels. See section "One-step ML estimator" of
 \insertCite{huynhwalsnb;textual}{WALS} for details.
 
-The argument \code{Z2start} is defined as
-(see section "Transformed model" in \insertCite{huynhwalsnb;textual}{WALS})
+The argument \code{Z2start} is defined as \insertCite{huynhwalsnb}{WALS}
 
 \deqn{
 \bar{Z}_{2} := \bar{X}_{2} \bar{\Delta}_{2} \bar{\Xi}^{-1/2},

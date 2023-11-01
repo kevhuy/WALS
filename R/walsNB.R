@@ -261,13 +261,6 @@ walsNB.default <- function(x, ...) {
 #' to compute the eigendecomposition of \eqn{\bar{Xi}} instead of \code{eigen()}.
 #' In this case, the tolerances of \code{svdTol} and \code{svdRtol} are used to
 #' determine whether \eqn{\bar{Xi}} is of full rank (need it for \eqn{\bar{Xi}^{-1/2}}).
-#' @param postmult If \code{TRUE} (default), then it computes
-#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2} H^{\top}} instead of
-#' \deqn{\bar{\Xi}^{-1/2} = H \Lambda^{-1/2}.}
-#' The latter is used in the original MATLAB code for WALS in the linear regression model
-#' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
-#' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.
-#' It is not recommended to set \code{postmult = FALSE}.
 #' @param ... Arguments for internal function \code{\link[WALS]{computePosterior}}.
 #'
 #' @details The method to be specified in \code{method} mainly differ in the way
@@ -288,16 +281,11 @@ walsNB.default <- function(x, ...) {
 #' unrestricted estimator \eqn{\tilde{\gamma}_{u}} and the fully restricted
 #' estimator \eqn{\tilde{\gamma}_{r}}. For \eqn{\tilde{\gamma}_{u}}, we simply
 #' use the SVD of \eqn{\bar{Z}} to solve the full equation system derived from
-#' the one-step ML problem
-#' (see section "Simplifications for \eqn{\tilde{\gamma}_{u}}" in
-#' the appendix of \insertCite{huynhwals;textual}{WALS} for more details.
-#' The SVD of \eqn{\bar{Z}_1} is further used in computing the model averaged
-#' estimator for the focus regressors \eqn{\hat{\gamma}_1} (see section
-#' "Simplifications for \eqn{\hat{\gamma}_1}" in
-#' \insertCite{huynhwals;textual}{WALS} for more details).
+#' the one-step ML problem for more details. The SVD of \eqn{\bar{Z}_1} is further
+#' used in computing the model averaged estimator for the focus regressors
+#' \eqn{\hat{\gamma}_1}.
 #'
-#' Described in more detail in the appendix
-#' of \insertCite{huynhwals;textual}{WALS}.}
+#' Described in more detail in the appendix of \insertCite{huynhwals;textual}{WALS}.}
 #'
 #'
 #' \item{"original"} {Computes all inverses directly using \code{\link[base]{solve}}

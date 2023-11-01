@@ -18,12 +18,12 @@ scaling by \eqn{n} because not needed in code).
 See \insertCite{deluca2018glm;textual}{WALS}}
 
 \item{SVD}{If \code{TRUE}, uses \code{\link[base]{svd}} to compute eigendecomposition
-of Z2s, otherwise uses \code{\link[base]{eigen}}.}
+of \code{Z2s}, otherwise uses \code{\link[base]{eigen}}.}
 
 \item{postmult}{If \code{TRUE}, then it uses
-\eqn{Z2s^{-1/2} = H \Lambda^{-1/2} H^{\top}}, where \eqn{H} contains
-the eigenvectors of Z2s in its columns and \eqn{\Lambda} the corresponding
-eigenvalues. If \code{FALSE} it uses \eqn{Z2s^{-1/2} = H \Lambda^{-1/2}}.}
+\eqn{Z2s^{-1/2} = T \Lambda^{-1/2} T^{\top}}, where \eqn{T} contains
+the eigenvectors of \eqn{Z2s} in its columns and \eqn{\Lambda} the corresponding
+eigenvalues. If \code{FALSE} it uses \eqn{Z2s^{-1/2} = T \Lambda^{-1/2}}.}
 }
 \description{
 Uses the matrix Z2s (called \eqn{\bar{\Xi}} in eq. (9) of
@@ -59,8 +59,9 @@ defines the diagonal matrix of the eigenvalues of
 
 \deqn{Z_{2} = X_2 \Delta_2 T \Xi^{-1/2},}
 
-where $T$ contains the eigenvectors of
-\eqn{\Delta_2 X_{2}^{\top} M_{1} X_{2} \Delta_2} in the columns.
+where \eqn{T} contains the eigenvectors of
+\eqn{\Delta_2 X_{2}^{\top} M_{1} X_{2} \Delta_2} in the columns. This definition
+is used when \code{postmult = FALSE}.
 
 In contrast,
 \insertCite{deluca2018glm;textual}{WALS} defines
@@ -71,14 +72,16 @@ In contrast,
 then the transformation is
 
 \deqn{Z_2 = X_2 \Delta_2 \Xi^{-1/2}.}
+This definition is used when \code{postmult = TRUE}.
 }
 
 \section{On the use of \code{postmult = TRUE}}{
 
 The transformation triggered by \code{postmult = TRUE}
-\eqn{Z2s^{-1/2} = H \Lambda^{-1/2} H^{\top}} is used in
-\insertCite{huynhwalsnb;textual}{WALS}, whereas \code{postmult = FALSE}
-uses \eqn{Z2s^{-1/2} = H \Lambda^{-1/2}} which is used in the original MATLAB
+\eqn{Z2s^{-1/2} = T \Lambda^{-1/2} T^{\top}} is used in
+\insertCite{huynhwalsnb;textual}{WALS} and in eq. (9) of
+\insertCite{deluca2018glm;textual}{WALS}, whereas \code{postmult = FALSE}
+uses \eqn{Z2s^{-1/2} = T \Lambda^{-1/2}} which is used in the original MATLAB
 code for WALS in the linear regression model
 \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
 see eq. (12) of \insertCite{magnus2016wals;textual}{WALS} for more details.

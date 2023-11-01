@@ -32,11 +32,11 @@ gammaToBeta(
 was used, then D2 = \eqn{\Delta_2 T \Lambda^{-1/2}}, where \eqn{T} are the
 eigenvectors of \eqn{\Xi} and \eqn{\Lambda} the diagonal matrix containing
 the corresponding eigenvalues. If \code{postmult = TRUE} was used, then
-D2 = \eqn{\Delta_2 T \Lambda^{-1/2} T' = \Delta_2 \Xi^{-1/2}}.}
+D2 = \eqn{\Delta_2 T \Lambda^{-1/2} T^{\top} = \Delta_2 \Xi^{-1/2}}.}
 
 \item{sigma}{Prespecified or estimated standard error of the error term.}
 
-\item{Z1inv}{\eqn{(Z_{1}' Z_{1})^{-1}}.}
+\item{Z1inv}{\eqn{(Z_{1}^{\top} Z_{1})^{-1}}.}
 
 \item{method}{Character. \eqn{\hat{\gamma}_1} is obtained from a linear
 regression of \eqn{Z_1} on pseudo-responses \eqn{y - Z_2 \hat{\gamma}_2}.
