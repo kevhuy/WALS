@@ -19,17 +19,17 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' @inheritParams wals.formula
 #' @param family Object of class \code{"\link[WALS]{familyWALS}"}.
 #' @inheritParams walsGLMfitIterate
-#' @param nIt Only used if iterate = TRUE. If this is specified, then tol is ignored
-#' and the algorithm iterates nIt times. This option should not be used unless
-#' the user has a specific reason to run the algorithm nIt times, e.g. for
-#' replication purposes.
+#' @param nIt Only used if \code{iterate = TRUE}. If this is specified, then
+#' \code{tol} is ignored and the algorithm iterates \code{nIt} times. This option
+#' should not be used unless the user has a specific reason to run the algorithm
+#' \code{nIt} times, e.g. for replication purposes.
 #' @param ... Arguments for workhorse \code{\link[WALS]{walsGLMfit}}.
 #'
 #' @details
 #' Formulas should always contain two parts, i.e. they should be of the form
-#' "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
-#' regressors (includes a constant by default) and the ones after "|" are the
-#' auxiliary regressors.
+#' "\code{y ~ X11 + X12 | X21 + X22}", where the variables before "\code{|}" are
+#' the focus regressors (includes a constant by default) and the ones after
+#' "\code{|}" are the auxiliary regressors.
 #'
 #' **WARNING:** Interactions in formula do work work properly yet.
 #' It is recommended to manually create the interactions beforehand and then
@@ -231,8 +231,7 @@ walsGLM.default <- function(x, ...) {
 #' instead of
 #' \deqn{\bar{Z}_{2} = \bar{X}_{2} \bar{\Delta}_{2} \bar{T} \bar{\Lambda}^{-1/2}.}
 #' See \insertCite{huynhwals;textual}{WALS} for more details. The latter is used
-#' in the original MATLAB code for WALS in the linear regression model
-#' \insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
+#' in the original MATLAB code for WALS in the linear regression model,
 #' see eq. (12) of \insertCite{magnus2016wals;textual}{WALS}.
 #' The first form is required in eq. (9) of \insertCite{deluca2018glm;textual}{WALS}.
 #' **Thus, it is not recommended to set \code{postmult = FALSE}.**
@@ -324,20 +323,20 @@ walsGLMfit <- function(X1, X2, y, betaStart1, betaStart2,
 #' estimates as starting values.
 #' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}.
 #' If the Euclidean distance between the previous and current coefficient vector
-#' divided by the square root of the length of the vector falls below tol, then
-#' the algorithm stops. See below for more details.
+#' divided by the square root of the length of the vector falls below \code{tol},
+#' then the algorithm stops. See below for more details.
 #' @param maxIt Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
-#' iterative fitting when number of iterations exceed maxIt.
-#' @param nIt Only used if \code{iterate = TRUE}. If this is specified, then tol
-#' is ignored and the algorithm iterates \code{nIt} times.
+#' iterative fitting when number of iterations exceed \code{maxIt}.
+#' @param nIt Only used if \code{iterate = TRUE}. If this is specified, then
+#' \code{tol} is ignored and the algorithm iterates \code{nIt} times.
 #' @param verbose If \code{verbose = TRUE}, then it prints the iteration process
 #' (only relevant if \code{iterate = TRUE}).
-#' @param ... Arguments to be passed to the workhorse function walsGLMfit.
+#' @param ... Arguments to be passed to the workhorse function \code{\link[WALS]{walsGLMfit}}.
 #'
 #' @returns A list containing all elements returned from \code{\link[WALS]{walsGLMfit}}
 #' and additionally the following elements:
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
-#' \item{x}{list. If \code{keepX} is true, then it is a list with elements
+#' \item{x}{list. If \code{keepX = TRUE}, then it is a list with elements
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
 #' auxiliary regressors, respectively.}
 #' \item{initialFit}{List containing information (e.g. convergence) on the
@@ -408,7 +407,7 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
     betaStart <- coef(initialFit)
   }
 
-  # simply reuse iterative code by setting nIt = 1
+  # reuse iterative code by setting nIt = 1
   if (!iterate) nIt <- 1
 
   betaOld <- rep(NA, length(betaStart)) # make sure loop starts
@@ -556,9 +555,6 @@ walsGLMfitIterate <- function(y, X1, X2, family, na.action = NULL,
 #' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
 #' are also inherited from \code{"wals"}. They only allow \code{type = "focus"}
 #' and \code{type = "aux"} and extract the corresponding component of the model.
-#' This is similar to the implementation of these extractors in \code{countreg}
-#' version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
-#' \code{terms.hurdle()}.
 #'
 #' @returns \code{predict.walsGLM()} and \code{predict.walsGLMmatrix()} return
 #' different types of predictions depending on the argument \code{type}:
@@ -821,7 +817,9 @@ familyWALS.walsGLM <- function(object, ...) return(object$family)
 
 ## Helper functions ------------------------------------------------------------
 
-#' Define controllable parameters of initial GLM fit
+#' Control function for initial GLM fit
+#'
+#' Defines controllable parameters of initial GLM fit in \code{\link[WALS]{walsGLM}}.
 #'
 #' @param restricted If \code{TRUE}, then initial fit in \code{\link[stats]{glm.fit}}
 #' only considers the focus regressors. By default \code{FALSE}, then the unrestricted

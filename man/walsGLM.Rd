@@ -68,10 +68,10 @@ The details of model specification are given under ‘Details’.}
 \item{family}{Object of class \code{"\link[WALS]{familyWALS}"}.}
 
 \item{data}{an optional data frame, list or environment
-(or object coercible by as.data.frame to a data frame) containing the
-variables in the model. If not found in data, the variables are taken from
-environment(formula), typically the environment which the function is called
-from.}
+(or object coercible by \code{\link[base]{as.data.frame}} to a data frame)
+containing the variables in the model. If not found in \code{data}, the variables
+are taken from \code{environment(formula)}, typically the environment which
+the function is called from.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}
@@ -102,16 +102,16 @@ estimates as starting values.}
 
 \item{tol}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}.
 If the Euclidean distance between the previous and current coefficient vector
-divided by the square root of the length of the vector falls below tol, then
-the algorithm stops. See below for more details.}
+divided by the square root of the length of the vector falls below \code{tol},
+then the algorithm stops. See below for more details.}
 
 \item{maxIt}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
-iterative fitting when number of iterations exceed maxIt.}
+iterative fitting when number of iterations exceed \code{maxIt}.}
 
-\item{nIt}{Only used if iterate = TRUE. If this is specified, then tol is ignored
-and the algorithm iterates nIt times. This option should not be used unless
-the user has a specific reason to run the algorithm nIt times, e.g. for
-replication purposes.}
+\item{nIt}{Only used if \code{iterate = TRUE}. If this is specified, then
+\code{tol} is ignored and the algorithm iterates \code{nIt} times. This option
+should not be used unless the user has a specific reason to run the algorithm
+\code{nIt} times, e.g. for replication purposes.}
 
 \item{verbose}{If \code{verbose = TRUE}, then it prints the iteration process
 (only relevant if \code{iterate = TRUE}).}
@@ -156,9 +156,9 @@ Computes WALS estimates when focus regressors (X1) are present in all
 submodels and model averaging takes place over the auxiliary regressors (X2).
 
 Formulas should always contain two parts, i.e. they should be of the form
-"y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
-regressors (includes a constant by default) and the ones after "|" are the
-auxiliary regressors.
+"\code{y ~ X11 + X12 | X21 + X22}", where the variables before "\code{|}" are
+the focus regressors (includes a constant by default) and the ones after
+"\code{|}" are the auxiliary regressors.
 
 \strong{WARNING:} Interactions in formula do work work properly yet.
 It is recommended to manually create the interactions beforehand and then

@@ -34,7 +34,7 @@ eigenvectors of \eqn{\Xi} and \eqn{\Lambda} the diagonal matrix containing
 the corresponding eigenvalues. If \code{postmult = TRUE} was used, then
 D2 = \eqn{\Delta_2 T \Lambda^{-1/2} T^{\top} = \Delta_2 \Xi^{-1/2}}.}
 
-\item{sigma}{Prespecified or estimated standard error of the error term.}
+\item{sigma}{Prespecified or estimated standard deviation of the error term.}
 
 \item{Z1inv}{\eqn{(Z_{1}^{\top} Z_{1})^{-1}}.}
 

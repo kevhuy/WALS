@@ -16,7 +16,7 @@ transformY <- function(y, X1bar, X2bar, beta1, beta2, etaStart, vBar, muBar,
 
   as.vector(X1bar %*% beta1  + X2bar %*% beta2 + uBar)
 }
-#-------------------------------------------------------------------------------
+
 
 #' Multiplies all rows of matrix X with vector y
 #' @noRd
@@ -138,7 +138,7 @@ semiorthogonalize <- function(Z2s, X2, Delta2, SVD = TRUE, postmult = FALSE) {
 #' eigenvectors of \eqn{\Xi} and \eqn{\Lambda} the diagonal matrix containing
 #' the corresponding eigenvalues. If \code{postmult = TRUE} was used, then
 #' D2 = \eqn{\Delta_2 T \Lambda^{-1/2} T^{\top} = \Delta_2 \Xi^{-1/2}}.
-#' @param sigma Prespecified or estimated standard error of the error term.
+#' @param sigma Prespecified or estimated standard deviation of the error term.
 #' @param Z1inv \eqn{(Z_{1}^{\top} Z_{1})^{-1}}.
 #' @param method Character. \eqn{\hat{\gamma}_1} is obtained from a linear
 #' regression of \eqn{Z_1} on pseudo-responses \eqn{y - Z_2 \hat{\gamma}_2}.
@@ -212,7 +212,7 @@ gammaToBeta <- function(posterior, y, Z1, Z2, Delta1, D2, sigma, Z1inv,
 #' @param singularValues Vector of singular values.
 #' @param tol Absolute tolerance, singular if \code{min(singularValues) < tol}
 #' @param rtol Relative tolerance, singular if
-#'        \code{min(singularValues) / max(singularValues) > rtol}
+#'        \code{min(singularValues) / max(singularValues) < rtol}
 #' @param digits The number significant digits to show in case a
 #' warning is triggered by singularity.
 #'

@@ -39,7 +39,7 @@
 #' \item{start}{If \code{controlNB(initMASS = FALSE)}, contains a vector with the
 #'   starting values used for \code{\link[stats]{optim}}.}
 #'
-#' @seealso [controlNB], [negbinWALS], [optim].
+#' @seealso [controlNB], [negbinWALS], [glm.nb], [optim].
 #'
 fitNB2 <- function(X, Y, family, control = controlNB()) {
 
@@ -115,7 +115,7 @@ fitNB2 <- function(X, Y, family, control = controlNB()) {
 #' Internal function: first derivatives of NB2 PMF
 #'
 #' First derivatives of NB2 PMF used in \code{\link[WALS]{fitNB2}}. Code is
-#' taken from the function \code{snbinom()} in the \code{countreg} package 
+#' taken from the function \code{snbinom()} in the \code{countreg} package
 #' version 0.2-1 (2023-06-13) \insertCite{countreg}{WALS}.
 #'
 #' @param x Vector of quantiles.

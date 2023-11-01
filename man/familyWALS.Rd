@@ -69,9 +69,9 @@ for GLMs and \insertCite{huynhwalsnb}{WALS} for \code{negbinWALS()} used in
 (only used internally in \code{\link[WALS]{walsNB}}) that inherits from
 \code{"familyWALScount"}, \code{"familyWALS"} and \code{"\link[stats]{family}"}.
 This is a list that contains all elements returned from \code{negbinFixed}
-that it extends and the elements described above for objects of class
-\code{"familyWALS"}. Additionally contains the following elements with functions
-required in \code{\link[WALS]{walsNB}} that are described in
+and the elements described above for objects of class \code{"familyWALS"}.
+Additionally contains the following elements with functions required in
+\code{\link[WALS]{walsNB}} that are described in
 \insertCite{huynhwalsnb}{WALS}:
 \item{q}{function. Computes \eqn{\bar{q}}.}
 \item{g}{function. Computes \eqn{\bar{g}}.}

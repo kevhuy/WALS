@@ -67,10 +67,10 @@ a symbolic description of the model to be fitted.
 The details of model specification are given under ‘Details’.}
 
 \item{data}{an optional data frame, list or environment
-(or object coercible by as.data.frame to a data frame) containing the
-variables in the model. If not found in data, the variables are taken from
-environment(formula), typically the environment which the function is called
-from.}
+(or object coercible by \code{\link[base]{as.data.frame}} to a data frame)
+containing the variables in the model. If not found in \code{data}, the variables
+are taken from \code{environment(formula)}, typically the environment which
+the function is called from.}
 
 \item{subset}{an optional vector specifying a subset of observations to be
 used in the fitting process.}
@@ -81,7 +81,7 @@ used in the fitting process.}
 
 \item{offset}{\strong{not implemented yet.}}
 
-\item{link}{specifies the link function, currently only "log" is supported.}
+\item{link}{specifies the link function, currently only \code{"log"} is supported.}
 
 \item{prior}{Object of class \code{"\link[WALS]{familyPrior}"}. For example
 \code{\link[WALS]{weibull}} or \code{\link[WALS]{laplace}}.}
@@ -101,20 +101,22 @@ the return.}
 \item{iterate}{if \code{TRUE} then the WALS algorithm is iterated using the previous
 estimates as starting values.}
 
-\item{tol}{Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-between the previous beta and current beta falls below tol and the absolute difference between
-the previous and current rho falls below tol, then the algorithm stops.}
+\item{tol}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
+Euclidean distance between the previous and current \code{beta} falls below
+\code{tol} and the absolute difference between the previous and
+current \code{rho} falls below \code{tol}, then the algorithm stops.}
 
 \item{maxIt}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
-iterative fitting when number of iterations exceed maxIt.}
+iterative fitting when number of iterations exceed \code{maxIt}.}
 
-\item{nIt}{Only used if iterate = TRUE. If this is specified, then tol is ignored
-and the algorithm iterates nIt times. This option should not be used unless
-the user has a specific reason to run the algorithm nIt times, e.g. for
-replication purposes.}
+\item{nIt}{Only used if \code{iterate = TRUE}. If this is specified, then
+\code{tol} is ignored and the algorithm iterates \code{nIt} times. This option
+should not be used unless the user has a specific reason to run the algorithm
+\code{nIt} times, e.g. for replication purposes.}
 
-\item{verbose}{If verbose = TRUE, then it prints the iteration process of
-internal function \code{\link[WALS]{walsNBfitIterate}} (only relevant if iterate = TRUE).}
+\item{verbose}{If \code{verbose = TRUE}, then it prints the iteration process
+of internal function \code{\link[WALS]{walsNBfitIterate}}
+(only relevant if \code{iterate = TRUE}).}
 
 \item{x2}{Design matrix of auxiliary regressors. Usually does not include
 a constant column and can also be generated using \code{\link[stats]{model.matrix}}.}
@@ -157,9 +159,9 @@ Computes WALS estimates when focus regressors (X1) are present in all
 submodels and model averaging takes place over the auxiliary regressors (X2).
 
 Formulas should always contain two parts, i.e. they should be of the form
-"y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
-regressors (includes a constant by default) and the ones after "|" are the
-auxiliary regressors.
+"\code{y ~ X11 + X12 | X21 + X22}", where the variables before "\code{|}" are
+the focus regressors (includes a constant by default) and the ones after
+"\code{|}" are the auxiliary regressors.
 
 \strong{WARNING:} Interactions in formula do not work properly yet.
 It is recommended to manually create the interactions beforehand and then

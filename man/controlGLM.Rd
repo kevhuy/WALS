@@ -2,7 +2,7 @@
 % Please edit documentation in R/walsGLM.R
 \name{controlGLM}
 \alias{controlGLM}
-\title{Define controllable parameters of initial GLM fit}
+\title{Control function for initial GLM fit}
 \usage{
 controlGLM(restricted = FALSE, controlGLMfit = list())
 }
@@ -19,7 +19,7 @@ Returns a list containing the parameters specified in the arguments
 to be used in \code{\link[WALS]{walsGLM}} (and \code{\link[WALS]{walsGLMfitIterate}}).
 }
 \description{
-Define controllable parameters of initial GLM fit
+Defines controllable parameters of initial GLM fit in \code{\link[WALS]{walsGLM}}.
 }
 \examples{
 data("HMDA", package = "AER")

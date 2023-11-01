@@ -10,7 +10,7 @@
 #' @details
 #' R port of MATLAB code wals.m (version 2.0, revision 18 December 2013)
 #' by J.R. Magnus and G. De Luca, available from
-#' \href{https://www.janmagnus.nl/items/WALS.pdf}{https://www.janmagnus.nl/items/WALS.pdf}.
+#' \url{https://www.janmagnus.nl/items/WALS.pdf}.
 #' Calculates WALS estimates when focus regressors (X1) are present in all
 #' submodels and model averaging takes place over the auxiliary regressors (X2).
 #'
@@ -28,10 +28,10 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' a symbolic description of the model to be fitted.
 #' The details of model specification are given under ‘Details’.
 #' @param data an optional data frame, list or environment
-#' (or object coercible by as.data.frame to a data frame) containing the
-#' variables in the model. If not found in data, the variables are taken from
-#' environment(formula), typically the environment which the function is called
-#' from.
+#' (or object coercible by \code{\link[base]{as.data.frame}} to a data frame)
+#' containing the variables in the model. If not found in \code{data}, the variables
+#' are taken from \code{environment(formula)}, typically the environment which
+#' the function is called from.
 #' @param subset an optional vector specifying a subset of observations to be
 #' used in the fitting process.
 #' @param weights **not implemented yet.**
@@ -51,9 +51,9 @@ wals <- function(x, ...) UseMethod("wals", x)
 #'
 #' @details
 #' Formulas should always contain two parts, i.e. they should be of the form
-#' "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
-#' regressors (includes a constant by default) and the ones after "|" are the
-#' auxiliary regressors.
+#' "\code{y ~ X11 + X12 | X21 + X22}", where the variables before "\code{|}" are
+#' the focus regressors (includes a constant by default) and the ones after
+#' "\code{|}" are the auxiliary regressors.
 #'
 #' **WARNING:** Interactions in formula do not work properly yet.
 #' It is recommended to manually create the interactions beforehand and then
@@ -63,7 +63,7 @@ wals <- function(x, ...) UseMethod("wals", x)
 #' \code{"wals"}. This is a list that contains all elements returned from
 #' \code{\link[WALS]{walsFit}} and additionally
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
-#' \item{x}{list. If \code{keepX} is true, then it is a list with elements
+#' \item{x}{list. If \code{keepX = TRUE}, then it is a list with elements
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
 #' auxiliary regressors, respectively.}
 #' \item{weights}{returns the argument \code{weights}.}
@@ -286,9 +286,9 @@ wals.default <- function(x, ...) {
 #' Workhorse function behind \code{\link[WALS]{wals}} and \code{\link[WALS]{walsGLM}}.
 #'
 #' @param X1 Design matrix for focus regressors. Usually includes a constant
-#' (column full of 1s) and can be generated using model.matrix().
+#' (column full of 1s) and can be generated using \code{\link[stats]{model.matrix}}.
 #' @param X2 Design matrix for auxiliary regressors. Usually does not include
-#' a constant column and can also be generated using model.matrix().
+#' a constant column and can also be generated using \code{\link[stats]{model.matrix}}.
 #' @param y Response as vector.
 #' @param sigma if NULL (default), then the variance of the error term is estimated,
 #' see p.136 of \insertCite{magnus2016wals;textual}{WALS}. If sigma is specified,
@@ -552,12 +552,15 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' further information. As usual, the \code{summary} method returns an object of
 #' class \code{"summary.wals"} containing the relevant summary statistics which
 #' can then be printed using the associated \code{print} method.
-#' Inspired by \insertCite{deluca2011stata;textual}{WALS},the summary statistics
+#' Inspired by \insertCite{deluca2011stata;textual}{WALS}, the summary statistics
 #' also show \code{Kappa} which is an indicator for the numerical stability of
 #' the method, i.e. it shows the square root of the condition number of the
 #' matrix \eqn{\Xi = \Delta_{2} X_{2}^{\top} M_{1} X_{2} \Delta_{2}}.
 #' The summary further provides information on the prior used along with its
-#' parameters.
+#' parameters. The \code{summary()}, \code{print.summary()},
+#' \code{print()} and \code{logLik()} methods are also inspired by the corresponding
+#' methods for objects of class \code{"lm"} in \code{\link[stats]{stats}} version
+#' 4.3.1 (2023-06-16) \insertCite{R2023}{WALS}, see e.g. \code{\link[stats]{print.summary.lm}}.
 #'
 #' The \code{\link[stats]{residuals}} method computes raw residuals
 #' (observed - fitted).
@@ -572,6 +575,9 @@ walsFit <- function(X1, X2, y, sigma = NULL, prior = weibull(),
 #' The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
 #' behave similarly to \code{coef}, but they only allow \code{type = "focus"}
 #' and \code{type = "aux"}. They extract the corresponding component of the model.
+#' This is similar to the implementation of these extractors in \code{countreg}
+#' version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
+#' \code{terms.hurdle()}.
 #'
 #' @returns \code{predict.wals()} and \code{predict.walsMatrix()} return a vector
 #' containing the predicted means.

@@ -17,22 +17,24 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' @rdname walsNB
 #'
 #' @inheritParams walsGLM.formula
-#' @param link specifies the link function, currently only "log" is supported.
+#' @param link specifies the link function, currently only \code{"log"} is supported.
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
 #' see \code{\link[WALS]{controlNB}}.
-#' @param tol Only used if iterate = TRUE and nIt = NULL. If the Euclidean distance
-#' between the previous beta and current beta falls below tol and the absolute difference between
-#' the previous and current rho falls below tol, then the algorithm stops.
-#' @param verbose If verbose = TRUE, then it prints the iteration process of
-#' internal function \code{\link[WALS]{walsNBfitIterate}} (only relevant if iterate = TRUE).
+#' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
+#' Euclidean distance between the previous and current \code{beta} falls below
+#' \code{tol} and the absolute difference between the previous and
+#' current \code{rho} falls below \code{tol}, then the algorithm stops.
+#' @param verbose If \code{verbose = TRUE}, then it prints the iteration process
+#' of internal function \code{\link[WALS]{walsNBfitIterate}}
+#' (only relevant if \code{iterate = TRUE}).
 #' @param ... Arguments for workhorse \code{\link[WALS]{walsNBfit}}.
 #'
 #'
 #' @details
 #' Formulas should always contain two parts, i.e. they should be of the form
-#' "y ~ X11 + X12 | X21 + X22", where the variables before "|" are the focus
-#' regressors (includes a constant by default) and the ones after "|" are the
-#' auxiliary regressors.
+#' "\code{y ~ X11 + X12 | X21 + X22}", where the variables before "\code{|}" are
+#' the focus regressors (includes a constant by default) and the ones after
+#' "\code{|}" are the auxiliary regressors.
 #'
 #' **WARNING:** Interactions in formula do not work properly yet.
 #' It is recommended to manually create the interactions beforehand and then
@@ -265,8 +267,8 @@ walsNB.default <- function(x, ...) {
 #'
 #' @details The method to be specified in \code{method} mainly differ in the way
 #' they compute the fully restricted and unrestricted estimators for the
-#' transformed regressors \eqn{Z}, i.e. \eqn{\tilde{\gamma_{1r}}},
-#' \eqn{\gamma_{1u}} and \eqn{\tilde{\gamma_{2u}}}.
+#' transformed regressors \eqn{Z}, i.e. \eqn{\tilde{\gamma}_{1r}},
+#' and \eqn{\tilde{\gamma}_{u}}.
 #'
 #' \itemize{
 #' \item{"fullSVD"}{Recommended approach. First applies an SVD to \eqn{\bar{Z}_{1}}
@@ -290,7 +292,7 @@ walsNB.default <- function(x, ...) {
 #'
 #' \item{"original"} {Computes all inverses directly using \code{\link[base]{solve}}
 #' and does not make use of the Sherman-Morrison-Woodbury formula for certain
-#' inverses. Specifically: directly inverts the matrix
+#' inverses. Specifically, it directly inverts the matrix
 #' \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{\link[base]{solve}}
 #' in order to compute \eqn{\bar{M}_1}. Moreover, it computes the fully
 #' unrestricted estimators of the focus regressors
@@ -455,18 +457,6 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
     # empty entries for svd
     svdZ1start <- NULL
 
-    ## Sherman-Morrison-Woodbury for (X1bar'X1bar + g*epsilon  * X1'q*q'X1)^-1
-    # Z1startinv <- solve(crossprod(Z1start, Z1start))
-    #
-    # Delta1 * (Z1bar'Z1bar)^-1 Delta1 = (X1bar'X1bar)^-1
-    # first multiply all columns with Delta1, then all rows!
-    # X1startinv <- multAllRows(Delta1 * Z1startinv, Delta1)
-    # X1X1plusinv <- ( X1startinv +
-    #                    ( (X1startinv %*% tcrossprod(X1tq, X1tq) %*% X1startinv) /
-    #                        as.numeric((1 + gStart*epsilonStart*crossprod(X1tq, X1startinv %*% X1tq)))
-    #                    )
-    # )
-
     X1tq <- colSums(X1 * qStart)
     X1X1plusinv <-  solve(crossprod(X1start, X1start) + gStart*epsilonStart*tcrossprod(X1tq, X1tq))
 
@@ -515,16 +505,7 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
   } else if (method == "original") {
     Z1y0s <- crossprod(Z1start, y0Start) - (tStart*epsilonStart)*Z1tq
     Z2y0s <- crossprod(Z2start, y0Start) - (tStart*epsilonStart)*Z2tq
-
     Z1Z1plusinv <- solve(crossprod(Z1start, Z1start) + gStart*epsilonStart*tcrossprod(Z1tq, Z1tq))
-
-    ## Sherman-Morrison-Woodbury for (Z1bar'Z1bar + g*epsilon  * Z1'q*q'Z1)^-1
-    # Z1Z1plusinv <- (   Z1startinv -
-    #                      ( (Z1startinv %*% tcrossprod(Z1tq, Z1tq) %*% Z1startinv) /
-    #                          as.numeric((1 + gStart*epsilonStart*crossprod(Z1tq, Z1startinv %*% Z1tq)))
-    #                      )
-    # )
-
     A <- crossprod(Z2start, Z1start) + gStart*epsilonStart*tcrossprod(Z2tq, Z1tq)
     gammaUn2 <- -(A %*% Z1Z1plusinv %*% Z1y0s) + Z2y0s
 
@@ -623,15 +604,15 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' see \code{\link[WALS]{controlNB}}.
 #' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
 #' Euclidean distance between the previous and current coefficient divided by
-#' the square root of the length of the vector falls below tol and the absolute
-#' difference between the previous and current dispersion parameter falls below
-#' tol, then the algorithm stops. See below for more details.
-#' @param ... Arguments to be passed to the workhorse function walsNBfit.
+#' the square root of the length of the vector falls below \code{tol} and the
+#' absolute difference between the previous and current dispersion parameter
+#' falls below \code{tol}, then the algorithm stops. See below for more details.
+#' @param ... Arguments to be passed to the workhorse function \code{\link[WALS]{walsNBfit}}.
 #'
 #' @returns A list containing all elements returned from \code{\link[WALS]{walsNBfit}}
 #' and additionally the following elements:
 #' \item{y}{If \code{keepY = TRUE}, contains the response vector.}
-#' \item{x}{list. If \code{keepX} is true, then it is a list with elements
+#' \item{x}{list. If \code{keepX = TRUE}, then it is a list with elements
 #' \code{x1} and \code{x2} containing the design matrices of the focus and
 #' auxiliary regressors, respectively.}
 #' \item{initialFit}{List containing information (e.g. convergence) on the
@@ -739,7 +720,7 @@ walsNBfitIterate <- function(y, X1, X2, link = "log", na.action = NULL,
   betaStart2 <- betaStart[(k1 + 1L):(k1 + k2)]
   rhoStart <- nb2$theta
 
-  # simply reuse iterative code by setting nIt = 1
+  # reuse iterative code by setting nIt = 1
   if (!iterate) nIt <- 1
 
 
@@ -896,7 +877,9 @@ print.summary.walsNB <- function(x, digits = max(3, getOption("digits") - 3), ..
 
 ## Helper functions ------------------------------------------------------------
 
-#' Define controllable parameters of initial NB fit
+#' Control function for initial NB fit
+#'
+#' Defines controllable parameters of initial NB fit in \code{\link[WALS]{walsNB}}.
 #'
 #' @param start Optional starting values for \code{\link[WALS]{fitNB2}}. Only used if
 #' \code{initMASS = FALSE}.

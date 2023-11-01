@@ -18,10 +18,10 @@ walsGLMfit(
 }
 \arguments{
 \item{X1}{Design matrix for focus regressors. Usually includes a constant
-(column full of 1s) and can be generated using model.matrix().}
+(column full of 1s) and can be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{X2}{Design matrix for auxiliary regressors. Usually does not include
-a constant column and can also be generated using model.matrix().}
+a constant column and can also be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{y}{Response as vector.}
 
@@ -42,8 +42,7 @@ eigenvalues from the eigenvalue decomposition
 instead of
 \deqn{\bar{Z}_{2} = \bar{X}_{2} \bar{\Delta}_{2} \bar{T} \bar{\Lambda}^{-1/2}.}
 See \insertCite{huynhwals;textual}{WALS} for more details. The latter is used
-in the original MATLAB code for WALS in the linear regression model
-\insertCite{magnus2010growth,deluca2011stata,kumar2013normallocation,magnus2016wals}{WALS},
+in the original MATLAB code for WALS in the linear regression model,
 see eq. (12) of \insertCite{magnus2016wals;textual}{WALS}.
 The first form is required in eq. (9) of \insertCite{deluca2018glm;textual}{WALS}.
 \strong{Thus, it is not recommended to set \code{postmult = FALSE}.}}

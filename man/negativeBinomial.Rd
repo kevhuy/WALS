@@ -15,10 +15,10 @@ are supported.}
 \description{
 Reconstruct family object for negative binomial type 2 (NB2) with fixed
 scale parameter theta. Analogous to \code{\link[MASS]{negative.binomial}} in
-\code{MASS} but \code{MASS} uses non-canonical link.
+\code{MASS} \insertCite{mass2002}{WALS} but \code{MASS} uses non-canonical link.
 }
 \references{
-\insertRef{mass2002}{WALS}
+\insertAllCited{}
 }
 \seealso{
 \link{family}, \link{familyWALS}, \link{negbinWALS}, \link{negbinFixedWALS}.

@@ -197,9 +197,6 @@ estimated coefficients/covariance matrix for the original regressors \eqn{X}
 The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
 are also inherited from \code{"wals"}. They only allow \code{type = "focus"}
 and \code{type = "aux"} and extract the corresponding component of the model.
-This is similar to the implementation of these extractors in \code{countreg}
-version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
-\code{terms.hurdle()}.
 }
 \examples{
 ## Example for walsGLM objects

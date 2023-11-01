@@ -29,10 +29,10 @@ walsGLMfitIterate(
 \item{y}{Response as vector.}
 
 \item{X1}{Design matrix for focus regressors. Usually includes a constant
-(column full of 1s) and can be generated using model.matrix().}
+(column full of 1s) and can be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{X2}{Design matrix for auxiliary regressors. Usually does not include
-a constant column and can also be generated using model.matrix().}
+a constant column and can also be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{family}{Object of class \code{"\link[WALS]{familyWALS}"}.}
 
@@ -57,25 +57,25 @@ estimates as starting values.}
 
 \item{tol}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}.
 If the Euclidean distance between the previous and current coefficient vector
-divided by the square root of the length of the vector falls below tol, then
-the algorithm stops. See below for more details.}
+divided by the square root of the length of the vector falls below \code{tol},
+then the algorithm stops. See below for more details.}
 
 \item{maxIt}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
-iterative fitting when number of iterations exceed maxIt.}
+iterative fitting when number of iterations exceed \code{maxIt}.}
 
-\item{nIt}{Only used if \code{iterate = TRUE}. If this is specified, then tol
-is ignored and the algorithm iterates \code{nIt} times.}
+\item{nIt}{Only used if \code{iterate = TRUE}. If this is specified, then
+\code{tol} is ignored and the algorithm iterates \code{nIt} times.}
 
 \item{verbose}{If \code{verbose = TRUE}, then it prints the iteration process
 (only relevant if \code{iterate = TRUE}).}
 
-\item{...}{Arguments to be passed to the workhorse function walsGLMfit.}
+\item{...}{Arguments to be passed to the workhorse function \code{\link[WALS]{walsGLMfit}}.}
 }
 \value{
 A list containing all elements returned from \code{\link[WALS]{walsGLMfit}}
 and additionally the following elements:
 \item{y}{If \code{keepY = TRUE}, contains the response vector.}
-\item{x}{list. If \code{keepX} is true, then it is a list with elements
+\item{x}{list. If \code{keepX = TRUE}, then it is a list with elements
 \code{x1} and \code{x2} containing the design matrices of the focus and
 auxiliary regressors, respectively.}
 \item{initialFit}{List containing information (e.g. convergence) on the

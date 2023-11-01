@@ -2,7 +2,7 @@
 % Please edit documentation in R/walsNB.R
 \name{controlNB}
 \alias{controlNB}
-\title{Define controllable parameters of initial NB fit}
+\title{Control function for initial NB fit}
 \usage{
 controlNB(
   start = list(mu = NULL, logTheta = NULL),
@@ -49,7 +49,7 @@ Returns a list containing the parameters specified in the arguments
 to be used in \code{\link[WALS]{walsNB}} (and \code{\link[WALS]{walsNBfitIterate}}).
 }
 \description{
-Define controllable parameters of initial NB fit
+Defines controllable parameters of initial NB fit in \code{\link[WALS]{walsNB}}.
 }
 \examples{
 data("NMES1988", package = "AER")

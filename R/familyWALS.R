@@ -188,14 +188,14 @@ binomialWALS <- function(link = "logit") {
 #'
 #' Reconstruct family object for negative binomial type 2 (NB2) with fixed
 #' scale parameter theta. Analogous to \code{\link[MASS]{negative.binomial}} in
-#' \code{MASS} but \code{MASS} uses non-canonical link.
+#' \code{MASS} \insertCite{mass2002}{WALS} but \code{MASS} uses non-canonical link.
 #'
 #' @param theta dispersion parameter of NB2, always larger than 0.
 #' @param link specifies link function, currently only "log" and "canonical"
 #' are supported.
 #'
 #' @references
-#' \insertRef{mass2002}{WALS}
+#' \insertAllCited{}
 #'
 #' @seealso [family], [familyWALS], [negbinWALS], [negbinFixedWALS].
 negativeBinomial <- function(theta, link = "log") {
@@ -325,9 +325,9 @@ negbinFixedWALS <- function(scale, link) {
 #' (only used internally in \code{\link[WALS]{walsNB}}) that inherits from
 #' \code{"familyWALScount"}, \code{"familyWALS"} and \code{"\link[stats]{family}"}.
 #' This is a list that contains all elements returned from \code{negbinFixed}
-#' that it extends and the elements described above for objects of class
-#' \code{"familyWALS"}. Additionally contains the following elements with functions
-#' required in \code{\link[WALS]{walsNB}} that are described in
+#' and the elements described above for objects of class \code{"familyWALS"}.
+#' Additionally contains the following elements with functions required in
+#' \code{\link[WALS]{walsNB}} that are described in
 #' \insertCite{huynhwalsnb}{WALS}:
 #' \item{q}{function. Computes \eqn{\bar{q}}.}
 #' \item{g}{function. Computes \eqn{\bar{g}}.}

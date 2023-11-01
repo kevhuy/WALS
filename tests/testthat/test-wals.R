@@ -142,17 +142,9 @@ test_that("Predictions are correct", {
 
   # add artificial factors for testing
   dd$englishFactor <- as.factor(dd$english > 20)
-  # dd$englishFactor <- ifelse(dd$english > 20, "high", "medium")
-  # dd$englishFactor[dd$english < 0.3] <- "low"
-  # dd$englishFactor <- as.factor(dd$englishFactor)
   dd$incomeFactor <- as.factor(dd$income > 17)
-  # dd$incomeFactor <- ifelse(dd$income > 17, "h", "m")
-  # dd$incomeFactor[dd$income < 8] <- "l"
-  # dd$incomeFactor <- as.factor(dd$incomeFactor)
 
   fWals <- math ~ read + stratio | englishFactor + lunch + expenditure + incomeFactor
-  # fWals <- math ~ read + stratio + englishFactor | lunch + expenditure + incomeFactor
-
 
   walsEst <- wals(fWals, data = dd, method = "original", eigenSVD = TRUE,
                   prior = weibull(), keepY = TRUE, keepX = TRUE)

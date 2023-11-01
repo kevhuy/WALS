@@ -132,12 +132,15 @@ which print the model-averaged estimation of the coefficients along with some
 further information. As usual, the \code{summary} method returns an object of
 class \code{"summary.wals"} containing the relevant summary statistics which
 can then be printed using the associated \code{print} method.
-Inspired by \insertCite{deluca2011stata;textual}{WALS},the summary statistics
+Inspired by \insertCite{deluca2011stata;textual}{WALS}, the summary statistics
 also show \code{Kappa} which is an indicator for the numerical stability of
 the method, i.e. it shows the square root of the condition number of the
 matrix \eqn{\Xi = \Delta_{2} X_{2}^{\top} M_{1} X_{2} \Delta_{2}}.
 The summary further provides information on the prior used along with its
-parameters.
+parameters. The \code{summary()}, \code{print.summary()},
+\code{print()} and \code{logLik()} methods are also inspired by the corresponding
+methods for objects of class \code{"lm"} in \code{\link[stats]{stats}} version
+4.3.1 (2023-06-16) \insertCite{R2023}{WALS}, see e.g. \code{\link[stats]{print.summary.lm}}.
 
 The \code{\link[stats]{residuals}} method computes raw residuals
 (observed - fitted).
@@ -152,6 +155,9 @@ regressors \eqn{X} or of the transformed regressors \eqn{Z}.
 The extractors \code{\link[stats]{terms}} and \code{\link[stats]{model.matrix}}
 behave similarly to \code{coef}, but they only allow \code{type = "focus"}
 and \code{type = "aux"}. They extract the corresponding component of the model.
+This is similar to the implementation of these extractors in \code{countreg}
+version 0.2-1 (2023-06-13) \insertCite{countreg,countreghurdle}{WALS}, see e.g.
+\code{terms.hurdle()}.
 }
 \examples{
 ## Example for wals objects

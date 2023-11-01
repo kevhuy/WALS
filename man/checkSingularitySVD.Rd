@@ -12,7 +12,7 @@ checkSingularitySVD(singularValues, tol, rtol, digits = 5)
 \item{tol}{Absolute tolerance, singular if \code{min(singularValues) < tol}}
 
 \item{rtol}{Relative tolerance, singular if
-\code{min(singularValues) / max(singularValues) > rtol}}
+\code{min(singularValues) / max(singularValues) < rtol}}
 
 \item{digits}{The number significant digits to show in case a
 warning is triggered by singularity.}
