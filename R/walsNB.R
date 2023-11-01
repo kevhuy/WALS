@@ -21,9 +21,11 @@ walsNB <- function(x, ...) UseMethod("walsNB", x)
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
 #' see \code{\link[WALS]{controlNB}}.
 #' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
-#' Euclidean distance between the previous and current \code{beta} falls below
-#' \code{tol} and the absolute difference between the previous and
-#' current \code{rho} falls below \code{tol}, then the algorithm stops.
+#' Euclidean distance between the previous and current coefficient vector divided
+#' by the square root of the length of the vector falls below \code{tol} and the
+#' absolute difference between the previous and current dispersion parameter
+#' falls below \code{tol}, then the algorithm stops.
+#' See \code{\link[WALS]{walsNBfitIterate}} for more details.
 #' @param verbose If \code{verbose = TRUE}, then it prints the iteration process
 #' of internal function \code{\link[WALS]{walsNBfitIterate}}
 #' (only relevant if \code{iterate = TRUE}).
@@ -603,8 +605,8 @@ walsNBfit <- function(X1, X2, y, betaStart1, betaStart2, rhoStart, family,
 #' @param controlInitNB Controls estimation of starting values for one-step ML,
 #' see \code{\link[WALS]{controlNB}}.
 #' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
-#' Euclidean distance between the previous and current coefficient divided by
-#' the square root of the length of the vector falls below \code{tol} and the
+#' Euclidean distance between the previous and current coefficient vector divided
+#' by the square root of the length of the vector falls below \code{tol} and the
 #' absolute difference between the previous and current dispersion parameter
 #' falls below \code{tol}, then the algorithm stops. See below for more details.
 #' @param ... Arguments to be passed to the workhorse function \code{\link[WALS]{walsNBfit}}.

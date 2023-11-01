@@ -102,9 +102,11 @@ the return.}
 estimates as starting values.}
 
 \item{tol}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. If the
-Euclidean distance between the previous and current \code{beta} falls below
-\code{tol} and the absolute difference between the previous and
-current \code{rho} falls below \code{tol}, then the algorithm stops.}
+Euclidean distance between the previous and current coefficient vector divided
+by the square root of the length of the vector falls below \code{tol} and the
+absolute difference between the previous and current dispersion parameter
+falls below \code{tol}, then the algorithm stops.
+See \code{\link[WALS]{walsNBfitIterate}} for more details.}
 
 \item{maxIt}{Only used if \code{iterate = TRUE} and \code{nIt = NULL}. Aborts
 iterative fitting when number of iterations exceed \code{maxIt}.}

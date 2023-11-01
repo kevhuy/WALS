@@ -19,6 +19,10 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' @inheritParams wals.formula
 #' @param family Object of class \code{"\link[WALS]{familyWALS}"}.
 #' @inheritParams walsGLMfitIterate
+#' @param tol Only used if \code{iterate = TRUE} and \code{nIt = NULL}.
+#' If the Euclidean distance between the previous and current coefficient vector
+#' divided by the square root of the length of the vector falls below \code{tol},
+#' then the algorithm stops. See \code{\link[WALS]{walsGLMfitIterate}} for more details.
 #' @param nIt Only used if \code{iterate = TRUE}. If this is specified, then
 #' \code{tol} is ignored and the algorithm iterates \code{nIt} times. This option
 #' should not be used unless the user has a specific reason to run the algorithm
