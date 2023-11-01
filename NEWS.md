@@ -1,4 +1,4 @@
-# WALS 0.2.4.9000 (development)
+# WALS 0.2.4
 
 * Fixed bug where prediction with only a single auxiliary regressor was not possible: 
 Do not drop columns of `X2` in `genNewdata()`.
