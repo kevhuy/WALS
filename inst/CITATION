@@ -1,7 +1,7 @@
 citHeader("To cite WALS in publications use:")
 
 bibentry(bibtype = "techReport",
-         title = "Weighted Average Least Squares for Negative Binomial Regression",
+         title = "Weighted-Average Least Squares for Negative Binomial Regression",
          author = c(person("Kevin", "Huynh")),
          institution = "University of Basel",
          year = 2023,
