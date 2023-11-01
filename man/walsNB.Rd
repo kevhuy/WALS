@@ -57,7 +57,7 @@ walsNB(x, ...)
 }
 \arguments{
 \item{x}{Design matrix of focus regressors. Usually includes a constant
-(column full of 1s) and can be generated using model.matrix().}
+(column full of 1s) and can be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{...}{Arguments for workhorse \code{\link[WALS]{walsNBfit}}.}
 
@@ -117,7 +117,7 @@ replication purposes.}
 internal function \code{\link[WALS]{walsNBfitIterate}} (only relevant if iterate = TRUE).}
 
 \item{x2}{Design matrix of auxiliary regressors. Usually does not include
-a constant column and can also be generated using model.matrix().}
+a constant column and can also be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{y}{Count response as vector.}
 }

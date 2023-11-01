@@ -43,7 +43,7 @@ wals(x, ...)
 }
 \arguments{
 \item{x}{Design matrix of focus regressors. Usually includes a constant
-(column full of 1s) and can be generated using model.matrix().}
+(column full of 1s) and can be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{...}{Arguments for workhorse \code{\link[WALS]{walsFit}}.}
 
@@ -83,7 +83,7 @@ the return.}
 estimated. See \code{\link[WALS]{walsFit}} for more details.}
 
 \item{x2}{Design matrix of auxiliary regressors. Usually does not include
-a constant column and can also be generated using model.matrix().}
+a constant column and can also be generated using \code{\link[stats]{model.matrix}}.}
 
 \item{y}{Response as vector.}
 }
