@@ -40,6 +40,7 @@ test_that("walsNB limiting nIt works and returns finite coefficients", {
 })
 
 test_that("Different walsNB class methods yield same result", {
+  tol <- 1e-8
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
@@ -61,8 +62,9 @@ test_that("Different walsNB class methods yield same result", {
                                   method = "fullSVD", iterate = TRUE, tol = 1e-6,
                                   verbose = TRUE)
 
-  # check coefs and vcov
-  expect_identical(coef(nbWals), coef(nbWalsMatrix), coef(nbWalsDefault))
+  # check coefs
+  expect_equal(coef(nbWals), coef(nbWalsMatrix), tolerance = tol)
+  expect_equal(coef(nbWals), coef(nbWalsDefault), tolerance = tol)
 })
 
 test_that("walsNBmatrix predictions equal walsNB predictions", {
