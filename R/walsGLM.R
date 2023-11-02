@@ -200,9 +200,8 @@ walsGLM.matrix <- function(x, x2, y, family, subset = NULL, na.action = NULL,
 #' @details
 #' \code{walsGLM.default()} raises an error if \code{x} is not an object of class
 #' \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise it calls
-#' \code{walsGLM.matrix()}. It is a modified version of
-#' \code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
-#' package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
+#' \code{walsGLM.matrix()}. It is a modified version of \code{glmboost.default}
+#' from the \code{mboost} package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
 #'
 #' @returns \code{walsGLM.default()} raises an error if \code{x} is not an object
 #' of class \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise

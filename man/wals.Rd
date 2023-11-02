@@ -145,9 +145,8 @@ to insert them as 'linear terms' in the formula.
 
 \code{wals.default()} raises an error if \code{x} is not an object of class
 \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise it calls
-\code{wals.matrix()}. It is a modified version of
-\code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
-package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
+\code{wals.matrix()}. It is a modified version of \code{glmboost.default}
+from the \code{mboost} package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
 }
 \examples{
 ## Replicate table on p. 534 of De Luca & Magnus (2011)

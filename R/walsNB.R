@@ -218,9 +218,8 @@ walsNB.matrix <- function(x, x2, y, link = "log", subset = NULL,
 #' @details
 #' \code{walsNB.default()} raises an error if \code{x} is not an object of class
 #' \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
-#' it calls \code{walsNB.matrix()}. It is a modified version of
-#' \code{\link[mboost]{glmboost.default}} from the \code{\link[mboost]{mboost}}
-#' package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
+#' it calls \code{walsNB.matrix()}. It is a modified version of \code{glmboost.default}
+#' from the \code{mboost} package version 2.9-8 (2023-09-06) \insertCite{mboost}{WALS}.
 #'
 #' @returns \code{walsNB.default()} raises an error if \code{x} is not an object
 #' of class \code{"matrix"} or a class that extends \code{"matrix"}. Otherwise
