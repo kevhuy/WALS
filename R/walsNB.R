@@ -262,9 +262,9 @@ walsNB.default <- function(x, ...) {
 #' @param keepR If \code{TRUE}, keeps the one-step ML estimators of the fully
 #' restricted model, i.e. \eqn{\tilde{\gamma}_{r}} and \eqn{\tilde{\beta}_{r}}.
 #' @param eigenSVD If \code{TRUE}, then \code{semiorthogonalize()} uses \code{svd()}
-#' to compute the eigendecomposition of \eqn{\bar{Xi}} instead of \code{eigen()}.
+#' to compute the eigendecomposition of \eqn{\bar{\Xi}} instead of \code{eigen()}.
 #' In this case, the tolerances of \code{svdTol} and \code{svdRtol} are used to
-#' determine whether \eqn{\bar{Xi}} is of full rank (need it for \eqn{\bar{Xi}^{-1/2}}).
+#' determine whether \eqn{\bar{\Xi}} is of full rank (need it for \eqn{\bar{\Xi}^{-1/2}}).
 #' @param ... Arguments for internal function \code{\link[WALS]{computePosterior}}.
 #'
 #' @details The method to be specified in \code{method} mainly differ in the way
@@ -272,7 +272,7 @@ walsNB.default <- function(x, ...) {
 #' transformed regressors \eqn{Z}, i.e. \eqn{\tilde{\gamma}_{1r}},
 #' and \eqn{\tilde{\gamma}_{u}}.
 #'
-#' \itemize{
+#' \describe{
 #' \item{"fullSVD"}{Recommended approach. First applies an SVD to \eqn{\bar{Z}_{1}}
 #' to compute \eqn{\bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2}}:
 #' It is used for computing the inverse of
@@ -292,7 +292,7 @@ walsNB.default <- function(x, ...) {
 #' Described in more detail in the appendix of \insertCite{huynhwals;textual}{WALS}.}
 #'
 #'
-#' \item{"original"} {Computes all inverses directly using \code{\link[base]{solve}}
+#' \item{"original"}{Computes all inverses directly using \code{\link[base]{solve}}
 #' and does not make use of the Sherman-Morrison-Woodbury formula for certain
 #' inverses. Specifically, it directly inverts the matrix
 #' \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{\link[base]{solve}}

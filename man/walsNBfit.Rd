@@ -64,9 +64,9 @@ unrestricted model, i.e. \eqn{\tilde{\gamma}_{u}} and \eqn{\tilde{\beta}_{u}}.}
 restricted model, i.e. \eqn{\tilde{\gamma}_{r}} and \eqn{\tilde{\beta}_{r}}.}
 
 \item{eigenSVD}{If \code{TRUE}, then \code{semiorthogonalize()} uses \code{svd()}
-to compute the eigendecomposition of \eqn{\bar{Xi}} instead of \code{eigen()}.
+to compute the eigendecomposition of \eqn{\bar{\Xi}} instead of \code{eigen()}.
 In this case, the tolerances of \code{svdTol} and \code{svdRtol} are used to
-determine whether \eqn{\bar{Xi}} is of full rank (need it for \eqn{\bar{Xi}^{-1/2}}).}
+determine whether \eqn{\bar{\Xi}} is of full rank (need it for \eqn{\bar{\Xi}^{-1/2}}).}
 
 \item{postmult}{If \code{TRUE} (default), then it computes
 \deqn{\bar{Z}_{2} = \bar{X}_{2} \bar{\Delta}_{2} \bar{T} \bar{\Lambda}^{-1/2} \bar{T}^{\top},}
@@ -139,7 +139,7 @@ they compute the fully restricted and unrestricted estimators for the
 transformed regressors \eqn{Z}, i.e. \eqn{\tilde{\gamma}_{1r}},
 and \eqn{\tilde{\gamma}_{u}}.
 
-\itemize{
+\describe{
 \item{"fullSVD"}{Recommended approach. First applies an SVD to \eqn{\bar{Z}_{1}}
 to compute \eqn{\bar{X}_{2}^{\top} \bar{M}_{1} \bar{X}_{2}}:
 It is used for computing the inverse of
@@ -158,7 +158,7 @@ used in computing the model averaged estimator for the focus regressors
 
 Described in more detail in the appendix of \insertCite{huynhwals;textual}{WALS}.}
 
-\item{"original"} {Computes all inverses directly using \code{\link[base]{solve}}
+\item{"original"}{Computes all inverses directly using \code{\link[base]{solve}}
 and does not make use of the Sherman-Morrison-Woodbury formula for certain
 inverses. Specifically, it directly inverts the matrix
 \eqn{\bar{Z}_{1}^{\top} \bar{Z}_{1}} using \code{\link[base]{solve}}

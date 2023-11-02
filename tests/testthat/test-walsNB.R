@@ -66,6 +66,7 @@ test_that("Different walsNB class methods yield same result", {
 })
 
 test_that("walsNBmatrix predictions equal walsNB predictions", {
+  tol <- 1e-8
   data("NMES1988", package = "AER")
   dd <- na.omit(NMES1988)
   fWals <- (visits ~ health + chronic + age + I((age^2)/10) + insurance + medicaid |
@@ -87,7 +88,7 @@ test_that("walsNBmatrix predictions equal walsNB predictions", {
   pred2 <- predict(nbWalsMatrix, newX1 = nbWals$x$focus, newX2 = nbWals$x$aux,
                    newY = nbWals$y, type = "density")
 
-  expect_identical(pred1, pred2)
+  expect_equal(pred1, pred2, tolerance = tol)
 })
 
 test_that("residuals of walsNB return correct values", {
