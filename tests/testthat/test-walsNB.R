@@ -239,3 +239,19 @@ test_that("Different methods for walsNB yield same results", {
 
   expect_equal(coef(nbWalsfSVD), coef(nbWalsOriginal), tolerance = tol)
 })
+
+test_that("One-part formula uses all variables as auxiliary regressors", {
+  ## Check if y ~ x1 + x2 is the same as y ~ 1 | x1 + x2
+  tol <- 1e-08 # relative tolerance for deviations
+  data("NMES1988", package = "AER")
+  dd <- na.omit(NMES1988)
+  fOne <- visits ~ health + chronic + age + insurance + medicaid
+  fTwo <- visits ~ 1 | health + chronic + age + insurance + medicaid
+
+  nbOne <- walsNB(fOne, data = dd, link = "log", prior = laplace(),
+                  method = "fullSVD")
+  nbTwo <- walsNB(fTwo, data = dd, link = "log", prior = laplace(),
+                  method = "fullSVD")
+
+  expect_equal(coef(nbOne), coef(nbTwo), tolerance = tol)
+})

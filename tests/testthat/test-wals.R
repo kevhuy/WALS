@@ -213,3 +213,18 @@ test_that("Fitted values and prediction on same dataset are identical", {
 
   expect_identical(predict(walsEst, newdata = dd), fitted(walsEst))
 })
+
+test_that("One-part formula uses all variables as auxiliary regressors", {
+  ## Check if y ~ x1 + x2 is the same as y ~ 1 | x1 + x2
+  tol <- 1e-08 # relative tolerance for deviations
+  data("CASchools", package = "AER")
+  CASchools$stratio <- CASchools$students / CASchools$teachers
+  dd <- na.omit(CASchools)
+  fOne <- math ~ read + stratio + lunch
+  fTwo <- math ~ 1 | read + stratio + lunch
+
+  walsOne <- wals(fOne, data = dd, prior = laplace(), method = "svd")
+  walsTwo <- wals(fTwo, data = dd, prior = laplace(), method = "svd")
+
+  expect_equal(coef(walsOne), coef(walsTwo), tolerance = tol)
+})

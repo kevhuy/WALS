@@ -155,3 +155,20 @@ test_that("Probability predictions work as intended", {
   expect_error(predict(fitBinomial, newdata = HMDA, type = "prob"),
                regexp = "Probability predictions of counts not supported for")
 })
+
+test_that("One-part formula uses all variables as auxiliary regressors", {
+  ## Check if y ~ x1 + x2 is the same as y ~ 1 | x1 + x2
+  tol <- 1e-08 # relative tolerance for deviations
+  data("HMDA", package = "AER")
+  HMDA <- na.omit(HMDA)
+  fOne <- deny ~ pirat + hirat + lvrat + chist + mhist + phist + selfemp
+  fTwo <- deny ~ 1 | pirat + hirat + lvrat + chist + mhist + phist + selfemp
+
+  glmOne <- walsGLM(fOne, family = binomialWALS(), data = HMDA,
+                    prior = laplace(), method = "svd")
+  glmTwo <- walsGLM(fTwo, family = binomialWALS(), data = HMDA,
+                    prior = laplace(), method = "svd")
+
+  expect_equal(coef(glmOne), coef(glmTwo), tolerance = tol)
+})
+

@@ -30,10 +30,13 @@ walsGLM <- function(x, ...) UseMethod("walsGLM", x)
 #' @param ... Arguments for workhorse \code{\link[WALS]{walsGLMfit}}.
 #'
 #' @details
-#' Formulas should always contain two parts, i.e. they should be of the form
+#' Formulas typically contain two parts, i.e. they are of the form
 #' "\code{y ~ X11 + X12 | X21 + X22}", where the variables before "\code{|}" are
 #' the focus regressors (includes a constant by default) and the ones after
-#' "\code{|}" are the auxiliary regressors.
+#' "\code{|}" are the auxiliary regressors. If only a one-part formula is
+#' specified, then all regressors are considered as auxiliary regressors and only
+#' a constant is employed as focus regressor, i.e.
+#' "\code{y ~ X1 + X2}" is equivalent to "\code{y ~ 1 | X1 + X2}".
 #'
 #' **WARNING:** Interactions in formula do work work properly yet.
 #' It is recommended to manually create the interactions beforehand and then
@@ -93,20 +96,14 @@ walsGLM.formula <- function(formula, family, data, subset = NULL,
   # formula <- update(formula, . ~ . | . + -1)
 
   if (length(formula)[2L] < 2L) {
-    # TODO: Implement what happens when only one part is specified in formula
-    # Either interpret all as focus regressors (same as ML estimator basically)
-    # or include all as auxiliary regressors and keep only constant as
-    # focus regressor.
-
-    stop("One part formula not implemented yet")
-    # formula <- as.Formula(formula(formula), ~ 1)
-    # simpleFormula <- TRUE
+    # Include all as auxiliary regressors and keep only constant as focus
+    # regressor, when one-part formula is specified
+    formula <- Formula::as.Formula(~ 1, formula(formula))
   } else {
     if (length(formula)[2L] > 2L) {
       formula <- Formula::Formula(formula(formula, rhs = 1:2))
       warning("formula must not have more than two RHS parts")
     }
-    simpleFormula <- FALSE
   }
   mf$formula <- formula
 

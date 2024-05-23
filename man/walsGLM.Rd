@@ -155,10 +155,13 @@ Weighted-Average Least Squares method described in \insertCite{deluca2018glm;tex
 Computes WALS estimates when focus regressors (X1) are present in all
 submodels and model averaging takes place over the auxiliary regressors (X2).
 
-Formulas should always contain two parts, i.e. they should be of the form
+Formulas typically contain two parts, i.e. they are of the form
 "\code{y ~ X11 + X12 | X21 + X22}", where the variables before "\code{|}" are
 the focus regressors (includes a constant by default) and the ones after
-"\code{|}" are the auxiliary regressors.
+"\code{|}" are the auxiliary regressors. If only a one-part formula is
+specified, then all regressors are considered as auxiliary regressors and only
+a constant is employed as focus regressor, i.e.
+"\code{y ~ X1 + X2}" is equivalent to "\code{y ~ 1 | X1 + X2}".
 
 \strong{WARNING:} Interactions in formula do work work properly yet.
 It is recommended to manually create the interactions beforehand and then
