@@ -3,13 +3,16 @@ citHeader("To cite WALS in publications use:")
 bibentry(bibtype = "techReport",
          title = "Weighted-Average Least Squares for Negative Binomial Regression",
          author = c(person("Kevin", "Huynh")),
-         institution = "University of Basel",
-         year = 2023,
-	 note = "Mimeo")
+         institution = "arXiv.org E-Print Archive",
+         year = "2024",
+         type = "arXiv",
+         number = "2404.11324",
+         month = "April",
+         doi = "10.48550/arXiv.2404.11324")
 
 bibentry(bibtype = "techReport",
          title = "{WALS}: Weighted-Average Least Squares Model Averaging in {R}",
          author = c(person("Kevin", "Huynh")),
          institution = "University of Basel",
-         year = 2023,
+         year = 2024,
 	 note = "Mimeo")
