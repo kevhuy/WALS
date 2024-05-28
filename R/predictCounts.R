@@ -39,6 +39,7 @@ predictCounts <- function(x, ...) UseMethod("predictCounts", x)
 #' \code{length{yUnique}} with the predicted probabilities of the counts given
 #' in \code{yUnique} for every observation in \code{eta}.
 #'
+#' @export
 predictCounts.familyWALScount <- function(x, yUnique, rowNames, eta, ...) {
   # ... to insert other parameters, e.g. for negbin also need scale
   # Inspired by code in countreg (Kleiber & Zeileis)
@@ -51,11 +52,13 @@ predictCounts.familyWALScount <- function(x, yUnique, rowNames, eta, ...) {
   return(rval)
 }
 
+#' @export
 predictCounts.family <- function(x, ...) {
   stop("Probability predictions of counts not supported for ",
        sQuote(x$family), " family.")
 }
 
+#' @export
 predictCounts.default <- function(x, ...) {
   stop("No method for objects of class ", sQuote(class(x)), " implemented.")
 }
