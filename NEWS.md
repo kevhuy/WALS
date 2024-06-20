@@ -1,3 +1,12 @@
+# WALS 0.2.5
+
+* Allow one-part formulas in all fitting functions: Considers all specified
+regressors as auxiliary regressors.
+* Exporting all S3 methods due to update to roxygen2 7.3.1:
+Internal function `predictCounts()` is now also exported.
+* Updated references, CITATION, DESCRIPTION and README.md.
+
+
 # WALS 0.2.4
 
 * Fixed bug where prediction with only a single auxiliary regressor was not possible: 
