@@ -52,5 +52,5 @@ The available parameters for controlling the optimization are documented in
 \code{\link[WALS]{controlNB}}.
 }
 \seealso{
-\link{controlNB}, \link{negbinWALS}, \link{glm.nb}, \link{optim}.
+\link{controlNB}, \link{negbinWALS}, \link[MASS]{glm.nb}, \link{optim}.
 }

@@ -39,7 +39,7 @@
 #' \item{start}{If \code{controlNB(initMASS = FALSE)}, contains a vector with the
 #'   starting values used for \code{\link[stats]{optim}}.}
 #'
-#' @seealso [controlNB], [negbinWALS], [glm.nb], [optim].
+#' @seealso [controlNB], [negbinWALS], \link[MASS]{glm.nb}, [optim].
 #'
 fitNB2 <- function(X, Y, family, control = controlNB()) {
 
